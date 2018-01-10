@@ -124,3 +124,14 @@ Desktop.ini
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
+
+
+#---------------------------------------#
+# Latex Ignores                         #
+#---------------------------------------#
+
+# Latex build artifacts
+project_docs/**/*.aux
+project_docs/**/*.pdf
+project_docs/**/*.log
+project_docs/**/*.out

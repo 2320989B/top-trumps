@@ -1,0 +1,41 @@
+%
+% Author: Christopher Bellingham
+%
+% Style package for minute of meeting.
+%
+
+\usepackage{array}
+\usepackage{longtable}
+
+\newcommand{\momtoptable}[5]{
+	\begin{center}
+		\begin{tabular}{| m{3cm} | m{10.25cm} |} \hline
+			\textbf{Date} & #1 \\ \hline
+			\textbf{Venue} & #2 \\ \hline
+			\textbf{MoM Author} & #3 \\ \hline
+			\textbf{Participants} & #4 \\ \hline
+			\textbf{Apologies} & #5 \\ \hline
+		\end{tabular}
+	\end{center}
+}
+
+\newenvironment{momitems}{
+	\begin{center}
+		\begin{longtable}{| m{1cm} | m{7.5cm} | m{1.5cm} | m{2.5cm} |} \hline
+			\textbf{Item} & \textbf{Detail} & \textbf{Resp.} & \textbf{Due} \\ \hline
+			\endfirsthead
+			\hline
+			\textbf{Item} & \textbf{Detail} & \textbf{Resp.} & \textbf{Due} \\ \hline
+			\endhead
+			\endfoot
+			\endlastfoot
+	}
+	{
+	\end{longtable}
+	\end{center}
+}
+
+\newcommand{\momitem}[4]{
+	#1 & #2 & #3 & #4 \\
+	\hline
+}
