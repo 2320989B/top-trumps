@@ -9,6 +9,7 @@
 
 \usepackage{etoolbox}
 \usepackage[left=1in, right=1in, top=1in, bottom=1in]{geometry}
+\usepackage{pdfpages}
 
 \newcommand{\req}[1]{
     [\textbf{\arabic{RefNum}: #1}]%
@@ -24,7 +25,8 @@
 
     Section \ref{contract} is quoted verbatim from Assignment Specification ITSD2018-TaskDocument.
     Requirements within are identified in \textbf{bold} and given a unique requirement ID.
-    Upon generating User Stories, these requirements will be cross-referenced to ensure full coverage.
+
+    Section \ref{coverage} provides a mechanism for checking requirement coverage in generated user stories.
 
     \section{Customer Specification} \label{contract}
     \newcounter{RefNum}
@@ -55,7 +57,7 @@
     \subsection{Aim}
     \setcounter{RefNum}{2000}
     The aim is to build a computer program to allow a user to play top trumps against one or more AI opponents given a deck.
-    The program should have two modes:
+    \req{The program should have two modes}:
     \begin{itemize}
         \item
         \req{Command Line Mode: The game is played only through command line input and output}.
@@ -252,5 +254,9 @@
     \end{itemize}
 
     A video of an example website is provided in Moodle.
+
+    \section{Coverage} \label{coverage}
+    [See following page]
+    \includepdf[pages=-]{coverage_matrix.pdf}
 
 \end{document}

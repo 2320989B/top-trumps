@@ -135,3 +135,4 @@ project_docs/**/*.aux
 project_docs/**/*.pdf
 project_docs/**/*.log
 project_docs/**/*.out
+project_docs/**/*.dvi
