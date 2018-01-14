@@ -136,3 +136,5 @@ project_docs/**/*.pdf
 project_docs/**/*.log
 project_docs/**/*.out
 project_docs/**/*.dvi
+
+!project_docs/requirement_analysis/customer_spec.pdf
