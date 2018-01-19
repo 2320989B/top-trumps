@@ -1,0 +1,55 @@
+%=====================
+% doc:  Flow of events in command line
+%
+%   The purpose of this document is to capture a %  realistic flow of events during a game of 
+%  TopTrumps with command line. 
+\documentclass[a4paper, 12pt]{article}
+
+\begin{document}
+\section*{Purpose}
+The purpose of this document is to capture the flow of events of the "Top Trump" game in a command line (cl) mode, with an expert cl user.\\
+With this document, the goal is to enlighten the UML diagram and the necessary classes.\\
+The events are going to be presented as stories from the "cl" user point of view and what the user expects to see in the command line. 
+
+\section{Open the game}
+\begin{tabular}{r | l p{8cm}}
+A/A&\textit{comments} & \textbf{command line window}\\
+\hline
+1&\$ & \textit(java TopTrumps.jar -c)\\ \hline
+&welcome msg: &--Welcome-- 
+\\&&--Are you ready to play Top Trumps?--
+\\ \hline
+2&showMenu()& type the number and press enter \\&getAction()&
+1.- Play new game \\& &
+2.- View past statistics \\&&
+3.- Quit the game \\ \hline 
+3&\$ newGame() & 1\\
+4&loadCards() & \textit{"the controller initiates the model class for a newGame()"}\\ \hline
+5&showGameStatus()& Round 1. Your opponents are:\\&& Computer 1, ... Computer 4\\
+6&activePlayer()& \textbf{Your are not/are the active player}\\
+7&nextCard()& Pick next Card (press Enter)\\ \hline 
+8&if active==TRUE& Select a category and press Enter:\\
+&& a.1  b.3  c.1 \\& &d.2  e.0  f.6\\ \hline 
+9&showResult()& \textbf{You WON/lost this round/}\\ &&\textbf{There is a DRAW. Continue with the next card.}
+\end{tabular}
+\\
+
+Continue the loop from step 5. until the user is the \textsc{winner} or is \textsc{eliminated} by the computer.\\
+
+\begin{tabular}{r | l l}
+A/A&\textit{comments} & \textbf{command line window}\\ \hline
+10& \$& \textsc{congratulations you won the game}\\ \hline
+&&What do you want to do:\\&&Type the number and press Enter\\
+11&getAction()& 1. Play new game\\&&2. View past statistics\\&&3. Quit\\
+\hline
+\end{tabular}
+\section{New Game -pre phase-}
+If the user select to \textit{Play a new game} then the \textbf{Controller} should initiate the pre phase of the game, or the \textbf{Model}. The \textbf{Model} class consists of:
+\begin{itemize}
+\item loadCards() : a method that has the FileReader class in order to load the cards. Now, regarding the cards one possible way to store the information is 40 x 1 String Array.
+\item shuffleCards() : a method to allocate the card with a random index position between 0 and 39 after is loaded by the FileReader.
+\item createDecks() : a method to create 5 object arrays (1 for the user and 4 for the AI), called \textbf{Deck []}, with normal dealing, the top card goes to the user and continue clockwise. This method is not clear yet. Even the decision to store the card which is a string [] to an object array needs to be decided.
+\item assignActivePlayer() : again, a simple method that will decide randomly who is the active player for the 1st round.
+\item getGameStatus() : finally, the most critical method is the one that carries the information about the status of the game (round, active player, decks etc) to the \textbf{Controller}, which will inherit to the \textbf{View} class and to the \textbf{GameState} class. 
+\end{itemize}
+\end{document}
