@@ -7,26 +7,40 @@ import persistence.PostgresPersistence;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Controller implements Observer {
+/**
+ * The Controller class is responsible for triggering appropriate Views,
+ * handling any returned user input, and reacting to Game events (game states).
+ */
+class Controller implements Observer {
 
    private Boolean writeGameLogsToFile;
    private Game game;
 
+   /**
+    * Instantiates a new Controller.
+    *
+    * @param writeGameLogsToFile flag to indicate if game logs should be
+    *                            written to a debug file.
+    */
    Controller (Boolean writeGameLogsToFile) {
       this.writeGameLogsToFile = writeGameLogsToFile;
    }
 
-   public Boolean start() {
+   /**
+    * Start the controller logic path.
+    *
+    * @return a quit flag.
+    */
+   Boolean start() {
       // There are always 4 AI players in command line mode.
       final int NUM_AI_PLAYERS = 4;
 
       // First, we present the main menu to the user and await their response.
-      ViewMainMenu viewMainMenu = new ViewMainMenu();
-      int selection = viewMainMenu.show();
+      final int selection = new ViewMainMenu().show();
 
       // Now handle the response appropriately.
+      // 1. Start a new game.
       if (selection == 1) {
-         // 1. Start a new game.
          game = new Game();
          // Observe the game.
          game.addObserver(this);
@@ -34,15 +48,15 @@ public class Controller implements Observer {
          System.out.println("NEW GAME OPTION SELECTED");
          // TODO: To be implemented.
 
+      // 2. View statistics.
       } else if (selection == 2) {
-         // 2. View statistics.
          PostgresPersistence postgresPersistence = new PostgresPersistence();
          // TODO: Remove, here for testing only.
          System.out.println("VIEW STATISTICS OPTION SELECTED");
          // TODO: To be implemented.
 
+      // 3. Quit.
       } else {
-         // 3. Quit.
          return true;
       }
 
@@ -53,7 +67,6 @@ public class Controller implements Observer {
    }
 
    public void update(Observable observable, Object o) {
-
       GameState gameState = game.getGameState();// TODO: To be implemented.
       if (gameState.equals(GameState.NEW_ROUND)) {
          // TODO: Remove, here for testing only.
