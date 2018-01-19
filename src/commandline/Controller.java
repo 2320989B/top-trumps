@@ -1,6 +1,7 @@
 package commandline;
 
 import model.Game;
+import model.GameState;
 import persistence.PostgresPersistence;
 
 import java.util.Observable;
@@ -9,6 +10,7 @@ import java.util.Observer;
 public class Controller implements Observer {
 
    private Boolean writeGameLogsToFile;
+   private Game game;
 
    Controller (Boolean writeGameLogsToFile) {
       this.writeGameLogsToFile = writeGameLogsToFile;
@@ -25,7 +27,9 @@ public class Controller implements Observer {
       // Now handle the response appropriately.
       if (selection == 1) {
          // 1. Start a new game.
-         Game game = new Game();
+         game = new Game();
+         // Observe the game.
+         game.addObserver(this);
          // TODO: Remove, here for testing only.
          System.out.println("NEW GAME OPTION SELECTED");
          // TODO: To be implemented.
@@ -50,6 +54,23 @@ public class Controller implements Observer {
 
    public void update(Observable observable, Object o) {
 
+      GameState gameState = game.getGameState();// TODO: To be implemented.
+      if (gameState.equals(GameState.NEW_ROUND)) {
+         // TODO: Remove, here for testing only.
+         System.out.println("RECEIVED GAMESTATE=NEW_ROUND");
+
+      }  else if (gameState.equals(GameState.CATEGORY_REQUIRED)) {
+         // TODO: Remove, here for testing only.
+         System.out.println("RECEIVED GAMESTATE=CATEGORY_REQUIRED");
+
+      }  else if (gameState.equals(GameState.ROUND_COMPLETE)) {
+         // TODO: Remove, here for testing only.
+         System.out.println("RECEIVED GAMESTATE=ROUND_COMPLETE");
+
+      }  else if (gameState.equals(GameState.GAME_COMPLETE)) {
+        // TODO: Remove, here for testing only.
+        System.out.println("RECEIVED GAMESTATE=GAME_COMPLETE");
+        }
    }
 
 }
