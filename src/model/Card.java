@@ -54,18 +54,18 @@ public class Card {
 		firepower = Integer.parseInt(cardInfo[4]);
 		cargo = Integer.parseInt(cardInfo[5]);*/
 		
-		//initialise the HashMap
+		//initialise the Linked HashMap
 		String[] cardCategories = categories.split(" ");
 		String[] cardValues = values.split(" ");
 		description = cardValues[0];
-		cardProperties = new HashMap<String, Integer>();
+		cardProperties = new LinkedHashMap<String, Integer>();
 		//loop to allow game to use any deck with any number of categories/values
 		for(int i = 1; i < cardCategories.length; i++) {
 			cardProperties.put(cardCategories[i], Integer.parseInt(cardValues[i]));
 		}
 		//print out
 		for (Map.Entry<String, Integer> entry : cardProperties.entrySet()) {
-			System.out.println(entry.getKey() + entry.getValue().toString());
+			System.out.println(entry.getKey() + entry.getValue());
 		}
 	}
 	
@@ -73,6 +73,13 @@ public class Card {
 	/**
 	 * Getter and setter methods 
 	 */
+	//get a value from the hashmap by passing in its category name (key)
+		public int getCardPropertyValue(String category) {
+			int value = cardProperties.get(category);
+			return value; 
+		}
+		
+		
 	public String getName() {
 		return description;
 	}
@@ -80,7 +87,7 @@ public class Card {
 		this.description = description;
 	}
 	
-	public int getSize() {
+	/*public int getSize() {
 		return size;
 	}
 	public void setSize(int size) {
@@ -113,7 +120,7 @@ public class Card {
 	}
 	public void setCargo(int cargo) {
 		this.cargo = cargo;
-	}
+	}*/
 	
 
 	
@@ -126,7 +133,24 @@ public class Card {
 	 It will be used for selecting a category as an
 	 AI player.
 	 */
-	public String getBestCategory() {
+	
+	//reworked to get best category for AI player from hashmap
+		public String getBestCategory() {
+			
+			//iterate through the hashmap to see which category is best based on value
+			int max = 0;
+			String bestCategory = "";
+			for (Map.Entry<String, Integer> entry : cardProperties.entrySet()) {
+				if(max < entry.getValue()) {
+					bestCategory = entry.getKey();
+					max = entry.getValue();
+				}
+			}
+			return bestCategory;
+		}
+			
+			
+	/*public String getBestCategory() {
 		
 		// Making an array for the values of the card's attributes
 		int[] categories = {this.getSize(), this.getSpeed(), this.getRange(), this.getFirepower(), this.getCargo()};
@@ -155,7 +179,7 @@ public class Card {
 			return "cargo";
 		}
 		
-	}
+	}*/
 		
 		
 	
