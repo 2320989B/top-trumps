@@ -40,6 +40,18 @@ public class Card {
 	
 	}
 	
+	//a potential other constructor so that the Card can extract values from the String
+	public Card(String cardDetails) {
+		
+		String[] cardInfo = cardDetails.split(" ");
+		description = cardInfo[0];
+		size = Integer.parseInt(cardInfo[1]);
+		speed = Integer.parseInt(cardInfo[2]);
+		range = Integer.parseInt(cardInfo[3]);
+		firepower = Integer.parseInt(cardInfo[4]);
+		cargo = Integer.parseInt(cardInfo[5]);
+	}
+	
 	
 	/**
 	 * Getter and setter methods 

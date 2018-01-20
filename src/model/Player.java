@@ -32,7 +32,9 @@ public class Player {
 	 * type Card
 	 */
 	private String name;
+	private Boolean isHuman; //added this in, Joe
 	private int roundsWon = 0;	
+	
 	
 	ArrayList<Card> hand = new ArrayList<>();
 	
@@ -45,6 +47,12 @@ public class Player {
 		this.hand = aHand;
 	}
 	
+	//possible other constructor so that I can create the players, amke human or AI, and then 'deal' to them
+	//from the deck I have created in Game. Joe
+	public Player(String name, boolean isHuman ) {
+		this.name = name;
+		this.isHuman = isHuman;
+	}
 	
 	
 	/**
@@ -108,6 +116,11 @@ public class Player {
 		}
 	}
 
+	//possible method to add a card to the player's deck - Joe
+	//useful for dealing at the start
+	public void receiveCard(Card card) {
+		hand.add(card);
+	}
 	
 	
 	/**

@@ -34,6 +34,9 @@ class Controller implements Observer {
    Boolean start() {
       // There are always 4 AI players in command line mode.
       final int NUM_AI_PLAYERS = 4;
+      
+      // Future flexibility, define input file here
+      final String DECK_INPUT_FILE = "StarCitizenDeck.txt";
 
       // First, we present the main menu to the user and await their response.
       final int selection = new ViewMainMenu().show();
@@ -41,13 +44,12 @@ class Controller implements Observer {
       // Now handle the response appropriately.
       // 1. Start a new game.
       if (selection == 1) {
-         game = new Game();
+         game = new Game(NUM_AI_PLAYERS, DECK_INPUT_FILE); //I think you need to pass into the game
          // Observe the game.
          game.addObserver(this);
          // TODO: Remove, here for testing only.
          System.out.println("NEW GAME OPTION SELECTED");
-         // TODO: TO be implemented.
-         //game.newGame(NUM_AI_PLAYERS);
+         // TODO: To be implemented.
 
       // 2. View statistics.
       } else if (selection == 2) {
