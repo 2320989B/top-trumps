@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Game extends Observable {
    private ArrayList<Card> deck;
-   private ArrayList<Player> players;
+   private ArrayList<Player> players = new ArrayList<>();
    private GameState gameState; //I believe we will use this to update our
    // observer
    private int numAIPlayers; //need to have a record of how many players currently
@@ -25,6 +25,10 @@ public class Game extends Observable {
       setGameState(GameState.NEW_GAME);
       this.deckInputFile = deckInputFile;
       this.numAIPlayers = numAIPlayers;
+   }
+
+   public Game() {
+
    }
 
    public int getRound() {
@@ -90,7 +94,7 @@ public class Game extends Observable {
       round = 1;
 
       //game logic which should keep looping for every round
-      while (numAIPlayers > 1) {
+      while (players.size() > 1) {
          //signal to the controller that we wish to start a new round
          setGameState(GameState.NEW_ROUND);
       }
@@ -98,11 +102,11 @@ public class Game extends Observable {
 
    private void createPlayers() {
       //create human player first
-      Player human = new Player("Player1", true);
+      Player human = new Player("Player 1", true);
       players.add(human);
       //create remaining AI Players, start at 1 because Player 1 is at position 0
-      for (int i = 1; i < numAIPlayers; i++) {
-         Player AI = new Player("AI" + i, false);
+      for (int i = 1; i < numAIPlayers + 1; i++) {
+         Player AI = new Player("AI " + i, false);
          players.add(AI);
       }
       //TEST: check the players are created
@@ -148,6 +152,15 @@ public class Game extends Observable {
             player.receiveCard(card);
          }
       }
+   }
+
+   public static void main(String[] args) {
+
+      Game game = new Game();
+      game.numAIPlayers = 6;
+      game.createPlayers();
+      System.out.println("done");
+
    }
 
 }
