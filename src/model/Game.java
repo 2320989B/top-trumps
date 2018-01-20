@@ -6,7 +6,6 @@ import java.io.IOException;
 
 
 public class Game extends Observable {
-
    private ArrayList<Card> deck;
    private ArrayList<Player> players;
    private GameState gameState; //I believe we will use this to update our
@@ -25,7 +24,6 @@ public class Game extends Observable {
       //the controller can then call the appropriate method in the view I think
       setGameState(GameState.NEW_GAME);
       this.deckInputFile = deckInputFile;
-
    }
 
    public int getRound() {
@@ -44,39 +42,35 @@ public class Game extends Observable {
       return null;
    }
 
-   private void createPlayers() {
-      //create human player first
-      Player human = new Player("Player1", true);
-      players.add(human);
-      //create remaining AI Players, start at 1 because Player 1 is at position 0
-      for (int i = 1; i < numOfPlayers; i++) {
-         Player AI = new Player("AI" + i, false);
-         players.add(AI);
-      }
-      //TEST: check the players are created
-      for (Player player : players) {
-         System.out.println(player);
-      }
-   }
-
-   private void deal() {
-      //only deal while there are cards in the deck
-      //means cards can be dealt in a round robin fashion without worrying about how many
-      //players and cards there are
-      while (!deck.isEmpty()) {
-         for (Player player : players) {
-            Card card = deck.get(0);
-            player.receiveCard(card);
-         }
-      }
-   }
-
    //get the current gameState
    public GameState getGameState() {
       return this.gameState;
    }
 
-   //begin a new game
+   //set initial ActivePlayer at random
+   //set the current Active Category
+   public void setCategory(String category) {
+
+   }
+
+   //not sure what the return or type is here
+   public void getStats() {
+
+   }
+
+   private void setActivePlayer() {
+      Random rand = new Random();
+      int random = rand.nextInt(5);
+      activePlayer = players.get(random);
+   }
+
+   //set the gameState during the game logic
+   private void setGameState(GameState gameState) {
+      this.gameState = gameState;
+      setChanged();
+      notifyObservers();
+   }
+
    //worth thinking about whether we create a new game object instead of new game
    public void newGame() {
       //create the deck
@@ -94,33 +88,22 @@ public class Game extends Observable {
       while (numOfPlayers > 1) {
          //signal to the controller that we wish to start a new round
          setGameState(GameState.NEW_ROUND);
-
-
       }
    }
 
-   //set initial ActivePlayer at random
-   private void setActivePlayer() {
-      Random rand = new Random();
-      int random = rand.nextInt(5);
-      activePlayer = players.get(random);
-   }
-
-   //set the current Active Category
-   public void setCategory(String category) {
-
-   }
-
-   //not sure what the return or type is here
-   public void getStats() {
-
-   }
-
-   //set the gameState during the game logic
-   private void setGameState(GameState gameState) {
-      this.gameState = gameState;
-      setChanged();
-      notifyObservers();
+   private void createPlayers() {
+      //create human player first
+      Player human = new Player("Player1", true);
+      players.add(human);
+      //create remaining AI Players, start at 1 because Player 1 is at position 0
+      for (int i = 1; i < numOfPlayers; i++) {
+         Player AI = new Player("AI" + i, false);
+         players.add(AI);
+      }
+      //TEST: check the players are created
+      for (Player player : players) {
+         System.out.println(player);
+      }
    }
 
    //read in file to create the deck and shuffle
@@ -149,4 +132,17 @@ public class Game extends Observable {
          System.out.print("error");
       }
    }
+
+   private void deal() {
+      //only deal while there are cards in the deck
+      //means cards can be dealt in a round robin fashion without worrying about how many
+      //players and cards there are
+      while (!deck.isEmpty()) {
+         for (Player player : players) {
+            Card card = deck.get(0);
+            player.receiveCard(card);
+         }
+      }
+   }
+
 }
