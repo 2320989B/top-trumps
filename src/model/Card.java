@@ -8,9 +8,9 @@ import java.util.*;
 
 import java.awt.*;
 import javax.swing.*;
+
 import java.awt.event.*;
 import java.io.*;
-import java.util.Scanner;
 
 
 public class Card {
@@ -24,6 +24,9 @@ public class Card {
 	private int range = 0;
 	private int firepower = 0;
 	private int cargo = 0;
+	
+	//implement the hashmap as an alternative
+	Map<String, Integer> cardProperties;
 	
 	
 	/**
@@ -41,15 +44,28 @@ public class Card {
 	}
 	
 	//a potential other constructor so that the Card can extract values from the String
-	public Card(String cardDetails) {
+	public Card(String categories, String values) {
 		
-		String[] cardInfo = cardDetails.split(" ");
+		/*String[] car = cardDetails.split(" ");
 		description = cardInfo[0];
 		size = Integer.parseInt(cardInfo[1]);
 		speed = Integer.parseInt(cardInfo[2]);
 		range = Integer.parseInt(cardInfo[3]);
 		firepower = Integer.parseInt(cardInfo[4]);
-		cargo = Integer.parseInt(cardInfo[5]);
+		cargo = Integer.parseInt(cardInfo[5]);*/
+		
+		//initialise the HashMap
+		String[] cardCategories = categories.split(" ");
+		String[] cardValues = values.split(" ");
+		cardProperties = new HashMap<String, Integer>();
+		//loop to allow game to use any deck with any number of categories/values
+		for(int i = 0; i < cardCategories.length; i++) {
+			cardProperties.put(cardCategories[i], Integer.parseInt(cardValues[i]));
+		}
+		//print out
+		for (Map.Entry<String, Integer> entry : cardProperties.entrySet()) {
+			System.out.println(entry.getKey() + entry.getValue().toString());
+		}
 	}
 	
 	
@@ -144,10 +160,10 @@ public class Card {
 	
 
 
-	
-	/**
+	/*
+	*//**
 	 * FOR TESTING ONLY, IT WILL BE DELETED
-	 */
+	 *//*
 
 	public static void main(String[] args) {
 		Card r = new Card("50r", 1, 9, 20, 3, 0);
@@ -157,7 +173,7 @@ public class Card {
 		
 		System.out.println(r.getBestCategory());
 	}
-	
+	*/
 	
 
 	

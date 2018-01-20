@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Observable;
+import java.util.Random;
 import java.util.Scanner;
 import java.io.FileReader;
 import java.io.IOException;
@@ -28,12 +29,7 @@ public class Game extends Observable {
 		//the controller can then call the appropriate method in the view I think
 		setGameState(GameState.NEW_GAME);
 		this.deckInputFile = deckInputFile;
-		//create the deck
-		createDeck();
-		//shuffle the deck
-		Collections.shuffle(deck);
-		//create the players
-		createPlayers();
+		
 	}
 		
 	private void createPlayers() {
@@ -70,7 +66,35 @@ public class Game extends Observable {
 	//begin a new game
 	//worth thinking about whether we create a new game object instead of new game
 	public void newGame() {
+		//create the deck
+		createDeck();
+		//shuffle the deck
+		Collections.shuffle(deck);
+		//create the players
+		createPlayers();
+		//deal cards to players' decks
+		deal();
+		//set an initial active player
+		setActivePlayer();
 		
+		//game logic which should keep looping for every round
+		while(numOfPlayers > 1) {
+			//signal to the controller that we wish to start a new round
+			setGameState(GameState.NEW_ROUND);
+			
+			
+			
+			
+			
+			
+		}
+	}
+	
+	//set initial ActivePlayer at random
+	private void setActivePlayer() {
+		Random rand = new Random();
+		int random = rand.nextInt(5);
+		activePlayer = players.get(random);
 	}
 	
 	//set the current Active Category
@@ -103,8 +127,8 @@ public class Game extends Observable {
 	    		
 	    		//loop through the file line by line, creating a card and adding to the deck
 	    		while(in.hasNextLine()) {
-	    			String card = in.nextLine();
-	    			Card newCard = new Card(card);
+	    			String values = in.nextLine();
+	    			Card newCard = new Card(categories, values);
 	    			deck.add(newCard);
 	    		}
 	    	}
