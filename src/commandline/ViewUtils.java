@@ -6,8 +6,9 @@ import java.util.Scanner;
 import static commandline.DivStyles.*;
 
 /**
- * The ViewUtils class provides static utility methods for displaying and
- * prompting for user input.
+ * The ViewUtils class provides static utility methods for displaying
+ * information to the user via System.out, and for prompting for user input
+ * via System.in.
  */
 final class ViewUtils {
 
@@ -16,6 +17,11 @@ final class ViewUtils {
    private ViewUtils() {
    }
 
+   /**
+    * Print the topmost boundary line of a card representation.
+    *
+    * @param middleWidth the middle width of the card representation.
+    */
    static void printTopBoundary(int middleWidth) {
       // Print top boundary.
       System.out.print(TOP_LEFT.getCode());
@@ -25,12 +31,23 @@ final class ViewUtils {
       System.out.print(TOP_RIGHT.getCode() + "\n");
    }
 
+   /**
+    * Print the title line of a card representation.
+    *
+    * @param middleWidth the middle width of the card representation.
+    * @param title       the card title
+    */
    static void printTitle(int middleWidth, String title) {
       System.out.print(VERTICAL.getCode());
       System.out.print(String.format("%-" + middleWidth + "s", title));
       System.out.print(VERTICAL.getCode() + "\n");
    }
 
+   /**
+    * Print the middle boundary line of a card representation.
+    *
+    * @param middleWith the middle width of the card representation.
+    */
    static void printMiddleBoundary(int middleWith) {
       System.out.print(TEE_LEFT.getCode());
       for (int i = 0; i < middleWith; i++) {
@@ -39,20 +56,40 @@ final class ViewUtils {
       System.out.print(TEE_RIGHT.getCode() + "\n");
    }
 
+   /**
+    * Print a line containing a card property.
+    *
+    * @param middleWidth the middle width of the card representation.
+    * @param valueWidth  the max width of the value field.
+    * @param property    the card property name.
+    * @param value       the card property value.
+    */
    static void printCardProperty(int middleWidth, int valueWidth,
                                  String property, String value) {
          System.out.print(VERTICAL.getCode());
 
+         // Property name is formatted to be left justified, with an explicit
+         // limit on allowable field length (defined by middleWidth -
+         // valueWidth). String lengths which exceed this width will be
+         // truncated.
          String propertyFormatString = "%-" + (middleWidth - valueWidth) +
                  "." + (middleWidth - valueWidth) + "s";
          System.out.print(String.format(propertyFormatString, property));
 
+         // Property value is formatted to be right justified, with an explicit
+         // limit on allowable field length (defined by valueWidth). String
+         // lengths which exceed this width will be truncated.
          String valueFormatString = "%" + valueWidth + "." + valueWidth + "s";
          System.out.print(String.format(valueFormatString, value));
 
          System.out.print(VERTICAL.getCode() + "\n");
    }
 
+   /**
+    * Print the bottom boundary line of a card representation.
+    *
+    * @param middleWidth the middle width
+    */
    static void printBottomBoundary(int middleWidth) {
       System.out.print(BOTTOM_LEFT.getCode());
       for (int i = 0; i < middleWidth; i++) {

@@ -1,5 +1,9 @@
 package commandline;
 
+/**
+ * A definition of unicode values used to represent block elements via System
+ * .out.
+ */
 enum DivStyles {
    HORIZONTAL ("\u2501"),
    TOP_LEFT ("\u250F"),
@@ -16,6 +20,11 @@ enum DivStyles {
       this.code = code;
    }
 
+   /**
+    * Gets the uni(code) value.
+    *
+    * @return the uni(code) value.
+    */
    String getCode() {
       return code;
    }

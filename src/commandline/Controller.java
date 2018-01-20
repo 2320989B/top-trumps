@@ -46,7 +46,8 @@ class Controller implements Observer {
          game.addObserver(this);
          // TODO: Remove, here for testing only.
          System.out.println("NEW GAME OPTION SELECTED");
-         // TODO: To be implemented.
+         // TODO: TO be implemented.
+         //game.newGame(NUM_AI_PLAYERS);
 
       // 2. View statistics.
       } else if (selection == 2) {

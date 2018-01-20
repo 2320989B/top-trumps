@@ -16,7 +16,7 @@ class ViewMainMenu {
     */
    int show() {
       // Define the desired menu items.
-      List<String> menuItems = new ArrayList<String>();
+      List<String> menuItems = new ArrayList<>();
       menuItems.add("Start a new game."); // Selection 1
       menuItems.add("View statistics."); // Selection 2
       menuItems.add("Quit"); // Selection 3

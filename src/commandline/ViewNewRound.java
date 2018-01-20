@@ -3,6 +3,14 @@ package commandline;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The ViewNewRound class is responsible for displaying information relevant
+ * to the start of a new round:
+ *    The round number.
+ *    A visual representation of the player's card, and its properties.
+ *    The active player name.
+ *
+ */
 public class ViewNewRound {
 
    void show(int round, String cardName, Map<String, Integer> cardProperties,
@@ -17,7 +25,7 @@ public class ViewNewRound {
       // Max field width of value column
       final int VALUE_WIDTH = 3;
 
-      // Print the round header.
+      // Print the round.
       System.out.println();
       System.out.println("ROUND " + round);
 
@@ -30,6 +38,10 @@ public class ViewNewRound {
                  entry.getKey(), entry.getValue().toString());
       }
       ViewUtils.printBottomBoundary(MIDDLE_WIDTH);
+
+      // Print the active player name.
+      System.out.println("It's " + activePlayer + "'s turn to select a " +
+              "category.");
    }
 
    public static void main(String[] args) {
