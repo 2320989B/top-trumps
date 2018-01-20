@@ -6,7 +6,7 @@ import java.io.IOException;
 
 
 public class Game extends Observable {
-   private ArrayList<Card> deck;
+   private ArrayList<Card> deck = new ArrayList<>();
    private ArrayList<Player> players = new ArrayList<>();
    private GameState gameState; //I believe we will use this to update our
    // observer
@@ -16,6 +16,7 @@ public class Game extends Observable {
    private Player activePlayer;
    private String activeCategory;
    private int round;
+   private Boolean humanBooted; //
 
    //constructor to create a deck, the players and deal the intial cards to players
    public Game(int numAIPlayers, String deckInputFile) {
@@ -63,27 +64,20 @@ public class Game extends Observable {
 
    }
 
-   private void selectRandomPlayer() {
-      Random rand = new Random();
-      // Restrict random number range to the avaiable index in the players list.
-      // - 1 to offset zero-based index numbering.
-      int random = rand.nextInt(players.size() - 1);
-      activePlayer = players.get(random);
-   }
-
    //set the gameState during the game logic
+
    private void setGameState(GameState gameState) {
       this.gameState = gameState;
       setChanged();
       notifyObservers();
    }
-
    //worth thinking about whether we create a new game object instead of new game
+
    public void newGame() {
       //create the deck
       createDeck();
       //shuffle the deck
-      Collections.shuffle(deck);
+      shuffleDeck();
       //create the players
       createPlayers();
       //deal cards to players' decks
@@ -99,7 +93,6 @@ public class Game extends Observable {
          setGameState(GameState.NEW_ROUND);
       }
    }
-
    private void createPlayers() {
       //create human player first
       Player human = new Player("Player 1", true);
@@ -109,13 +102,10 @@ public class Game extends Observable {
          Player AI = new Player("AI " + i, false);
          players.add(AI);
       }
-      //TEST: check the players are created
-      for (Player player : players) {
-         System.out.println(player);
-      }
    }
 
    //read in file to create the deck and shuffle
+
    private void createDeck() {
       FileReader reader = null;
       try {
@@ -142,6 +132,10 @@ public class Game extends Observable {
       }
    }
 
+   private void shuffleDeck() {
+      Collections.shuffle(deck);
+   }
+
    private void deal() {
       //only deal while there are cards in the deck
       //means cards can be dealt in a round robin fashion without worrying about how many
@@ -154,12 +148,65 @@ public class Game extends Observable {
       }
    }
 
+   private void selectRandomPlayer() {
+      Random rand = new Random();
+      // Restrict random number range to the avaiable index in the players list.
+      // - 1 to offset zero-based index numbering.
+      int random = rand.nextInt(players.size() - 1);
+      activePlayer = players.get(random);
+   }
+
    public static void main(String[] args) {
 
       Game game = new Game();
-      game.numAIPlayers = 6;
+
+      // Test createPlayers.
+      System.out.println("\nTesting createPlayers...");
+      System.out.println("==========================");
+
+      game.numAIPlayers = 5;
       game.createPlayers();
-      System.out.println("done");
+
+      // Check the players are created.
+      for (Player player : game.players) {
+         System.out.println(player.getName());
+      }
+
+
+      // Test createDeck.
+      System.out.println("\nTesting createDeck...");
+      System.out.println("=======================");
+
+      game.deckInputFile = "StarCitizenDeck.txt";
+      game.createDeck();
+
+      // Check that the deck is created.
+      for (Card card : game.deck) {
+         System.out.println(card.getName());
+      }
+      System.out.println("Size of deck: " + game.deck.size());
+
+      // Test shuffleDeck.
+      System.out.println("\nTesting shuffleDeck...");
+      System.out.println("========================");
+
+      game.shuffleDeck();
+
+      for (Card card : game.deck) {
+         System.out.println(card.getName());
+      }
+      System.out.println("Size of deck: " + game.deck.size());
+
+
+      // Test deal.
+      System.out.println("\nTesting deal...");
+      System.out.println("=================");
+
+      // Throws Exception in thread "main" java.lang.OutOfMemoryError: Java
+      // heap space. While loop never ends, is the deck ever empty? Probably
+      // needs something to remove the card reference from the deck once it's
+      // been copied to a player?
+      //game.deal();
 
    }
 
