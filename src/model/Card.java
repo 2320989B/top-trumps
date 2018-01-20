@@ -57,9 +57,10 @@ public class Card {
 		//initialise the HashMap
 		String[] cardCategories = categories.split(" ");
 		String[] cardValues = values.split(" ");
+		description = cardValues[0];
 		cardProperties = new HashMap<String, Integer>();
 		//loop to allow game to use any deck with any number of categories/values
-		for(int i = 0; i < cardCategories.length; i++) {
+		for(int i = 1; i < cardCategories.length; i++) {
 			cardProperties.put(cardCategories[i], Integer.parseInt(cardValues[i]));
 		}
 		//print out
