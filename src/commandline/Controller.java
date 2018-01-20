@@ -49,6 +49,7 @@ class Controller implements Observer {
          game.addObserver(this);
          // TODO: Remove, here for testing only.
          System.out.println("NEW GAME OPTION SELECTED");
+         game.newGame();
 
          // 2. View statistics.
       } else if (selection == 2) {

@@ -10,7 +10,7 @@ public class Game extends Observable {
    private ArrayList<Player> players;
    private GameState gameState; //I believe we will use this to update our
    // observer
-   private int numOfPlayers; //need to have a record of how many players currently
+   private int numAIPlayers; //need to have a record of how many players currently
    private String deckInputFile;// need to have a reference to the input file
    //Additional instance variables?
    private Player activePlayer;
@@ -24,6 +24,7 @@ public class Game extends Observable {
       //the controller can then call the appropriate method in the view I think
       setGameState(GameState.NEW_GAME);
       this.deckInputFile = deckInputFile;
+      this.numAIPlayers = numAIPlayers;
    }
 
    public int getRound() {
@@ -58,9 +59,11 @@ public class Game extends Observable {
 
    }
 
-   private void setActivePlayer() {
+   private void selectRandomPlayer() {
       Random rand = new Random();
-      int random = rand.nextInt(5);
+      // Restrict random number range to the avaiable index in the players list.
+      // - 1 to offset zero-based index numbering.
+      int random = rand.nextInt(players.size() - 1);
       activePlayer = players.get(random);
    }
 
@@ -81,11 +84,13 @@ public class Game extends Observable {
       createPlayers();
       //deal cards to players' decks
       deal();
-      //set an initial active player
-      setActivePlayer();
+      // Randomly select the active player for the first round.
+      selectRandomPlayer();
+      // Set first round.
+      round = 1;
 
       //game logic which should keep looping for every round
-      while (numOfPlayers > 1) {
+      while (numAIPlayers > 1) {
          //signal to the controller that we wish to start a new round
          setGameState(GameState.NEW_ROUND);
       }
@@ -96,7 +101,7 @@ public class Game extends Observable {
       Player human = new Player("Player1", true);
       players.add(human);
       //create remaining AI Players, start at 1 because Player 1 is at position 0
-      for (int i = 1; i < numOfPlayers; i++) {
+      for (int i = 1; i < numAIPlayers; i++) {
          Player AI = new Player("AI" + i, false);
          players.add(AI);
       }
