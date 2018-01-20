@@ -16,7 +16,7 @@ public class Game extends Observable {
    private Player activePlayer;
    private String activeCategory;
    private int round;
-   private Boolean humanBooted; //
+   private Boolean isHumanBooted; //
 
    //constructor to create a deck, the players and deal the intial cards to players
    public Game(int numAIPlayers, String deckInputFile) {
@@ -97,9 +97,9 @@ public class Game extends Observable {
       //create human player first
       Player human = new Player("Player 1", true);
       players.add(human);
-      //create remaining AI Players, start at 1 because Player 1 is at position 0
-      for (int i = 1; i < numAIPlayers + 1; i++) {
-         Player AI = new Player("AI " + i, false);
+      //create remaining AI Players
+      for (int i = 0; i < numAIPlayers; i++) {
+         Player AI = new Player("AI " + (i + 1), false);
          players.add(AI);
       }
    }
@@ -164,7 +164,7 @@ public class Game extends Observable {
       System.out.println("\nTesting createPlayers...");
       System.out.println("==========================");
 
-      game.numAIPlayers = 5;
+      game.numAIPlayers = 10;
       game.createPlayers();
 
       // Check the players are created.
@@ -186,12 +186,14 @@ public class Game extends Observable {
       }
       System.out.println("Size of deck: " + game.deck.size());
 
+
       // Test shuffleDeck.
       System.out.println("\nTesting shuffleDeck...");
       System.out.println("========================");
 
       game.shuffleDeck();
 
+      // Check the deck is shuffled.
       for (Card card : game.deck) {
          System.out.println(card.getName());
       }
@@ -207,6 +209,17 @@ public class Game extends Observable {
       // needs something to remove the card reference from the deck once it's
       // been copied to a player?
       //game.deal();
+
+
+      // Test selectRandomPlayer.
+      System.out.println("\nTesting selectRandomPlayer...");
+      System.out.println("===============================");
+
+      // Do some runs and make sure this looks randomy.
+      for (int i = 0; i < 10; i++) {
+         game.selectRandomPlayer();
+         System.out.println(game.activePlayer.getName());
+      }
 
    }
 
