@@ -22,7 +22,7 @@ class Controller implements Observer {
     * @param writeGameLogsToFile flag to indicate if game logs should be
     *                            written to a debug file.
     */
-   Controller (Boolean writeGameLogsToFile) {
+   Controller(Boolean writeGameLogsToFile) {
       this.writeGameLogsToFile = writeGameLogsToFile;
    }
 
@@ -34,8 +34,8 @@ class Controller implements Observer {
    Boolean start() {
       // There are always 4 AI players in command line mode.
       final int NUM_AI_PLAYERS = 4;
-      
-      // Future flexibility, define input file here
+
+      // Future flexibility, define input file here.
       final String DECK_INPUT_FILE = "StarCitizenDeck.txt";
 
       // First, we present the main menu to the user and await their response.
@@ -44,21 +44,21 @@ class Controller implements Observer {
       // Now handle the response appropriately.
       // 1. Start a new game.
       if (selection == 1) {
-         game = new Game(NUM_AI_PLAYERS, DECK_INPUT_FILE); //I think you need to pass into the game
+         game = new Game(NUM_AI_PLAYERS, DECK_INPUT_FILE);
          // Observe the game.
          game.addObserver(this);
          // TODO: Remove, here for testing only.
          System.out.println("NEW GAME OPTION SELECTED");
          // TODO: To be implemented.
 
-      // 2. View statistics.
+         // 2. View statistics.
       } else if (selection == 2) {
          PostgresPersistence postgresPersistence = new PostgresPersistence();
          // TODO: Remove, here for testing only.
          System.out.println("VIEW STATISTICS OPTION SELECTED");
          // TODO: To be implemented.
 
-      // 3. Quit.
+         // 3. Quit.
       } else {
          return true;
       }
@@ -79,18 +79,18 @@ class Controller implements Observer {
          // String activePlayer
          // new ViewNewRound().show();
 
-      }  else if (gameState.equals(GameState.CATEGORY_REQUIRED)) {
+      } else if (gameState.equals(GameState.CATEGORY_REQUIRED)) {
          // TODO: Remove, here for testing only.
          System.out.println("RECEIVED GAMESTATE=CATEGORY_REQUIRED");
 
-      }  else if (gameState.equals(GameState.ROUND_COMPLETE)) {
+      } else if (gameState.equals(GameState.ROUND_COMPLETE)) {
          // TODO: Remove, here for testing only.
          System.out.println("RECEIVED GAMESTATE=ROUND_COMPLETE");
 
-      }  else if (gameState.equals(GameState.GAME_COMPLETE)) {
-        // TODO: Remove, here for testing only.
-        System.out.println("RECEIVED GAMESTATE=GAME_COMPLETE");
-        }
+      } else if (gameState.equals(GameState.GAME_COMPLETE)) {
+         // TODO: Remove, here for testing only.
+         System.out.println("RECEIVED GAMESTATE=GAME_COMPLETE");
+      }
    }
 
 }

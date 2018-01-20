@@ -20,14 +20,11 @@ public class TopTrumpsCLIApplication {
       // Flag to check whether the user wants to quit the application
 		boolean userWantsToQuit = false;
 
-      // Instantiate the controller.
-      Controller controller = new Controller(writeGameLogsToFile);
-
 		// Loop until the user wants to exit the game.
 		while (!userWantsToQuit) {
          // Commence the controller logic. Returns true when user wants to
          // quit.
-         userWantsToQuit = controller.start();
+         userWantsToQuit = new Controller(writeGameLogsToFile).start();
 		}
 
 

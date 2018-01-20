@@ -1,5 +1,6 @@
 package commandline;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -105,12 +106,12 @@ final class ViewUtils {
     * @param menuItems the menu items.
     * @return int representing the selection.
     */
-   static int prompt(List menuItems) {
+   static int prompt(Collection menuItems) {
       // Print the menu.
       System.out.println("");
       int i = 1;
       for (Object item : menuItems) {
-         System.out.println(i++ + ":" + item.toString());
+         System.out.println(i++ + ": " + item.toString());
       }
       // Prompt for a selection from the user.
       System.out.print("Selection: ");

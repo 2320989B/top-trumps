@@ -6,13 +6,17 @@ import java.util.Map;
 /**
  * The ViewNewRound class is responsible for displaying information relevant
  * to the start of a new round:
- *    The round number.
- *    A visual representation of the player's card, and its properties.
- *    The active player name.
- *
+ * The round number.
+ * A visual representation of the player's card, and its properties.
+ * The active player name.
  */
 public class ViewNewRound {
 
+   /**
+    * Show the category menu.
+    *
+    * @return an int representing the menu selection.
+    */
    void show(int round, String cardName, Map<String, Integer> cardProperties,
              String activePlayer) {
 
@@ -44,16 +48,16 @@ public class ViewNewRound {
               "category.");
    }
 
+
    public static void main(String[] args) {
       // TODO: Remove, here for testing only.
-      ViewNewRound viewNewRound = new ViewNewRound();
-      Map<String, Integer> cardProperties = new HashMap<String, Integer>();
+      Map<String, Integer> cardProperties = new HashMap<>();
       cardProperties.put("Size", 4);
       cardProperties.put("Speed", 5);
       cardProperties.put("Range", 7);
       cardProperties.put("Firepower", 3);
       cardProperties.put("Cargo", 4);
-      viewNewRound.show(1, "Constellation", cardProperties, "Bob");
+      new ViewNewRound().show(1, "Constellation", cardProperties, "Bob");
    }
 
 }
