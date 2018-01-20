@@ -70,21 +70,19 @@ class Controller implements Observer {
 
    public void update(Observable observable, Object o) {
       GameState gameState = game.getGameState();// TODO: To be implemented.
+
       if (gameState.equals(GameState.NEW_ROUND)) {
          // TODO: Remove, here for testing only.
          System.out.println("RECEIVED GAMESTATE=NEW_ROUND");
-         // TODO: Need to get required values from model to feed .show():
-         //    int round, String cardName, Map<String, Integer> cardProperties,
-         //    String activePlayer
-         // new ViewNewRound().show();
+         new ViewNewRound().show(game.getRound(), game.getCardDescription(),
+                 game.getCardCategories(), game.getActivePlayer());
 
       } else if (gameState.equals(GameState.CATEGORY_REQUIRED)) {
          // TODO: Remove, here for testing only.
          System.out.println("RECEIVED GAMESTATE=CATEGORY_REQUIRED");
-         // TODO: Need to get required values from model to feed .show():
-         //    Map<String, Integer> cardProperties
-         // final String selection = new ViewCategorySelector().show();
-         // game.setCategory(selection);
+         final String selection = new ViewCategorySelector().show(
+                 game.getCardCategories());
+         game.setCategory(selection);
 
       } else if (gameState.equals(GameState.ROUND_COMPLETE)) {
          // TODO: Remove, here for testing only.
