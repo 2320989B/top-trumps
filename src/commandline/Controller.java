@@ -49,7 +49,6 @@ class Controller implements Observer {
          game.addObserver(this);
          // TODO: Remove, here for testing only.
          System.out.println("NEW GAME OPTION SELECTED");
-         // TODO: To be implemented.
 
          // 2. View statistics.
       } else if (selection == 2) {
@@ -74,14 +73,18 @@ class Controller implements Observer {
       if (gameState.equals(GameState.NEW_ROUND)) {
          // TODO: Remove, here for testing only.
          System.out.println("RECEIVED GAMESTATE=NEW_ROUND");
-         // TODO: Need to get required values to feed .show():
-         // int round, String cardName, Map<String, Integer> cardProperties,
-         // String activePlayer
+         // TODO: Need to get required values from model to feed .show():
+         //    int round, String cardName, Map<String, Integer> cardProperties,
+         //    String activePlayer
          // new ViewNewRound().show();
 
       } else if (gameState.equals(GameState.CATEGORY_REQUIRED)) {
          // TODO: Remove, here for testing only.
          System.out.println("RECEIVED GAMESTATE=CATEGORY_REQUIRED");
+         // TODO: Need to get required values from model to feed .show():
+         //    Map<String, Integer> cardProperties
+         // final String selection = new ViewCategorySelector().show();
+         // game.setCategory(selection);
 
       } else if (gameState.equals(GameState.ROUND_COMPLETE)) {
          // TODO: Remove, here for testing only.

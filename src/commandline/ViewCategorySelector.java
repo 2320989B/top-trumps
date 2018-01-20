@@ -1,6 +1,8 @@
 package commandline;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,19 +12,34 @@ import java.util.Map;
  * corresponding to their menu selection.
  */
 public class ViewCategorySelector {
-   int show(Map<String, Integer> cardProperties) {
-      return ViewUtils.prompt(cardProperties.keySet());
+
+   /**
+    * Show the category menu.
+    *
+    * @return a String representing the selected category.
+    */
+   String show(Map<String, Integer> cardProperties) {
+      // Extract the category names (key) and store in a List.
+      List<String> descriptionList = new ArrayList<>(cardProperties.keySet());
+
+      // Display prompt and return the user selection.
+      int response = ViewUtils.prompt(descriptionList);
+
+      // Return the category corresponding to the selected index.
+      // - 1 to offset zero-based index numbering.
+      return descriptionList.get(response - 1);
    }
 
    public static void main(String[] args) {
       // TODO: Remove, here for testing only.
-      Map<String, Integer> cardProperties = new HashMap<>();
+      Map<String, Integer> cardProperties = new LinkedHashMap<>();
       cardProperties.put("Size", 4);
       cardProperties.put("Speed", 5);
       cardProperties.put("Range", 7);
       cardProperties.put("Firepower", 3);
       cardProperties.put("Cargo", 4);
-      int response = new ViewCategorySelector().show(cardProperties);
+
+      String response = new ViewCategorySelector().show(cardProperties);
       System.out.println("User entered: " + response);
    }
 

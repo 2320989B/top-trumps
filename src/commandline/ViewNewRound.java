@@ -1,6 +1,7 @@
 package commandline;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -51,12 +52,13 @@ public class ViewNewRound {
 
    public static void main(String[] args) {
       // TODO: Remove, here for testing only.
-      Map<String, Integer> cardProperties = new HashMap<>();
+      Map<String, Integer> cardProperties = new LinkedHashMap<>();
       cardProperties.put("Size", 4);
       cardProperties.put("Speed", 5);
       cardProperties.put("Range", 7);
       cardProperties.put("Firepower", 3);
       cardProperties.put("Cargo", 4);
+      System.out.println(cardProperties.get("Cargo"));
       new ViewNewRound().show(1, "Constellation", cardProperties, "Bob");
    }
 
