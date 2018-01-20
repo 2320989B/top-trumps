@@ -3,6 +3,8 @@ package commandline;
 import java.util.List;
 import java.util.Scanner;
 
+import static commandline.DivStyles.*;
+
 /**
  * The ViewUtils class provides static utility methods for displaying and
  * prompting for user input.
@@ -12,6 +14,51 @@ final class ViewUtils {
    // Private constructor to prevent accidental instantiation of this
    // utility class.
    private ViewUtils() {
+   }
+
+   static void printTopBoundary(int middleWidth) {
+      // Print top boundary.
+      System.out.print(TOP_LEFT.getCode());
+      for (int i = 0; i < middleWidth; i++) {
+         System.out.print(HORIZONTAL.getCode());
+      }
+      System.out.print(TOP_RIGHT.getCode() + "\n");
+   }
+
+   static void printTitle(int middleWidth, String title) {
+      System.out.print(VERTICAL.getCode());
+      System.out.print(String.format("%-" + middleWidth + "s", title));
+      System.out.print(VERTICAL.getCode() + "\n");
+   }
+
+   static void printMiddleBoundary(int middleWith) {
+      System.out.print(TEE_LEFT.getCode());
+      for (int i = 0; i < middleWith; i++) {
+         System.out.print(HORIZONTAL.getCode());
+      }
+      System.out.print(TEE_RIGHT.getCode() + "\n");
+   }
+
+   static void printCardProperty(int middleWidth, int valueWidth,
+                                 String property, String value) {
+         System.out.print(VERTICAL.getCode());
+
+         String propertyFormatString = "%-" + (middleWidth - valueWidth) +
+                 "." + (middleWidth - valueWidth) + "s";
+         System.out.print(String.format(propertyFormatString, property));
+
+         String valueFormatString = "%" + valueWidth + "." + valueWidth + "s";
+         System.out.print(String.format(valueFormatString, value));
+
+         System.out.print(VERTICAL.getCode() + "\n");
+   }
+
+   static void printBottomBoundary(int middleWidth) {
+      System.out.print(BOTTOM_LEFT.getCode());
+      for (int i = 0; i < middleWidth; i++) {
+         System.out.print(HORIZONTAL.getCode());
+      }
+      System.out.print(BOTTOM_RIGHT.getCode() + "\n");
    }
 
    /**

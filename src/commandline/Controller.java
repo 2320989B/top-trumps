@@ -71,6 +71,10 @@ class Controller implements Observer {
       if (gameState.equals(GameState.NEW_ROUND)) {
          // TODO: Remove, here for testing only.
          System.out.println("RECEIVED GAMESTATE=NEW_ROUND");
+         // TODO: Need to get required values to feed .show():
+         // int round, String cardName, Map<String, Integer> cardProperties,
+         // String activePlayer
+         // new ViewNewRound().show();
 
       }  else if (gameState.equals(GameState.CATEGORY_REQUIRED)) {
          // TODO: Remove, here for testing only.
