@@ -140,11 +140,17 @@ public class Game extends Observable {
       //only deal while there are cards in the deck
       //means cards can be dealt in a round robin fashion without worrying about how many
       //players and cards there are
+	  int index = 0;
       while (!deck.isEmpty()) {
-         for (Player player : players) {
-            Card card = deck.get(0);
-            player.receiveCard(card);
-         }
+    	  Card card = deck.get(0);
+          players.get(index).receiveCard(card);
+          deck.remove(0);
+          if(index < players.size()-1) {
+    	     index++;
+          }
+          else {
+    	     index = 0;
+          }
       }
    }
 
@@ -208,8 +214,8 @@ public class Game extends Observable {
       // heap space. While loop never ends, is the deck ever empty? Probably
       // needs something to remove the card reference from the deck once it's
       // been copied to a player?
-      //game.deal();
-
+      game.deal();
+      System.out.println("Size of deck: " + game.deck.size());
 
       // Test selectRandomPlayer.
       System.out.println("\nTesting selectRandomPlayer...");
