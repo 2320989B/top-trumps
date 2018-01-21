@@ -170,7 +170,7 @@ public class Game extends Observable {
       System.out.println("\nTesting createPlayers...");
       System.out.println("==========================");
 
-      game.numAIPlayers = 10;
+      game.numAIPlayers = 2;
       game.createPlayers();
 
       // Check the players are created.
@@ -216,6 +216,14 @@ public class Game extends Observable {
       // been copied to a player?
       game.deal();
       System.out.println("Size of deck: " + game.deck.size());
+      int totalCardsInAllHands = 0;
+      for (Player player : game.players) {
+         System.out.println(player.getName() + " has " + player.hand.size() +
+         " cards in their hand.");
+         totalCardsInAllHands += player.hand.size();
+      }
+      System.out.println("Sum of all cards in all hands: "
+              + totalCardsInAllHands);
 
       // Test selectRandomPlayer.
       System.out.println("\nTesting selectRandomPlayer...");
