@@ -1,24 +1,64 @@
 package model;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+
+/**
+ * The Logger class is responsible for appending log messages to a file.
+ *
+ * Upon instantiation, any existing log file located at logFilePath will be
+ * deleted.
+ *
+ */
 public class Logger {
 
    private Boolean writeGameLogsToFile;
    private String logFilePath;
-   final private String prefix = "";
 
+   /**
+    * Instantiates a new Logger.
+    *
+    * @param logFilePath         the log filepath
+    * @param writeGameLogsToFile flag to indicate whether logger should be
+    *                            activated
+    */
    Logger(String logFilePath, Boolean writeGameLogsToFile) {
       this.logFilePath = logFilePath;
       this.writeGameLogsToFile = writeGameLogsToFile;
+
+      // If the log file exists, delete it.
+      try {
+         Files.delete(Paths.get(logFilePath));
+      } catch (IOException e) {
+         System.err.println("Logger error: " + e.getMessage());
+      }
+
    }
 
+   /**
+    * Log a message to the logfile.
+    *
+    * @param logMessage the log message
+    */
    void log(String logMessage) {
-      // TODO: WIP, print to console will be changed to print to file once everything is working.
       if (writeGameLogsToFile) {
-         System.out.println(prefix + logMessage);
-         for (int i = 0; i < (prefix.length() + logMessage.length()); i++) {
-            System.out.print("-");
+         // Create a print writer in auto-flush mode to allow appending.
+         try (PrintWriter out =
+                      new PrintWriter(new FileWriter(logFilePath, true))) {
+            // Write the log message.
+            out.println(logMessage);
+            // Write the dividing line (required by spec, but looks messy).
+//            for (int i = 0; i < (logMessage.length()); i++) {
+//               char lineDivider = '-';
+//               out.print(lineDivider);
+//            }
+//            out.print("\n");
+
+         } catch (IOException e) {
+            System.err.println("Logger error: " + e.getMessage());
          }
-         System.out.println();
       }
    }
 

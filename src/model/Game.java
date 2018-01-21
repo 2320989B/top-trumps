@@ -83,7 +83,8 @@ public class Game extends Observable {
 	// worth thinking about whether we create a new game object instead of new game
 
 	public void newGame() {
-		// create the deck
+      logger.log("New game starting.");
+	   // create the deck
 		createDeck();
 		logger.log("Deck loaded: " + deck.toString());
 		// shuffle the deck
@@ -94,7 +95,7 @@ public class Game extends Observable {
 		// deal cards to players' decks
 		deal();
 		for (Player player : players) {
-		   logger.log("Cards dealt: " + player);
+		   logger.log("Hand: " + player);
       }
 		// Randomly select the active player for the first round.
 		selectRandomPlayer();
@@ -258,6 +259,14 @@ public class Game extends Observable {
 			// increase the round number on every round
 			round++;
 
+			logger.log("\nRound " + round + " starting.");
+			logger.log("Active player: " + activePlayer.getName());
+			// Log player name and topmost card for all players.
+			for (Player player : players) {
+			   logger.log(player.getName() + "'s card: " + player.getTopMostCard()
+                    .toString());
+         }
+
 			// signal to the controller that we wish to start a new round
 			// controller will present user's top card to the correct view
 			// if the human player still exists
@@ -269,12 +278,20 @@ public class Game extends Observable {
 
 			// get active category for round, from user input or AI decision
 			selectActiveCategory();
+			logger.log("Selected category: " + activeCategory + "=" +
+                 activePlayer.getTopMostCard().getCardProperties().get(activeCategory));
 
 			// find whether the current round winner exists or is null
 			Player roundWinner = compareTopCards();
 			// TODO: Remove. Testing who is the round winner and what is their card
 			if (roundWinner != null)
 				System.out.println("Round winner is: " + roundWinner.getName());
+
+			if (roundWinner == null) {
+			   logger.log("Round winner: Draw");
+         } else {
+            logger.log("Round winner: " + roundWinner.getName());
+         }
 
 			ArrayList<Card> currentTopCards = getCurrentTopCards();
 
@@ -283,6 +300,12 @@ public class Game extends Observable {
 			eliminatePlayers();
 
 			setGameState(GameState.ROUND_COMPLETE);
+
+			logger.log("Communal Deck: " + deck);
+         for (Player player : players) {
+            logger.log("Hand: " + player);
+         }
+         logger.log("Round complete.");
 		}
 	}
 
