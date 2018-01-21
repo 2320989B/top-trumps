@@ -151,12 +151,25 @@ public class Player {
 		}
 		
 	}
-	
-	
-	
 
-	
-	
+
+	/**
+	 * Format: (Player=Player 1, (Description=Sabre, Size=2, Speed=7, Range=2,
+	 * Firepower=5, Cargo=0), (Description=Orion, Size=10, Speed=1, Range=6,
+	 * Firepower=2, Cargo=9), ...etc
+	 *
+	 * @return a string containing the player name and hand.
+	 */
+	@Override
+	public String toString() {
+		StringJoiner joiner = new StringJoiner(", ", "(", ")");
+		joiner.add("Player=" + name);
+		for (Card card : hand) {
+			joiner.add(card.toString());
+		}
+		return joiner.toString();
+	}
+
 	/**
 	 * ONLY FOR TESTING. 
 	 * 

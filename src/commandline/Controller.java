@@ -44,7 +44,7 @@ class Controller implements Observer {
       // Now handle the response appropriately.
       // 1. Start a new game.
       if (selection == 1) {
-         game = new Game(NUM_AI_PLAYERS, DECK_INPUT_FILE);
+         game = new Game(NUM_AI_PLAYERS, DECK_INPUT_FILE, writeGameLogsToFile);
          // Observe the game.
          game.addObserver(this);
          // TODO: Remove, here for testing only.

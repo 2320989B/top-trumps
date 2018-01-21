@@ -184,9 +184,22 @@ public class Card {
 		}
 		
 	}*/
-		
-		
-	
+
+
+	/**
+	 * Format: (Description=350r, Size=1, Speed=9, Range=2, Firepower=3, Cargo=0)
+	 *
+	 * @return a string containing the card description and properties.
+	 */
+	@Override
+	public String toString() {
+		StringJoiner joiner = new StringJoiner(", ", "(", ")");
+		joiner.add("Description=" + getName());
+		for (Map.Entry<String, Integer> entry : cardProperties.entrySet()) {
+			joiner.add(entry.getKey() + "=" + entry.getValue());
+		}
+		return joiner.toString();
+	}
 
 
 	/*

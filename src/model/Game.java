@@ -16,10 +16,14 @@ public class Game extends Observable {
 	private String activeCategory;
 	private int round = 0;
 	private Boolean isHumanBooted = false; //
+   private Boolean writeGameLogsToFile;
+   final private String logFilePath = "toptrumps.log";
+   private Logger logger;
 
 	// constructor to create a deck, the players and deal the intial cards to
 	// players
-	public Game(int numAIPlayers, String deckInputFile) {
+	public Game(int numAIPlayers, String deckInputFile,
+               Boolean writeGameLogsToFile) {
 		// presumably want to call the setGameState method here rather than just setting
 		// gameState variable
 		// this means that a notification is sent to the controller to say that New game
@@ -28,6 +32,9 @@ public class Game extends Observable {
 		setGameState(GameState.NEW_GAME);
 		this.deckInputFile = deckInputFile;
 		this.numAIPlayers = numAIPlayers;
+		this.writeGameLogsToFile = writeGameLogsToFile;
+
+      logger = new Logger(logFilePath, writeGameLogsToFile);
 	}
 
 	public Game() {
@@ -78,12 +85,17 @@ public class Game extends Observable {
 	public void newGame() {
 		// create the deck
 		createDeck();
+		logger.log("Deck loaded: " + deck.toString());
 		// shuffle the deck
 		shuffleDeck();
+      logger.log("Deck shuffled: " + deck.toString());
 		// create the players
 		createPlayers();
 		// deal cards to players' decks
 		deal();
+		for (Player player : players) {
+		   logger.log("Cards dealt: " + player);
+      }
 		// Randomly select the active player for the first round.
 		selectRandomPlayer();
 		// Set first round.
