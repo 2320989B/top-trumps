@@ -10,7 +10,7 @@ public class PostgresPersistence {
 	private int numOfGames = 0;
 	private int numOfRounds = 0;
 	private int numPlayerWins = 0;
-	private Player gameWinner;
+	private model.Player gameWinner;
 	private double numDraws = 0.0;
 
 	/** 
@@ -66,7 +66,7 @@ public class PostgresPersistence {
 	* 	Set the winner as a Player object
 	*	@param playerObj The winning player
 	*/
-	public void setGameWinner(Player playerObj) {
+	public void setGameWinner(model.Player playerObj) {
 		this.gameWinner = playerObj;
 	}
 
