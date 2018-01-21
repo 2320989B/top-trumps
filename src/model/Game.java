@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class Game extends Observable {
    private ArrayList<Card> deck = new ArrayList<>();
+   private ArrayList<Card> communal = new ArrayList<>();
    private ArrayList<Player> players = new ArrayList<>();
    private GameState gameState; //I believe we will use this to update our
    // observer
@@ -15,7 +16,7 @@ public class Game extends Observable {
    //Additional instance variables?
    private Player activePlayer;
    private String activeCategory;
-   private int round;
+   private int round = 0;
    private Boolean isHumanBooted; //
 
    //constructor to create a deck, the players and deal the intial cards to players
@@ -56,7 +57,7 @@ public class Game extends Observable {
    //set initial ActivePlayer at random
    //set the current Active Category
    public void setCategory(String category) {
-
+	   activeCategory = category;
    }
 
    //not sure what the return or type is here
@@ -85,12 +86,95 @@ public class Game extends Observable {
       // Randomly select the active player for the first round.
       selectRandomPlayer();
       // Set first round.
-      round = 1;
+      //round = 1;
 
       //game logic which should keep looping for every round
       while (players.size() > 1) {
+    	  round++;
          //signal to the controller that we wish to start a new round
          setGameState(GameState.NEW_ROUND);
+         //if user is the active player, ask for the user's category
+         if(activePlayer.getIsHuman() == true) {
+        	 setGameState(GameState.CATEGORY_REQUIRED);
+         }
+         //get AI active player to select best category
+         else {
+        	 Card activeCard = activePlayer.getTopMostCard();
+        	 activeCategory = activeCard.getBestCategory();
+         }
+         //COMPARE CARDS
+         int bestValue = activePlayer.getTopMostCard().getCardPropertyValue(activeCategory);
+         //int bestValueDraw = 0;
+         Player currentWinner = null;
+         for(Player player : players) {
+        	 //if not the active player
+        	 if(!(player == activePlayer)) {
+        		 //check specific player value for the active category
+        		 int value = player.getTopMostCard().getCardPropertyValue(activeCategory);
+        		 if(bestValue > value) {
+        			 bestValue = value;
+        			 currentWinner = player;
+        		 }
+        		 //if value matches top value then there is a tie
+        		 else if(bestValue == value) {
+        			 currentWinner = null;
+        		 }
+        	 }
+         }
+         //logic to get round cards from all players
+    	 ArrayList<Card> currentTopCards = new ArrayList<>();
+    	 for(Player player : players) {
+    		 //TODO - add in to take all current round cards and communal cards
+    		 player.submitActiveCard(currentTopCards);
+    	 }
+    	 
+    	 //if there is a winner, the winner becomes the active player and takes round cards
+         if(currentWinner != null) {
+        	 //set winner of round to be activePlayer for next round
+        	 activePlayer = currentWinner;
+        	 //take the pile of round cards
+        	 currentWinner.takeAllCards(currentTopCards);
+        	 //take communal cards if communal pile is not empty
+        	 if(!communal.isEmpty()) {
+        		 currentWinner.takeAllCards(communal);
+        	 }
+         }
+         //if there is a draw, add round cards to the communal pile
+         else {
+        	 System.out.println("It was a draw"); //TODO Remove///////////////////////
+        	 //need a cleaner way to add one deck to another maybe
+        	 while(!currentTopCards.isEmpty()) {
+        		 Card card = currentTopCards.get(0);
+        		 communal.add(card);
+        		 currentTopCards.remove(0);
+        	 }
+         }
+         //check if any players have no cards and eliminate them if so/////////may need to make tidier
+         //failing here because you are trying to modify something you are looping over
+         //an iterator solution is below but we should maybe use a lambda alternative
+        /* for (Player player : players) {
+        		 if(player.getList().isEmpty()) {
+        			 players.remove(player);
+        		 }
+        	
+         }*/
+         
+         Iterator<Player> iter = players.iterator();
+
+         while (iter.hasNext()) {
+             Player player = iter.next();
+
+             if (player.getList().isEmpty()) { 
+            	 iter.remove();
+            	 //need to remember that due to successive draws, the active player could run out of cards
+            	 //select a new random player if playe
+             	 if(!players.contains(activePlayer)) {
+             		 selectRandomPlayer();
+             	 }
+             }
+         }
+        
+         setGameState(GameState.ROUND_COMPLETE);
       }
    }
    private void createPlayers() {
