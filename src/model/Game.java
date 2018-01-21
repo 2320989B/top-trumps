@@ -158,7 +158,7 @@ public class Game extends Observable {
       Random rand = new Random();
       // Restrict random number range to the avaiable index in the players list.
       // - 1 to offset zero-based index numbering.
-      int random = rand.nextInt(players.size() - 1);
+      int random = rand.nextInt(players.size());
       activePlayer = players.get(random);
    }
 
@@ -210,10 +210,6 @@ public class Game extends Observable {
       System.out.println("\nTesting deal...");
       System.out.println("=================");
 
-      // Throws Exception in thread "main" java.lang.OutOfMemoryError: Java
-      // heap space. While loop never ends, is the deck ever empty? Probably
-      // needs something to remove the card reference from the deck once it's
-      // been copied to a player?
       game.deal();
       System.out.println("Size of deck: " + game.deck.size());
       int totalCardsInAllHands = 0;
@@ -225,9 +221,12 @@ public class Game extends Observable {
       System.out.println("Sum of all cards in all hands: "
               + totalCardsInAllHands);
 
+
       // Test selectRandomPlayer.
       System.out.println("\nTesting selectRandomPlayer...");
       System.out.println("===============================");
+
+      System.out.println(game.players.size());
 
       // Do some runs and make sure this looks randomy.
       for (int i = 0; i < 10; i++) {
