@@ -37,7 +37,7 @@ public class Game extends Observable {
    }
 
    public String getCardDescription() {
-      return null;
+      return getHumanPlayer().getTopMostCard().getName();
    }
 
    public Map<String, Integer> getCardCategories() {
@@ -154,6 +154,13 @@ public class Game extends Observable {
       }
    }
 
+   private Player getHumanPlayer() {
+      for (Player player : players) {
+         if (player.getIsHuman()) { return player; }
+      }
+      return null;
+   }
+
    private void selectRandomPlayer() {
       Random rand = new Random();
       // Restrict random number range to the avaiable index in the players list.
@@ -233,6 +240,23 @@ public class Game extends Observable {
          game.selectRandomPlayer();
          System.out.println(game.activePlayer.getName());
       }
+
+
+      // Test getHumanPlayer.
+      System.out.println("\nTesting getHumanPlayer...");
+      System.out.println("===========================");
+
+      Player human = game.getHumanPlayer();
+      System.out.println("Human player: " + game.getHumanPlayer()
+              .getName());
+
+
+      // Test getCardDescription.
+      System.out.println("\nTesting getCardDescription...");
+      System.out.println("===============================");
+
+      System.out.println("Human's card: " + game.getCardDescription());
+
 
    }
 

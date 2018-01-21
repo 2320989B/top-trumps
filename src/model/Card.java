@@ -63,10 +63,10 @@ public class Card {
 		for(int i = 1; i < cardCategories.length; i++) {
 			cardProperties.put(cardCategories[i], Integer.parseInt(cardValues[i]));
 		}
-		//print out
-		for (Map.Entry<String, Integer> entry : cardProperties.entrySet()) {
-			System.out.println(entry.getKey() + entry.getValue());
-		}
+//		//print out
+//		for (Map.Entry<String, Integer> entry : cardProperties.entrySet()) {
+//			System.out.println(entry.getKey() + entry.getValue());
+//		}
 	}
 	
 	

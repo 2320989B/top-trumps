@@ -65,11 +65,11 @@ public class Player {
 	public ArrayList<Card> getList(){
 		return hand;
 	}
-	
 
+	public Boolean getIsHuman() {
+		return isHuman;
+	}
 
-
-	
 	/**
 	 * This method will return the object of type
 	 * Card, that lives at the top of the
