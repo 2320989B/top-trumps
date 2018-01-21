@@ -40,12 +40,12 @@ public class Game extends Observable {
       return getHumanPlayer().getTopMostCard().getName();
    }
 
-   public Map<String, Integer> getCardCategories() {
-      return null;
+   public Map<String, Integer> getCardCategories() {///////////////////
+	  return getHumanPlayer().getTopMostCard().getCardProperties();
    }
 
-   public String getActivePlayer() {
-      return null;
+   public String getActivePlayer() {//////////////////////////////////
+	   return activePlayer.getName();
    }
 
    //get the current gameState
@@ -257,7 +257,23 @@ public class Game extends Observable {
 
       System.out.println("Human's card: " + game.getCardDescription());
 
-
-   }
+      // Test getActivePlayer.
+      System.out.println("\nTesting getActivePlayer...");
+      System.out.println("===============================");
+      
+      game.activePlayer = game.players.get(0);
+      System.out.println("Active Player is :" + game.getActivePlayer() );
+      game.activePlayer = game.players.get(1);
+      System.out.println("Active Player is :" + game.getActivePlayer() );
+      
+      // Test getCardProperties.
+      System.out.println("\nTesting getCardProperties...");
+      System.out.println("===============================");
+      
+      for(Map.Entry<String, Integer> entry : game.getCardCategories().entrySet()) {
+			System.out.println("Key is: " + entry.getKey() + "   Value is: " + entry.getValue());
+      }
+      
+    }
 
 }

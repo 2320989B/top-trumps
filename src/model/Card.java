@@ -74,10 +74,14 @@ public class Card {
 	 * Getter and setter methods 
 	 */
 	//get a value from the hashmap by passing in its category name (key)
-		public int getCardPropertyValue(String category) {
-			int value = cardProperties.get(category);
-			return value; 
-		}
+	public int getCardPropertyValue(String category) {
+		int value = cardProperties.get(category);
+		return value; 
+	}
+	
+	public Map<String, Integer> getCardProperties() { //////////////////////////////////////////////////////////////////////////////////
+		return cardProperties;
+	}
 		
 		
 	public String getName() {
