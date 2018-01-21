@@ -40,11 +40,11 @@ public class Game extends Observable {
       return getHumanPlayer().getTopMostCard().getName();
    }
 
-   public Map<String, Integer> getCardCategories() {///////////////////
+   public Map<String, Integer> getCardCategories() {
 	  return getHumanPlayer().getTopMostCard().getCardProperties();
    }
 
-   public String getActivePlayer() {//////////////////////////////////
+   public String getActivePlayer() {
 	   return activePlayer.getName();
    }
 
@@ -163,7 +163,7 @@ public class Game extends Observable {
 
    private void selectRandomPlayer() {
       Random rand = new Random();
-      // Restrict random number range to the avaiable index in the players list.
+      // Restrict random number range to available indexes in the players list.
       // - 1 to offset zero-based index numbering.
       int random = rand.nextInt(players.size());
       activePlayer = players.get(random);
@@ -175,7 +175,7 @@ public class Game extends Observable {
 
       // Test createPlayers.
       System.out.println("\nTesting createPlayers...");
-      System.out.println("==========================");
+      System.out.println("========================");
 
       game.numAIPlayers = 2;
       game.createPlayers();
@@ -188,7 +188,7 @@ public class Game extends Observable {
 
       // Test createDeck.
       System.out.println("\nTesting createDeck...");
-      System.out.println("=======================");
+      System.out.println("=====================");
 
       game.deckInputFile = "StarCitizenDeck.txt";
       game.createDeck();
@@ -202,7 +202,7 @@ public class Game extends Observable {
 
       // Test shuffleDeck.
       System.out.println("\nTesting shuffleDeck...");
-      System.out.println("========================");
+      System.out.println("======================");
 
       game.shuffleDeck();
 
@@ -215,10 +215,10 @@ public class Game extends Observable {
 
       // Test deal.
       System.out.println("\nTesting deal...");
-      System.out.println("=================");
+      System.out.println("===============");
 
       game.deal();
-      System.out.println("Size of deck: " + game.deck.size());
+      System.out.println("Size of deck after deal: " + game.deck.size());
       int totalCardsInAllHands = 0;
       for (Player player : game.players) {
          System.out.println(player.getName() + " has " + player.hand.size() +
@@ -231,9 +231,7 @@ public class Game extends Observable {
 
       // Test selectRandomPlayer.
       System.out.println("\nTesting selectRandomPlayer...");
-      System.out.println("===============================");
-
-      System.out.println(game.players.size());
+      System.out.println("=============================");
 
       // Do some runs and make sure this looks randomy.
       for (int i = 0; i < 10; i++) {
@@ -244,18 +242,21 @@ public class Game extends Observable {
 
       // Test getHumanPlayer.
       System.out.println("\nTesting getHumanPlayer...");
-      System.out.println("===========================");
+      System.out.println("=========================");
 
-      Player human = game.getHumanPlayer();
-      System.out.println("Human player: " + game.getHumanPlayer()
-              .getName());
+      System.out.println("Human player: " + game.getHumanPlayer().getName());
 
 
       // Test getCardDescription.
       System.out.println("\nTesting getCardDescription...");
-      System.out.println("===============================");
+      System.out.println("=============================");
 
       System.out.println("Human's card: " + game.getCardDescription());
+      // Human will be at index 0 in the player list, and his top card will at
+      // index 0 in his hand.
+      System.out.println("Direct call: " + game.players.get(0).hand.get(0)
+              .getName());
+
 
       // Test getActivePlayer.
       System.out.println("\nTesting getActivePlayer...");
@@ -265,7 +266,8 @@ public class Game extends Observable {
       System.out.println("Active Player is :" + game.getActivePlayer() );
       game.activePlayer = game.players.get(1);
       System.out.println("Active Player is :" + game.getActivePlayer() );
-      
+
+
       // Test getCardProperties.
       System.out.println("\nTesting getCardProperties...");
       System.out.println("===============================");
