@@ -29,3 +29,6 @@ CREATE TABLE GameData
 
 --Largest number of rounds
 --SELECT MAX(numOfRounds) FROM GameData
+
+--Commit the data
+--INSERT INTO GameData VALUES(gameNo, winnerIsHuman, winnerName, numOfDraws, numOfRounds, numPlayerWonRounds)
