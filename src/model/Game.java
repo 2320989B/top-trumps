@@ -86,6 +86,10 @@ public class Game extends Observable {
       }
    }
 
+   public int getNumCardsInHumanHand() {
+      return getHumanPlayer().hand.size();
+   }
+
 // set the gameState during the game logic
 
    private void setGameState(GameState gameState) {

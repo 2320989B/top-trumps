@@ -51,28 +51,25 @@ class Controller implements Observer {
 
          // 2. View statistics.
       } else if (selection == 2) {
-         PostgresPersistence postgresPersistence = new PostgresPersistence();
-         // TODO: Remove, here for testing only.
-         System.out.println("VIEW STATISTICS OPTION SELECTED");
          // TODO: To be implemented.
+         PostgresPersistence postgresPersistence = new PostgresPersistence();
 
          // 3. Quit.
       } else {
          return true;
       }
 
-      // TODO: Remove, here for testing only.
-      System.out.println("CONTROLLER LOGIC COMPLETE, RETURNING TO MAIN MENU");
       return false;
 
    }
 
    public void update(Observable observable, Object o) {
-      GameState gameState = game.getGameState();// TODO: To be implemented.
+      GameState gameState = game.getGameState();
 
       if (gameState.equals(GameState.NEW_ROUND)) {
          new ViewNewRound().show(game.getRound(), game.getCardDescription(),
-                 game.getCardCategories(), game.getActivePlayer());
+                 game.getCardCategories(), game.getActivePlayer(),
+                 game.getNumCardsInHumanHand());
 
       } else if (gameState.equals(GameState.PAUSE)) {
          new ViewPause().show();

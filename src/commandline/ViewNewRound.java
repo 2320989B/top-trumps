@@ -19,7 +19,7 @@ public class ViewNewRound {
     * @return an int representing the menu selection.
     */
    void show(int round, String cardName, Map<String, Integer> cardProperties,
-             String activePlayer) {
+             String activePlayer, int numCardsInHumanHand) {
 
       // Character width of a card.
       final int CARD_WIDTH = 25;
@@ -44,6 +44,9 @@ public class ViewNewRound {
       }
       ViewUtils.printBottomBoundary(MIDDLE_WIDTH);
 
+      System.out.println("You have " + numCardsInHumanHand + " card(s) in " +
+              "your hand.");
+
       System.out.println(activePlayer + "'s turn...");
 
    }
@@ -57,7 +60,7 @@ public class ViewNewRound {
       cardProperties.put("Firepower", 3);
       cardProperties.put("Cargo", 4);
       System.out.println(cardProperties.get("Cargo"));
-      new ViewNewRound().show(1, "Constellation", cardProperties, "Bob");
+      new ViewNewRound().show(1, "Constellation", cardProperties, "Bob", 5);
    }
 
 }
