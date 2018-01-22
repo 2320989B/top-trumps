@@ -74,6 +74,9 @@ class Controller implements Observer {
          new ViewNewRound().show(game.getRound(), game.getCardDescription(),
                  game.getCardCategories(), game.getActivePlayer());
 
+      } else if (gameState.equals(GameState.PAUSE)) {
+         new ViewPause().show();
+
       } else if (gameState.equals(GameState.CATEGORY_REQUIRED)) {
          final String selection = new ViewCategorySelector().show(
                  game.getCardCategories());

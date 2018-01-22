@@ -288,6 +288,10 @@ public class Game extends Observable {
 				System.out.println("Current round is: " + round + " and human has been eliminated");
 			}
 
+			if (!isHumanBooted && !activePlayer.getIsHuman()) {
+			   setGameState(GameState.PAUSE);
+         }
+
 			// get active category for round, from user input or AI decision
 			selectActiveCategory();
 			logger.log("Selected category: " + activeCategory + "=" +
@@ -309,6 +313,10 @@ public class Game extends Observable {
 			eliminatePlayers();
 
 			setGameState(GameState.ROUND_COMPLETE);
+
+         if (!isHumanBooted) {
+            setGameState(GameState.PAUSE);
+         }
 
 			logger.log("Communal Deck: " + deck);
          for (Player player : players) {

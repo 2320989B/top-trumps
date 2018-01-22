@@ -32,7 +32,7 @@ public class ViewNewRound {
 
       // Print the round.
       System.out.println();
-      System.out.println("ROUND " + round + " (" + activePlayer + ")");
+      System.out.println("ROUND " + round);
 
       // Print the card.
       ViewUtils.printTopBoundary(MIDDLE_WIDTH);
@@ -44,8 +44,9 @@ public class ViewNewRound {
       }
       ViewUtils.printBottomBoundary(MIDDLE_WIDTH);
 
-   }
+      System.out.println(activePlayer + "'s turn...");
 
+   }
 
    public static void main(String[] args) {
       // TODO: Remove, here for testing only.
