@@ -36,16 +36,14 @@ public class ViewNewRound {
 
       // Print the card.
       ViewUtils.printTopBoundary(MIDDLE_WIDTH);
-      ViewUtils.printTitle(MIDDLE_WIDTH, cardName.toUpperCase());
-      ViewUtils.printMiddleBoundary(MIDDLE_WIDTH);
+      ViewUtils.printTitle(MIDDLE_WIDTH, cardName.toUpperCase(),
+              numCardsInHumanHand);
+      ViewUtils.printMiddleBoundary(MIDDLE_WIDTH, numCardsInHumanHand);
       for (Map.Entry<String, Integer> entry : cardProperties.entrySet()) {
          ViewUtils.printCardProperty(MIDDLE_WIDTH, VALUE_WIDTH,
-                 entry.getKey(), entry.getValue().toString());
+                 entry.getKey(), entry.getValue().toString(), numCardsInHumanHand);
       }
-      ViewUtils.printBottomBoundary(MIDDLE_WIDTH);
-
-      System.out.println("You have " + numCardsInHumanHand + " card(s) in " +
-              "your hand.");
+      ViewUtils.printBottomBoundary(MIDDLE_WIDTH, numCardsInHumanHand);
 
       System.out.println(activePlayer + "'s turn...");
 
@@ -60,7 +58,7 @@ public class ViewNewRound {
       cardProperties.put("Firepower", 3);
       cardProperties.put("Cargo", 4);
       System.out.println(cardProperties.get("Cargo"));
-      new ViewNewRound().show(1, "Constellation", cardProperties, "Bob", 5);
+      new ViewNewRound().show(1, "Constellation", cardProperties, "Bob", 2);
    }
 
 }

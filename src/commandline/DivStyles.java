@@ -9,10 +9,12 @@ enum DivStyles {
    TOP_LEFT ("\u250F"),
    TOP_RIGHT ("\u2513"),
    VERTICAL ("\u2503"),
-   TEE_LEFT ("\u2523"),
-   TEE_RIGHT ("\u252B"),
+   TEE_RIGHT("\u2523"),
+   TEE_LEFT("\u252B"),
    BOTTOM_LEFT ("\u2517"),
-   BOTTOM_RIGHT ("\u251B");
+   BOTTOM_RIGHT ("\u251B"),
+   TEE_DOWN ("\u2533"),
+   TEE_UP ("\u253B");
 
    String code;
 

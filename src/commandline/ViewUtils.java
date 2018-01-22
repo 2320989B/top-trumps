@@ -1,7 +1,6 @@
 package commandline;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Scanner;
 
 import static commandline.DivStyles.*;
@@ -38,10 +37,31 @@ final class ViewUtils {
     * @param middleWidth the middle width of the card representation.
     * @param title       the card title
     */
-   static void printTitle(int middleWidth, String title) {
+   static void printTitle(int middleWidth, String title, int numCards) {
+      // Topmost card.
       System.out.print(VERTICAL.getCode());
       System.out.print(String.format("%-" + middleWidth + "s", title));
-      System.out.print(VERTICAL.getCode() + "\n");
+
+      // Boundary between adjacent cards.
+      if (numCards > 1) {
+         System.out.print(TEE_RIGHT.getCode());
+      } else {
+         System.out.print(VERTICAL.getCode());
+      }
+
+      // Intermediate cards.
+      final int numIntermediateCards = numCards - 2;
+      for (int i = 0; i < numIntermediateCards; i++) {
+         System.out.print(TEE_DOWN.getCode());
+      }
+
+      // Backmost card.
+      if (numCards > 1) {
+         System.out.print(TOP_RIGHT.getCode());
+      }
+
+      System.out.println();
+
    }
 
    /**
@@ -49,12 +69,21 @@ final class ViewUtils {
     *
     * @param middleWith the middle width of the card representation.
     */
-   static void printMiddleBoundary(int middleWith) {
-      System.out.print(TEE_LEFT.getCode());
+   static void printMiddleBoundary(int middleWith, int numCards) {
+      // Topmost card.
+      System.out.print(TEE_RIGHT.getCode());
       for (int i = 0; i < middleWith; i++) {
          System.out.print(HORIZONTAL.getCode());
       }
-      System.out.print(TEE_RIGHT.getCode() + "\n");
+      System.out.print(TEE_LEFT.getCode());
+
+      // Remaining cards.
+      for (int i = 0; i < numCards - 1; i++) {
+         System.out.print(VERTICAL.getCode());
+      }
+
+      System.out.println();
+
    }
 
    /**
@@ -66,24 +95,31 @@ final class ViewUtils {
     * @param value       the card property value.
     */
    static void printCardProperty(int middleWidth, int valueWidth,
-                                 String property, String value) {
+                                 String property, String value, int numCards) {
+      // Topmost card.
+      System.out.print(VERTICAL.getCode());
+
+      // Property name is formatted to be left justified, with an explicit
+      // limit on allowable field length (defined by middleWidth -
+      // valueWidth). String lengths which exceed this width will be
+      // truncated.
+      String propertyFormatString = "%-" + (middleWidth - valueWidth) +
+              "." + (middleWidth - valueWidth) + "s";
+      System.out.print(String.format(propertyFormatString, property));
+
+      // Property value is formatted to be right justified, with an explicit
+      // limit on allowable field length (defined by valueWidth). String
+      // lengths which exceed this width will be truncated.
+      String valueFormatString = "%" + valueWidth + "." + valueWidth + "s";
+      System.out.print(String.format(valueFormatString, value));
+      System.out.print(VERTICAL.getCode());
+
+      // Remaining cards.
+      for (int i = 0; i < numCards - 1; i++) {
          System.out.print(VERTICAL.getCode());
+      }
 
-         // Property name is formatted to be left justified, with an explicit
-         // limit on allowable field length (defined by middleWidth -
-         // valueWidth). String lengths which exceed this width will be
-         // truncated.
-         String propertyFormatString = "%-" + (middleWidth - valueWidth) +
-                 "." + (middleWidth - valueWidth) + "s";
-         System.out.print(String.format(propertyFormatString, property));
-
-         // Property value is formatted to be right justified, with an explicit
-         // limit on allowable field length (defined by valueWidth). String
-         // lengths which exceed this width will be truncated.
-         String valueFormatString = "%" + valueWidth + "." + valueWidth + "s";
-         System.out.print(String.format(valueFormatString, value));
-
-         System.out.print(VERTICAL.getCode() + "\n");
+      System.out.println();
    }
 
    /**
@@ -91,12 +127,44 @@ final class ViewUtils {
     *
     * @param middleWidth the middle width
     */
-   static void printBottomBoundary(int middleWidth) {
+   static void printBottomBoundary(int middleWidth, int numCards) {
+      // Topmost card.
       System.out.print(BOTTOM_LEFT.getCode());
-      for (int i = 0; i < middleWidth; i++) {
+
+      if (numCards > 1) {
+         System.out.print(TEE_DOWN.getCode());
+      } else {
          System.out.print(HORIZONTAL.getCode());
       }
-      System.out.print(BOTTOM_RIGHT.getCode() + "\n");
+
+      for (int i = 0; i < middleWidth - 1; i++) {
+         System.out.print(HORIZONTAL.getCode());
+      }
+      System.out.print(BOTTOM_RIGHT.getCode());
+
+      // Remaining cards.
+      for (int i = 0; i < numCards - 1; i++) {
+         System.out.print(VERTICAL.getCode());
+      }
+
+      System.out.println();
+
+      // Bottommost line.
+      if (numCards > 1) {
+         System.out.print(" ");
+         System.out.print(BOTTOM_LEFT.getCode());
+         for (int i = 0; i < middleWidth; i++) {
+            System.out.print(HORIZONTAL.getCode());
+         }
+         // Intermediate cards.
+         final int numIntermediateCards = numCards - 2;
+         for (int i = 0; i < numIntermediateCards; i++) {
+            System.out.print(TEE_UP.getCode());
+         }
+         System.out.print(BOTTOM_RIGHT.getCode());
+      }
+
+      System.out.println();
    }
 
    /**
