@@ -222,7 +222,7 @@ public class Game extends Observable {
          if (!(player == activePlayer)) {
             // check specific player value for the active category
             int value = player.getTopMostCard().getCardPropertyValue(activeCategory);
-            if (bestValue > value) {
+            if (bestValue < value) {
                bestValue = value;
                currentWinner = player;
             }
