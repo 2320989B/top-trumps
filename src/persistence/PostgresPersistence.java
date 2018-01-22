@@ -29,16 +29,16 @@ public class PostgresPersistence {
 		//Set up a connection
 		try {
 			/** PRODUCTION VALUES */
-			//String dbURL = "jdbc:postgresql://yacata.dcs.gla.ac.uk:5432/"
-			//String username = "m_17_2349654m";
-			//String password = "2349654m";
-			//String dbname = "m_17_2349654m";
+			String dbURL = "jdbc:postgresql://yacata.dcs.gla.ac.uk:5432/";
+			String username = "m_17_2349654m";
+			String password = "2349654m";
+			String dbname = "m_17_2349654m";
 			
 			/** LOCAL VALUES */
-			String username = "postgres";
-			String dbname = "dbname";
-			String password = "pw";
-			String dbURL = "jdbc:postgresql://localhost:5432/";
+			//String username = "postgres";
+			//String dbname = "dbname";
+			//String password = "pw";
+			//String dbURL = "jdbc:postgresql://localhost:5432/";
 			
 			// Establish connection
 			connection = DriverManager.getConnection(dbURL+dbname, username, password);
