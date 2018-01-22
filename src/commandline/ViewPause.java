@@ -12,7 +12,7 @@ public class ViewPause {
     * Show the pause screen and wait for user input.
     */
    void show() {
-      System.out.println("Press ENTER to proceed...");
+      System.out.print("Press ENTER to proceed...");
       new Scanner(System.in).nextLine();
    }
 
