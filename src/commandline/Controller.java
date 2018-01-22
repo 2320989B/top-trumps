@@ -47,8 +47,6 @@ class Controller implements Observer {
          game = new Game(NUM_AI_PLAYERS, DECK_INPUT_FILE, writeGameLogsToFile);
          // Observe the game.
          game.addObserver(this);
-         // TODO: Remove, here for testing only.
-         System.out.println("NEW GAME OPTION SELECTED");
          game.newGame();
 
          // 2. View statistics.
@@ -73,21 +71,17 @@ class Controller implements Observer {
       GameState gameState = game.getGameState();// TODO: To be implemented.
 
       if (gameState.equals(GameState.NEW_ROUND)) {
-         // TODO: Remove, here for testing only.
-         System.out.println("RECEIVED GAMESTATE=NEW_ROUND");
          new ViewNewRound().show(game.getRound(), game.getCardDescription(),
                  game.getCardCategories(), game.getActivePlayer());
 
       } else if (gameState.equals(GameState.CATEGORY_REQUIRED)) {
-         // TODO: Remove, here for testing only.
-         System.out.println("RECEIVED GAMESTATE=CATEGORY_REQUIRED");
          final String selection = new ViewCategorySelector().show(
                  game.getCardCategories());
          game.setCategory(selection);
 
       } else if (gameState.equals(GameState.ROUND_COMPLETE)) {
-         // TODO: Remove, here for testing only.
-         System.out.println("RECEIVED GAMESTATE=ROUND_COMPLETE");
+         new ViewRoundSummary().show(game.getActiveCategory(),
+                 game.getRoundWinner());
 
       } else if (gameState.equals(GameState.GAME_COMPLETE)) {
          // TODO: Remove, here for testing only.

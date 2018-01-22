@@ -19,6 +19,7 @@ public class Game extends Observable {
    private Boolean writeGameLogsToFile;
    final private String logFilePath = "toptrumps.log";
    private Logger logger;
+	private Player roundWinner;
 
 	// constructor to create a deck, the players and deal the intial cards to
 	// players
@@ -43,6 +44,10 @@ public class Game extends Observable {
 
 	public int getRound() {
 		return round;
+	}
+
+	public String getActiveCategory() {
+		return activeCategory;
 	}
 
 	public String getCardDescription() {
@@ -73,7 +78,15 @@ public class Game extends Observable {
 
 	}
 
-	// set the gameState during the game logic
+	public String getRoundWinner() {
+		if (roundWinner == null) {
+			return null;
+		} else {
+			return roundWinner.getName();
+		}
+	}
+
+// set the gameState during the game logic
 
 	private void setGameState(GameState gameState) {
 		this.gameState = gameState;
@@ -243,7 +256,6 @@ public class Game extends Observable {
 		}
 		// if there is a draw, add round cards to the communal pile
 		else {
-			System.out.println("It was a draw"); // TODO Remove///////////////////////
 			// need a cleaner way to add one deck to another maybe
 			while (!currentTopCards.isEmpty()) {
 				Card card = currentTopCards.get(0);
@@ -282,10 +294,7 @@ public class Game extends Observable {
                  activePlayer.getTopMostCard().getCardProperties().get(activeCategory));
 
 			// find whether the current round winner exists or is null
-			Player roundWinner = compareTopCards();
-			// TODO: Remove. Testing who is the round winner and what is their card
-			if (roundWinner != null)
-				System.out.println("Round winner is: " + roundWinner.getName());
+			roundWinner = compareTopCards();
 
 			if (roundWinner == null) {
 			   logger.log("Round winner: Draw");

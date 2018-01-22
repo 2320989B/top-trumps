@@ -19,6 +19,8 @@ public class ViewCategorySelector {
     * @return a String representing the selected category.
     */
    String show(Map<String, Integer> cardProperties) {
+      System.out.println("Select a category...");
+
       // Extract the category names (key) and store in a List.
       List<String> descriptionList = new ArrayList<>(cardProperties.keySet());
 

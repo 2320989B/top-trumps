@@ -108,7 +108,6 @@ final class ViewUtils {
     */
    static int prompt(Collection menuItems) {
       // Print the menu.
-      System.out.println("");
       int i = 1;
       for (Object item : menuItems) {
          System.out.println(i++ + ": " + item.toString());

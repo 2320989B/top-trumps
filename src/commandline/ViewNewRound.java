@@ -32,7 +32,7 @@ public class ViewNewRound {
 
       // Print the round.
       System.out.println();
-      System.out.println("ROUND " + round);
+      System.out.println("ROUND " + round + " (" + activePlayer + ")");
 
       // Print the card.
       ViewUtils.printTopBoundary(MIDDLE_WIDTH);
@@ -44,9 +44,6 @@ public class ViewNewRound {
       }
       ViewUtils.printBottomBoundary(MIDDLE_WIDTH);
 
-      // Print the active player name.
-      System.out.println("It's " + activePlayer + "'s turn to select a " +
-              "category.");
    }
 
 
