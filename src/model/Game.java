@@ -216,7 +216,10 @@ public class Game extends Observable {
    private Player compareTopCards() {
       // COMPARE CARDS
       int bestValue = activePlayer.getTopMostCard().getCardPropertyValue(activeCategory);
-      Player currentWinner = null;
+      // assume activePlayer will win the round and then test if this is true
+      // if no other card beats or equals the ActivePlayer's card
+      // the activePlayer will be returned as the winner
+      Player currentWinner = activePlayer;
       for (Player player : players) {
          // if not the active player
          if (!(player == activePlayer)) {
