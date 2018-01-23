@@ -32,7 +32,7 @@ public class Logger {
       try {
          Files.delete(Paths.get(logFilePath));
       } catch (IOException e) {
-         System.err.println("Logger error: " + e.getMessage());
+         System.out.println("Log file created: " + e.getMessage());
       }
 
    }
