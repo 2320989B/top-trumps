@@ -86,6 +86,30 @@ public class Game extends Observable {
       }
    }
 
+   public List<Map<String, Integer>> getAllTopCards() {
+      List<Map<String, Integer>> allTopCards = new ArrayList<>();
+      for (Player player : players) {
+         allTopCards.add(player.getTopMostCard().getCardProperties());
+      }
+      return allTopCards;
+   }
+
+   public List<String> getPlayerNames() {
+      List<String> playerNames = new ArrayList<>();
+      for (Player player : players) {
+         playerNames.add(player.getName());
+      }
+      return playerNames;
+   }
+
+   public List<String> getAllTopCardTitles() {
+      List<String> allTopCardTitles = new ArrayList<>();
+      for (Player player : players) {
+         allTopCardTitles.add(player.getTopMostCard().getName());
+      }
+      return allTopCardTitles;
+   }
+
    public int getNumCardsInHumanHand() {
       return getHumanPlayer().hand.size();
    }
@@ -313,13 +337,14 @@ public class Game extends Observable {
             logger.log("Round winner: " + roundWinner.getName());
          }
 
+         setGameState(GameState.ROUND_COMPLETE);
+
          ArrayList<Card> currentTopCards = getCurrentTopCards();
 
          transferCards(roundWinner, currentTopCards);
 
          eliminatePlayers();
 
-         setGameState(GameState.ROUND_COMPLETE);
 
          if (!isHumanBooted) {
             setGameState(GameState.PAUSE);

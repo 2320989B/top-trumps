@@ -81,7 +81,8 @@ class Controller implements Observer {
 
       } else if (gameState.equals(GameState.ROUND_COMPLETE)) {
          new ViewRoundSummary().show(game.getActiveCategory(),
-                 game.getRoundWinner());
+                 game.getRoundWinner(), game.getPlayerNames(),
+                 game.getAllTopCardTitles(), game.getAllTopCards());
 
       } else if (gameState.equals(GameState.GAME_COMPLETE)) {
          // TODO: Remove, here for testing only.

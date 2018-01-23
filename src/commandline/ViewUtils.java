@@ -1,7 +1,7 @@
 package commandline;
 
-import java.util.Collection;
-import java.util.Scanner;
+import java.security.KeyStore;
+import java.util.*;
 
 import static commandline.DivStyles.*;
 
@@ -18,17 +18,136 @@ final class ViewUtils {
    }
 
    /**
+    *
+    * @param middleWidth
+    * @param valueWidth
+    * @param title
+    * @param cardProperties
+    * @param numCardsInHand
+    */
+   static void printStackedCardStyle(int middleWidth, int valueWidth,
+                                     String title,
+                                     Map<String, Integer> cardProperties,
+                                     int numCardsInHand) {
+      Boolean stacked = false;
+      if (numCardsInHand > 1) {
+         stacked = true;
+      }
+
+      printTopBoundary(middleWidth);
+      System.out.println();
+      printTitle(middleWidth, title, stacked);
+      if (stacked) { printTopBoundaryStackedCards(numCardsInHand); }
+      System.out.println();
+      printMiddleBoundary(middleWidth);
+      if (stacked) { printEdgesStackedCards(numCardsInHand); }
+      System.out.println();
+      for (Map.Entry<String, Integer> entry : cardProperties.entrySet()) {
+         printCardProperty(middleWidth, valueWidth, entry.getKey(),
+                 entry.getValue().toString());
+         if (stacked) { printEdgesStackedCards(numCardsInHand); }
+         System.out.println();
+      }
+      printBottomBoundary(middleWidth, stacked);
+      if (stacked) { printEdgesStackedCards(numCardsInHand); }
+      System.out.println();
+      if (stacked) { printBottomStackedCards(middleWidth, numCardsInHand); }
+      System.out.println();
+   }
+
+   /**
+    *
+    */
+   private static void printHorizontalGap() {
+      System.out.print("  ");
+   }
+
+   /**
+    *
+    * @param middleWidth
+    * @param valueWidth
+    * @param titles
+    * @param allCardProperties
+    */
+   static void printHorizontalCardStyle(int middleWidth, int valueWidth,
+                                        List<String> titles,
+                                        List<Map<String, Integer>>
+                                                allCardProperties) {
+
+      int numCards = titles.size();
+
+      for (int i = 0; i < numCards; i++) {
+         printTopBoundary(middleWidth);
+         printHorizontalGap();
+      }
+      System.out.println();
+
+      for (int i = 0; i < numCards; i++) {
+         printTitle(middleWidth, titles.get(i), false);
+         printHorizontalGap();
+      }
+      System.out.println();
+
+      for (int i = 0; i < numCards; i++) {
+         printMiddleBoundary(middleWidth);
+         printHorizontalGap();
+      }
+      System.out.println();
+
+      // Put all the keys into an ArrayList. Keys will be common amongst all
+      // cards.
+      List<String> keys = new ArrayList<>();
+      for (Map.Entry<String, Integer> entry : allCardProperties.get(0)
+              .entrySet()) {
+         keys.add(entry.getKey());
+      }
+
+      // For each key, print the corresponding key:value, for each card.
+      for (int i = 0; i < keys.size(); i++) {
+         for (Map<String, Integer> cardProperties : allCardProperties) {
+            printCardProperty(middleWidth, valueWidth,
+                    keys.get(i), cardProperties.get(keys.get(i)).toString());
+            printHorizontalGap();
+         }
+         System.out.println();
+      }
+
+      for (int i = 0; i < numCards; i++) {
+         printBottomBoundary(middleWidth, false);
+         printHorizontalGap();
+      }
+      System.out.println();
+
+   }
+
+   /**
     * Print the topmost boundary line of a card representation.
     *
     * @param middleWidth the middle width of the card representation.
     */
-   static void printTopBoundary(int middleWidth) {
+   private static void printTopBoundary(int middleWidth) {
       // Print top boundary.
       System.out.print(TOP_LEFT.getCode());
       for (int i = 0; i < middleWidth; i++) {
          System.out.print(HORIZONTAL.getCode());
       }
-      System.out.print(TOP_RIGHT.getCode() + "\n");
+      System.out.print(TOP_RIGHT.getCode());
+   }
+
+   /**
+    *
+    * @param numCards
+    */
+   private static void printTopBoundaryStackedCards(int numCards) {
+      // Intermediate cards.
+      final int numIntermediateCards = numCards - 2;
+      for (int i = 0; i < numIntermediateCards; i++) {
+         System.out.print(TEE_DOWN.getCode());
+      }
+      // Backmost card.
+      if (numCards > 1) {
+         System.out.print(TOP_RIGHT.getCode());
+      }
    }
 
    /**
@@ -37,31 +156,29 @@ final class ViewUtils {
     * @param middleWidth the middle width of the card representation.
     * @param title       the card title
     */
-   static void printTitle(int middleWidth, String title, int numCards) {
+   private static void printTitle(int middleWidth, String title, Boolean stacked) {
       // Topmost card.
       System.out.print(VERTICAL.getCode());
       System.out.print(String.format("%-" + middleWidth + "s", title));
 
       // Boundary between adjacent cards.
-      if (numCards > 1) {
+      if (stacked) {
          System.out.print(TEE_RIGHT.getCode());
+
       } else {
          System.out.print(VERTICAL.getCode());
       }
+   }
 
-      // Intermediate cards.
-      final int numIntermediateCards = numCards - 2;
-      for (int i = 0; i < numIntermediateCards; i++) {
-         System.out.print(TEE_DOWN.getCode());
+   /**
+    *
+    * @param numCards
+    */
+   private static void printEdgesStackedCards(int numCards) {
+      // Remaining cards.
+      for (int i = 0; i < numCards - 1; i++) {
+         System.out.print(VERTICAL.getCode());
       }
-
-      // Backmost card.
-      if (numCards > 1) {
-         System.out.print(TOP_RIGHT.getCode());
-      }
-
-      System.out.println();
-
    }
 
    /**
@@ -69,21 +186,13 @@ final class ViewUtils {
     *
     * @param middleWith the middle width of the card representation.
     */
-   static void printMiddleBoundary(int middleWith, int numCards) {
+   private static void printMiddleBoundary(int middleWith) {
       // Topmost card.
       System.out.print(TEE_RIGHT.getCode());
       for (int i = 0; i < middleWith; i++) {
          System.out.print(HORIZONTAL.getCode());
       }
       System.out.print(TEE_LEFT.getCode());
-
-      // Remaining cards.
-      for (int i = 0; i < numCards - 1; i++) {
-         System.out.print(VERTICAL.getCode());
-      }
-
-      System.out.println();
-
    }
 
    /**
@@ -94,8 +203,8 @@ final class ViewUtils {
     * @param property    the card property name.
     * @param value       the card property value.
     */
-   static void printCardProperty(int middleWidth, int valueWidth,
-                                 String property, String value, int numCards) {
+   private static void printCardProperty(int middleWidth, int valueWidth,
+                                         String property, String value) {
       // Topmost card.
       System.out.print(VERTICAL.getCode());
 
@@ -113,43 +222,14 @@ final class ViewUtils {
       String valueFormatString = "%" + valueWidth + "." + valueWidth + "s";
       System.out.print(String.format(valueFormatString, value));
       System.out.print(VERTICAL.getCode());
-
-      // Remaining cards.
-      for (int i = 0; i < numCards - 1; i++) {
-         System.out.print(VERTICAL.getCode());
-      }
-
-      System.out.println();
    }
 
    /**
-    * Print the bottom boundary line of a card representation.
     *
-    * @param middleWidth the middle width
+    * @param middleWidth
+    * @param numCards
     */
-   static void printBottomBoundary(int middleWidth, int numCards) {
-      // Topmost card.
-      System.out.print(BOTTOM_LEFT.getCode());
-
-      if (numCards > 1) {
-         System.out.print(TEE_DOWN.getCode());
-      } else {
-         System.out.print(HORIZONTAL.getCode());
-      }
-
-      for (int i = 0; i < middleWidth - 1; i++) {
-         System.out.print(HORIZONTAL.getCode());
-      }
-      System.out.print(BOTTOM_RIGHT.getCode());
-
-      // Remaining cards.
-      for (int i = 0; i < numCards - 1; i++) {
-         System.out.print(VERTICAL.getCode());
-      }
-
-      System.out.println();
-
-      // Bottommost line.
+   private static void printBottomStackedCards(int middleWidth, int numCards) {
       if (numCards > 1) {
          System.out.print(" ");
          System.out.print(BOTTOM_LEFT.getCode());
@@ -163,8 +243,27 @@ final class ViewUtils {
          }
          System.out.print(BOTTOM_RIGHT.getCode());
       }
+   }
 
-      System.out.println();
+   /**
+    * Print the bottom boundary line of a card representation.
+    *
+    * @param middleWidth the middle width
+    */
+   private static void printBottomBoundary(int middleWidth, Boolean stacked) {
+      // Topmost card.
+      System.out.print(BOTTOM_LEFT.getCode());
+
+      if (stacked) {
+         System.out.print(TEE_DOWN.getCode());
+      } else {
+         System.out.print(HORIZONTAL.getCode());
+      }
+
+      for (int i = 0; i < middleWidth - 1; i++) {
+         System.out.print(HORIZONTAL.getCode());
+      }
+      System.out.print(BOTTOM_RIGHT.getCode());
    }
 
    /**
