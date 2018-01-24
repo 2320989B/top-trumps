@@ -41,7 +41,7 @@ public class Game extends Observable {
       logger = new Logger(logFilePath, writeGameLogsToFile);
    }
 
-   public Game() {
+   private Game() {
 
    }
 
@@ -126,12 +126,12 @@ public class Game extends Observable {
       notifyObservers();
    }
 
-   public void setDBValues(persistence.PostgresPersistence dbConnection) {
-      dbConnection.setGameDraws(this.numDraws);
-      dbConnection.setGameWinner(this.gameWinner);
-      dbConnection.setNumGameRounds(this.round);
-      dbConnection.setPlayerRounds(this.humanWonRounds);
-   }
+//   public void setDBValues(persistence.PostgresPersistence dbConnection) {
+//      dbConnection.setGameDraws(this.numDraws);
+//      dbConnection.setGameWinner(this.gameWinner);
+//      dbConnection.setNumGameRounds(this.round);
+//      dbConnection.setPlayerRounds(this.humanWonRounds);
+//   }
 
    // worth thinking about whether we create a new game object instead of new game
 

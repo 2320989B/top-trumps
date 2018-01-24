@@ -2,7 +2,7 @@ package commandline;
 
 import model.Game;
 import model.GameState;
-import persistence.PostgresPersistence;
+//import persistence.PostgresPersistence;
 
 import java.util.List;
 import java.util.Observable;
@@ -17,7 +17,7 @@ class Controller implements Observer {
    private Boolean writeGameLogsToFile;
    private Game game;
    private List<String> initialPlayerNames;
-   private PostgresPersistence dbConnection;
+//   private PostgresPersistence dbConnection;
 
    /**
     * Instantiates a new Controller.
@@ -54,7 +54,7 @@ class Controller implements Observer {
 
          // 2. View statistics.
       } else if (selection == 2) {
-         dbConnection = new PostgresPersistence();
+//         dbConnection = new PostgresPersistence();
 
          // 3. Quit.
       } else {
@@ -96,8 +96,8 @@ class Controller implements Observer {
                  game.getActivePlayer());
 
       } else if (gameState.equals(GameState.GAME_COMPLETE)) {
-          game.setDBValues(dbConnection);
-          dbConnection.commit();
+//          game.setDBValues(dbConnection);
+//          dbConnection.commit();
          new ViewGameComplete().show(game.getRoundWinner());
       }
    }
