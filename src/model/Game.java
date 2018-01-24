@@ -20,6 +20,10 @@ public class Game extends Observable {
    final private String logFilePath = "toptrumps.log";
    private Logger logger;
    private Player roundWinner;
+   //Tracked stats for DB
+   private int humanWonRounds = 0;
+   private double numDraws = 0.0;
+   private String gameWinner;
 
    // constructor to create a deck, the players and deal the intial cards to
    // players
@@ -120,6 +124,14 @@ public class Game extends Observable {
       setChanged();
       notifyObservers();
    }
+
+   public void setDBValues(PostgresPersistence dbConnection) {
+      dbConnection.setGameDraws(this.numDraws);
+      dbConnection.setGameWinner(this.roundWinner);
+      dbConnection.setNumGameRounds(this.round);
+      dbConnection.setPlayerRounds(this.humanWonRounds);
+   }
+
    // worth thinking about whether we create a new game object instead of new game
 
    public void newGame() {
@@ -338,8 +350,12 @@ public class Game extends Observable {
 
          if (roundWinner == null) {
             logger.log("Round winner: Draw");
+            this.numDraws += 1.0;
          } else {
             logger.log("Round winner: " + roundWinner.getName());
+            if (roundWinner.getIsHuman()) {
+               this.humanWonRounds++;
+            }
          }
 
          setGameState(GameState.ROUND_COMPLETE);

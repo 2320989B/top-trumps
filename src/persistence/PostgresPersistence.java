@@ -48,9 +48,8 @@ public class PostgresPersistence {
 			this.numOfGames = this.getGameCount();
 
 		} catch (SQLException e) {
-			System.err.println("Connection Failed!");
-			e.printStackTrace();
-			System.exit(0);
+			System.err.println("Connection to database failed!");
+			//e.printStackTrace();
 		}
 	}
 
@@ -110,8 +109,7 @@ public class PostgresPersistence {
 			int resSet = statement.executeUpdate(QUERY_commit);
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			System.err.println("Query failed");
+			System.err.println("DB commit failed");
 			return false;
 		}
 

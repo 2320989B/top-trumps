@@ -17,6 +17,7 @@ class Controller implements Observer {
    private Boolean writeGameLogsToFile;
    private Game game;
    private List<String> initialPlayerNames;
+   private PostgresPersistence dbConnection = new PostgresPersistence();
 
    /**
     * Instantiates a new Controller.
@@ -54,8 +55,7 @@ class Controller implements Observer {
          // 2. View statistics.
       } else if (selection == 2) {
          // TODO: To be implemented.
-         PostgresPersistence postgresPersistence = new PostgresPersistence();
-
+]
          // 3. Quit.
       } else {
          return true;
@@ -96,6 +96,8 @@ class Controller implements Observer {
                  game.getActivePlayer());
 
       } else if (gameState.equals(GameState.GAME_COMPLETE)) {
+          game.setDBValues(dbConnection);
+          dbConnection.commit();
          new ViewGameComplete().show(game.getRoundWinner());
       }
    }
