@@ -45,6 +45,32 @@ public class Game extends Observable {
 
    }
 
+   /**
+   * DATABASE GETTERS
+   */
+   public int getNumDraws() {
+      return numDraws;
+   }
+
+   public int getHumanWonRounds() {
+      return humanWonRounds;
+   }
+
+   public String getWinnerName() {
+      return gameWinner.getName();
+   }
+
+   public int getWinnerHuman() {
+      if (gameWinner.getIsHuman()) {
+         return 1; //Human
+      } else {
+         return 0; //Not Human
+      }
+   }
+
+
+
+
    public int getRound() {
       return round;
    }
@@ -125,13 +151,6 @@ public class Game extends Observable {
       setChanged();
       notifyObservers();
    }
-
-//   public void setDBValues(persistence.PostgresPersistence dbConnection) {
-//      dbConnection.setGameDraws(this.numDraws);
-//      dbConnection.setGameWinner(this.gameWinner);
-//      dbConnection.setNumGameRounds(this.round);
-//      dbConnection.setPlayerRounds(this.humanWonRounds);
-//   }
 
    // worth thinking about whether we create a new game object instead of new game
 

@@ -17,7 +17,7 @@ class Controller implements Observer {
    private Boolean writeGameLogsToFile;
    private Game game;
    private List<String> initialPlayerNames;
-//   private PostgresPersistence dbConnection;
+   private persistence.PostgresPersistence dbConnection = new persistence.PostgresPersistence();
 
    /**
     * Instantiates a new Controller.
@@ -96,10 +96,18 @@ class Controller implements Observer {
                  game.getActivePlayer());
 
       } else if (gameState.equals(GameState.GAME_COMPLETE)) {
-//          game.setDBValues(dbConnection);
-//          dbConnection.commit();
+         passDBStats(); //Get the stats from the game object and pass to the DB object
+         dbConnection.commit(); //Commit the DB object data to the database
          new ViewGameComplete().show(game.getRoundWinner());
       }
    }
 
+
+  public void passDBStats() {
+    dbConnection.setGameDraws(game.getNumDraws());
+    dbConnection.setGameWinnerIsHuman(game.getWinnerHuman());
+    dbConnection.setGameWinnerName(game.getWinnerName());
+    dbConnection.setNumGameRounds(game.getRound());
+    dbConnection.setPlayerRounds(game.getHumanWonRounds());
+  }
 }
