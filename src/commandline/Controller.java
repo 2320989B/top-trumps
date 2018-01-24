@@ -85,6 +85,10 @@ class Controller implements Observer {
                  game.getCardCategories());
          game.setCategory(selection);
 
+      } else if (gameState.equals(GameState.HUMAN_BOOTED)) {
+         new ViewHumanBooted().show();
+         new ViewPause().show();
+
       } else if (gameState.equals(GameState.ROUND_COMPLETE)) {
          new ViewRoundSummary().show(game.getActiveCategory(),
                  game.getRoundWinner(), game.getPlayerNames(),

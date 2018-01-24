@@ -8,6 +8,7 @@ public enum GameState {
       PAUSE,
       CATEGORY_REQUIRED,
       ROUND_COMPLETE,
+      HUMAN_BOOTED,
       GAME_COMPLETE
 
 }

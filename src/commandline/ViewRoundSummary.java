@@ -70,10 +70,7 @@ public class ViewRoundSummary {
          System.out.println(activePlayer + " picks category " +
          activeCategory + " and loses to " + roundWinner + ".");
       }
-
       System.out.println();
-      System.out.println();
-
    }
 
    public static void main(String[] args) {

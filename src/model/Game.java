@@ -385,6 +385,7 @@ public class Game extends Observable {
             // from game
             if (player.getIsHuman()) {
                isHumanBooted = true;
+               setGameState(GameState.HUMAN_BOOTED);
             }
             iter.remove();
             // need to remember that due to successive draws, the active player could run
