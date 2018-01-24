@@ -28,11 +28,4 @@ class ViewMainMenu {
       return ViewUtils.prompt(menuItems);
    }
 
-
-   public static void main(String[] args) {
-      // TODO: Remove, here for testing only.
-      int response = new ViewMainMenu().show();
-      System.out.println("User entered: " + response);
-   }
-
 }

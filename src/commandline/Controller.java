@@ -17,7 +17,7 @@ class Controller implements Observer {
    private Boolean writeGameLogsToFile;
    private Game game;
    private List<String> initialPlayerNames;
-   private PostgresPersistence dbConnection = new PostgresPersistence();
+   private PostgresPersistence dbConnection;
 
    /**
     * Instantiates a new Controller.
@@ -54,7 +54,7 @@ class Controller implements Observer {
 
          // 2. View statistics.
       } else if (selection == 2) {
-         // TODO: To be implemented.
+         dbConnection = new PostgresPersistence();
 
          // 3. Quit.
       } else {

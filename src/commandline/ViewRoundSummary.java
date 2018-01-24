@@ -1,7 +1,5 @@
 package commandline;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import static commandline.CharCodes.*;
@@ -12,7 +10,7 @@ import static commandline.CharCodes.*;
  * The selected category.
  * The result.
  */
-public class ViewRoundSummary {
+class ViewRoundSummary {
 
    /**
     * Show the summary.
@@ -33,33 +31,28 @@ public class ViewRoundSummary {
       // Max field width of value column
       final int VALUE_WIDTH = 3;
 
-//      System.out.println(String.format("%-20s %s", "Selected Category:",
-//              activeCategory));
+      final int INDENT_WIDTH = 1;
 
-//      String resultString;
-//      if (roundWinner == null) {
-//         resultString = "Draw...";
-//      } else {
-//         resultString = roundWinner + " wins!";
-//      }
-//      System.out.println(String.format("%-20s %s", "Result:", resultString));
+      final int H_GAP = 2;
 
       ViewUtils.printHorizontalCardStyle(MIDDLE_WIDTH, VALUE_WIDTH, allTopCardTitles,
-              allTopCards, activeCategory, roundWinner);
+              allTopCards, activeCategory, H_GAP);
 
-      ViewUtils.indent();
+      final int fieldLength = CARD_WIDTH - INDENT_WIDTH + H_GAP;
+      String formatString = "%-" + fieldLength + "s";
       for (String playerName : playerNames) {
+         ViewUtils.indent(INDENT_WIDTH);
          String winnerMarker = "";
          if (playerName.equals(roundWinner)) {
             winnerMarker = ROUND_WINNER.getCode();
          }
-         System.out.print(String.format("%-27s", playerName + " "
+         System.out.print(String.format(formatString, playerName + " "
                  + winnerMarker));
       }
       System.out.println();
       System.out.println();
 
-      ViewUtils.indent();
+      ViewUtils.indent(INDENT_WIDTH);
       if (roundWinner == null) {
          System.out.println(activePlayer + " picks category " +
                  activeCategory + " and draws.");
@@ -72,10 +65,5 @@ public class ViewRoundSummary {
       }
       System.out.println();
    }
-
-   public static void main(String[] args) {
-      //new ViewRoundSummary().show("Firepower", "Player 1");
-   }
-
 
 }

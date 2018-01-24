@@ -1,12 +1,10 @@
 package commandline;
 
 /**
- * A definition of unicode values used to represent block elements via System
- * .out.
+ * A definition of symbols used for command line output.
  */
 enum CharCodes {
    // Box elements
-
    HORIZONTAL ("\u2500"),
    TOP_LEFT ("\u250C"),
    TOP_RIGHT ("\u2510"),
@@ -19,10 +17,6 @@ enum CharCodes {
    TEE_UP ("\u2534"),
 
    // Misc Symbols
-//   PLAYER_ACTIVE ("\u25CF"),
-//   PLAYER_WAITING ("\u25CB"),
-//   PLAYER_OUT_GAME ("\u25CC");
-
    PLAYER_ACTIVE ("\u25C9"),
    PLAYER_WAITING ("\u25CE"),
    PLAYER_OUT_GAME ("\u25CB"),
@@ -37,9 +31,9 @@ enum CharCodes {
    }
 
    /**
-    * Gets the uni(code) value.
+    * Gets the code value.
     *
-    * @return the uni(code) value.
+    * @return the code value.
     */
    String getCode() {
       return code;

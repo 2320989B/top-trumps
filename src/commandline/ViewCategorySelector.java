@@ -11,7 +11,7 @@ import java.util.Map;
  * Menu elements are numbered, and the user is prompted to enter the number
  * corresponding to their menu selection.
  */
-public class ViewCategorySelector {
+class ViewCategorySelector {
 
    /**
     * Show the category menu.
@@ -30,19 +30,6 @@ public class ViewCategorySelector {
       // Return the category corresponding to the selected index.
       // - 1 to offset zero-based index numbering.
       return descriptionList.get(response - 1);
-   }
-
-   public static void main(String[] args) {
-      // TODO: Remove, here for testing only.
-      Map<String, Integer> cardProperties = new LinkedHashMap<>();
-      cardProperties.put("Size", 4);
-      cardProperties.put("Speed", 5);
-      cardProperties.put("Range", 7);
-      cardProperties.put("Firepower", 3);
-      cardProperties.put("Cargo", 4);
-
-      String response = new ViewCategorySelector().show(cardProperties);
-      System.out.println("User entered: " + response);
    }
 
 }
