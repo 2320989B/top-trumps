@@ -28,12 +28,15 @@ public class PostgresPersistence {
 	 */
 	public PostgresPersistence() {
 		//Set up a connection
+		System.err.println("Attempting to establish database connection!");
 		try {
 			/** PRODUCTION VALUES */
+
 			String dbURL = "jdbc:postgresql://yacata.dcs.gla.ac.uk:5432/";
 			String username = "m_17_2349654m";
 			String password = "2349654m";
 			String dbname = "m_17_2349654m";
+			String logSuppressor = "?loggerLevel=OFF";
 
 			/** LOCAL VALUES */
 			//String username = "postgres";
@@ -42,7 +45,7 @@ public class PostgresPersistence {
 			//String dbURL = "jdbc:postgresql://localhost:5432/";
 
 			// Establish connection
-			connection = DriverManager.getConnection(dbURL+dbname, username, password);
+			connection = DriverManager.getConnection(dbURL+dbname+logSuppressor, username, password);
 			System.out.println("Connection established!");
 
 			// Get the total previous games
