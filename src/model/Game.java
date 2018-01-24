@@ -320,7 +320,8 @@ public class Game extends Observable {
          if (!isHumanBooted) {
             setGameState(GameState.NEW_ROUND);
          } else {
-            System.out.println("Current round is: " + round + " and human has been eliminated");
+//            System.out.println("Current round is: " + round + " and human " +
+//                    "has been eliminated");
          }
 
          if (!isHumanBooted && !activePlayer.getIsHuman()) {

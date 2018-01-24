@@ -73,7 +73,9 @@ final class ViewUtils {
    static void printHorizontalCardStyle(int middleWidth, int valueWidth,
                                         List<String> titles,
                                         List<Map<String, Integer>>
-                                                allCardProperties) {
+                                                allCardProperties,
+                                        String activeCategory,
+                                        String roundWinner) {
 
       int numCards = titles.size();
 
@@ -106,8 +108,17 @@ final class ViewUtils {
       // For each key, print the corresponding key:value, for each card.
       for (int i = 0; i < keys.size(); i++) {
          for (Map<String, Integer> cardProperties : allCardProperties) {
+            String categoryMarkerLeft = "";
+            String categoryMarkerRight = "";
+            if (keys.get(i).equals(activeCategory)) {
+               categoryMarkerLeft = ACTIVE_CATEGORY_LEFT.getCode();
+               categoryMarkerRight = ACTIVE_CATEGORY_RIGHT.getCode();
+            }
+            String winnerMarker = "";
             printCardProperty(middleWidth, valueWidth,
-                    keys.get(i), cardProperties.get(keys.get(i)).toString());
+                    categoryMarkerLeft + "" + keys.get(i) + "" +
+                            categoryMarkerRight,
+                    cardProperties.get(keys.get(i)).toString() + winnerMarker);
             printHorizontalGap();
          }
          System.out.println();
@@ -206,7 +217,7 @@ final class ViewUtils {
     */
    private static void printCardProperty(int middleWidth, int valueWidth,
                                          String property, String value) {
-      // Topmost card.
+
       System.out.print(VERTICAL.getCode());
 
       // Property name is formatted to be left justified, with an explicit

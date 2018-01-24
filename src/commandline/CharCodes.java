@@ -6,23 +6,13 @@ package commandline;
  */
 enum CharCodes {
    // Box elements
-//   HORIZONTAL ("\u2501"),
-//   TOP_LEFT ("\u250F"),
-//   TOP_RIGHT ("\u2513"),
-//   VERTICAL ("\u2503"),
-//   TEE_RIGHT("\u2523"),
-//   TEE_LEFT("\u252B"),
-//   BOTTOM_LEFT ("\u2517"),
-//   BOTTOM_RIGHT ("\u251B"),
-//   TEE_DOWN ("\u2533"),
-//   TEE_UP ("\u253B"),
 
    HORIZONTAL ("\u2500"),
    TOP_LEFT ("\u250C"),
    TOP_RIGHT ("\u2510"),
    VERTICAL ("\u2502"),
-   TEE_RIGHT("\u251C"),
-   TEE_LEFT("\u2524"),
+   TEE_RIGHT ("\u251C"),
+   TEE_LEFT ("\u2524"),
    BOTTOM_LEFT ("\u2514"),
    BOTTOM_RIGHT ("\u2518"),
    TEE_DOWN ("\u252C"),
@@ -33,9 +23,12 @@ enum CharCodes {
 //   PLAYER_WAITING ("\u25CB"),
 //   PLAYER_OUT_GAME ("\u25CC");
 
-   PLAYER_ACTIVE ("\u2611"),
-   PLAYER_WAITING ("\u2610"),
-   PLAYER_OUT_GAME ("\u2612");
+   PLAYER_ACTIVE ("\u25C9"),
+   PLAYER_WAITING ("\u25CE"),
+   PLAYER_OUT_GAME ("\u25CB"),
+   ACTIVE_CATEGORY_LEFT ("["),
+   ACTIVE_CATEGORY_RIGHT ("]"),
+   ROUND_WINNER ("\uD83C\uDFC6");
 
    String code;
 
