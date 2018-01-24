@@ -1,9 +1,8 @@
 package commandline;
 
-import java.security.KeyStore;
 import java.util.*;
 
-import static commandline.DivStyles.*;
+import static commandline.CharCodes.*;
 
 /**
  * The ViewUtils class provides static utility methods for displaying
@@ -11,6 +10,8 @@ import static commandline.DivStyles.*;
  * via System.in.
  */
 final class ViewUtils {
+
+   private final static int INDENT_WIDTH = 1;
 
    // Private constructor to prevent accidental instantiation of this
    // utility class.
@@ -307,4 +308,11 @@ final class ViewUtils {
       return selection;
    }
 
+   public static void indent() {
+      StringBuilder stringBuilder = new StringBuilder();
+      for (int i = 0; i < INDENT_WIDTH; i ++) {
+         stringBuilder.append(" ");
+      }
+      System.out.print(stringBuilder.toString());
+   }
 }

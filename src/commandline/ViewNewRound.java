@@ -1,8 +1,9 @@
 package commandline;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import static commandline.CharCodes.*;
 
 /**
  * The ViewNewRound class is responsible for displaying information relevant
@@ -19,7 +20,8 @@ public class ViewNewRound {
     * @return an int representing the menu selection.
     */
    void show(int round, String cardName, Map<String, Integer> cardProperties,
-             String activePlayer, int numCardsInHumanHand) {
+             String activePlayer, List<String> initialPlayerNames,
+             List<String> playerNames, int numCardsInHumanHand) {
 
       // Character width of a card.
       final int CARD_WIDTH = 25;
@@ -32,25 +34,44 @@ public class ViewNewRound {
 
       // Print the round.
       System.out.println();
-      System.out.println("ROUND " + round);
+      String roundTitle = "ROUND " + round;
+      System.out.println(roundTitle);
+      for (int i = 0; i < roundTitle.length(); i++) {
+         System.out.print(HORIZONTAL.getCode());
+      }
+      System.out.println();
+
+
+
+      // Print the player list.
+      for (String player : initialPlayerNames) {
+         ViewUtils.indent();
+         if (player.equals(activePlayer)) {
+            System.out.print(PLAYER_ACTIVE.getCode());
+         } else if (playerNames.contains(player)) {
+            System.out.print(PLAYER_WAITING.getCode());
+         } else {
+            System.out.print(PLAYER_OUT_GAME.getCode());
+         }
+         System.out.print(" " + player);
+         System.out.println();
+      }
 
       // Print the card.
       ViewUtils.printStackedCardStyle(MIDDLE_WIDTH, VALUE_WIDTH, cardName,
               cardProperties, numCardsInHumanHand);
-      System.out.println(activePlayer + "'s turn...");
-
    }
 
-   public static void main(String[] args) {
-      // TODO: Remove, here for testing only.
-      Map<String, Integer> cardProperties = new LinkedHashMap<>();
-      cardProperties.put("Size", 4);
-      cardProperties.put("Speed", 5);
-      cardProperties.put("Range", 7);
-      cardProperties.put("Firepower", 3);
-      cardProperties.put("Cargo", 4);
-      System.out.println(cardProperties.get("Cargo"));
-      new ViewNewRound().show(1, "Constellation", cardProperties, "Bob", 4);
-   }
+//   public static void main(String[] args) {
+//      // TODO: Remove, here for testing only.
+//      Map<String, Integer> cardProperties = new LinkedHashMap<>();
+//      cardProperties.put("Size", 4);
+//      cardProperties.put("Speed", 5);
+//      cardProperties.put("Range", 7);
+//      cardProperties.put("Firepower", 3);
+//      cardProperties.put("Cargo", 4);
+//      System.out.println(cardProperties.get("Cargo"));
+//      new ViewNewRound().show(1, "Constellation", cardProperties, "Bob", 4);
+//   }
 
 }

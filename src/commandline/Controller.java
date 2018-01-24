@@ -4,6 +4,7 @@ import model.Game;
 import model.GameState;
 import persistence.PostgresPersistence;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,6 +16,7 @@ class Controller implements Observer {
 
    private Boolean writeGameLogsToFile;
    private Game game;
+   private List<String> initialPlayerNames;
 
    /**
     * Instantiates a new Controller.
@@ -66,9 +68,13 @@ class Controller implements Observer {
    public void update(Observable observable, Object o) {
       GameState gameState = game.getGameState();
 
-      if (gameState.equals(GameState.NEW_ROUND)) {
+      if (gameState.equals(GameState.PLAYERS_SPAWNED)) {
+         initialPlayerNames = game.getPlayerNames();
+
+      } else if (gameState.equals(GameState.NEW_ROUND)) {
          new ViewNewRound().show(game.getRound(), game.getCardDescription(),
                  game.getCardCategories(), game.getActivePlayer(),
+                 initialPlayerNames, game.getPlayerNames(),
                  game.getNumCardsInHumanHand());
 
       } else if (gameState.equals(GameState.PAUSE)) {
@@ -85,8 +91,7 @@ class Controller implements Observer {
                  game.getAllTopCardTitles(), game.getAllTopCards());
 
       } else if (gameState.equals(GameState.GAME_COMPLETE)) {
-         // TODO: Remove, here for testing only.
-         System.out.println("RECEIVED GAMESTATE=GAME_COMPLETE");
+         new ViewGameComplete().show(game.getRoundWinner());
       }
    }
 

@@ -30,7 +30,6 @@ public class Game extends Observable {
       // this means that a notification is sent to the controller to say that New game
       // has started
       // the controller can then call the appropriate method in the view I think
-      setGameState(GameState.NEW_GAME);
       this.deckInputFile = deckInputFile;
       this.numAIPlayers = numAIPlayers;
       this.writeGameLogsToFile = writeGameLogsToFile;
@@ -133,6 +132,9 @@ public class Game extends Observable {
       logger.log("Deck shuffled: " + deck.toString());
       // create the players
       createPlayers();
+
+      setGameState(GameState.PLAYERS_SPAWNED);
+
       // deal cards to players' decks
       deal();
       for (Player player : players) {
@@ -145,6 +147,8 @@ public class Game extends Observable {
       // loop?
 
       playRound();
+
+      setGameState(GameState.GAME_COMPLETE);
    }
 
    private void createPlayers() {
