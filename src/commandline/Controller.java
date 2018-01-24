@@ -55,7 +55,7 @@ class Controller implements Observer {
          // 2. View statistics.
       } else if (selection == 2) {
          // TODO: To be implemented.
-]
+
          // 3. Quit.
       } else {
          return true;

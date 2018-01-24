@@ -95,6 +95,7 @@ public class PostgresPersistence {
 
 		// Check if winner was human
 		int winnerIsHuman = 0;
+		System.out.println(gameWinner.getIsHuman());
 		if (this.gameWinner.getIsHuman()) {
 			winnerIsHuman = 1;
 		}
@@ -108,7 +109,7 @@ public class PostgresPersistence {
 			statement = connection.createStatement();
 			int resSet = statement.executeUpdate(QUERY_commit);
 			return true;
-		} catch (SQLException e) {
+		} catch (SQLException | NullPointerException e) {
 			System.err.println("DB commit failed");
 			return false;
 		}
@@ -128,7 +129,7 @@ public class PostgresPersistence {
 			while (resSet.next()) {
 				gameNo = resSet.getInt(1);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | NullPointerException e) {
 			e.printStackTrace();
 			System.err.println("Query failed");
 		}
@@ -149,7 +150,7 @@ public class PostgresPersistence {
 			while (resSet.next()) {
 				AIWins = resSet.getInt(1);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | NullPointerException e) {
 			e.printStackTrace();
 			System.err.println("Query failed");
 		}
@@ -170,7 +171,7 @@ public class PostgresPersistence {
 			while (resSet.next()) {
 				humanWins = resSet.getInt(1);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | NullPointerException e) {
 			e.printStackTrace();
 			System.err.println("Query failed");
 		}
@@ -191,7 +192,7 @@ public class PostgresPersistence {
 			while (resSet.next()) {
 				drawCount = resSet.getDouble(1);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | NullPointerException e) {
 			e.printStackTrace();
 			System.err.println("Query failed");
 		}
@@ -212,7 +213,7 @@ public class PostgresPersistence {
 			while (resSet.next()) {
 				maxRounds = resSet.getInt(1);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | NullPointerException e) {
 			e.printStackTrace();
 			System.err.println("Query failed");
 		}

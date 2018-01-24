@@ -22,8 +22,8 @@ public class Game extends Observable {
    private Player roundWinner;
    //Tracked stats for DB
    private int humanWonRounds = 0;
-   private double numDraws = 0.0;
-   private String gameWinner;
+   private int numDraws = 0;
+   private Player gameWinner;
 
    // constructor to create a deck, the players and deal the intial cards to
    // players
@@ -89,6 +89,7 @@ public class Game extends Observable {
       }
    }
 
+
    public List<Map<String, Integer>> getAllTopCards() {
       List<Map<String, Integer>> allTopCards = new ArrayList<>();
       for (Player player : players) {
@@ -125,9 +126,9 @@ public class Game extends Observable {
       notifyObservers();
    }
 
-   public void setDBValues(PostgresPersistence dbConnection) {
+   public void setDBValues(persistence.PostgresPersistence dbConnection) {
       dbConnection.setGameDraws(this.numDraws);
-      dbConnection.setGameWinner(this.roundWinner);
+      dbConnection.setGameWinner(this.gameWinner);
       dbConnection.setNumGameRounds(this.round);
       dbConnection.setPlayerRounds(this.humanWonRounds);
    }
@@ -350,9 +351,10 @@ public class Game extends Observable {
 
          if (roundWinner == null) {
             logger.log("Round winner: Draw");
-            this.numDraws += 1.0;
+            this.numDraws++;
          } else {
             logger.log("Round winner: " + roundWinner.getName());
+            this.gameWinner = roundWinner;
             if (roundWinner.getIsHuman()) {
                this.humanWonRounds++;
             }
