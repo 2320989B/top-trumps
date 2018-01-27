@@ -3,7 +3,7 @@ package commandline;
 class ViewDBError {
 
    void show(String message) {
-      ViewUtils.indent(1);
+      ViewUtils.indent();
       System.out.println("Database error: " + message);
    }
 

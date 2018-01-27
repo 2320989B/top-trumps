@@ -2,8 +2,7 @@ package commandline;
 
 class ViewGameComplete {
    void show(String winner) {
-      final int INDENT_WIDTH = 1;
-      ViewUtils.indent(INDENT_WIDTH);
+      ViewUtils.indent();
       if (winner == null) {
          System.out.println("Game Over: Stalemate!");
       } else {

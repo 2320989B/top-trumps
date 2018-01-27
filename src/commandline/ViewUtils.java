@@ -35,9 +35,11 @@ final class ViewUtils {
       // Print the menu.
       int i = 1;
       for (Object item : menuItems) {
+         indent();
          System.out.println(i++ + ": " + item.toString());
       }
       // Prompt for a selection from the user.
+      indent();
       System.out.print("Selection: ");
 
       Scanner in = new Scanner(System.in);
@@ -182,9 +184,13 @@ final class ViewUtils {
    /**
     *
     */
-   static void indent(int indentWidth) {
+   static void indent() {
+      System.out.print(" ");
+   }
+
+   static void indent(int indent) {
       StringBuilder stringBuilder = new StringBuilder();
-      for (int i = 0; i < indentWidth; i ++) {
+      for (int i = 0; i < indent; i ++) {
          stringBuilder.append(" ");
       }
       System.out.print(stringBuilder.toString());

@@ -32,8 +32,6 @@ class ViewNewRound {
       // Max field width of value column
       final int VALUE_WIDTH = 3;
 
-      final int INDENT_WIDTH = 1;
-
       // Print the round.
       System.out.println();
       String roundTitle = "ROUND " + round;
@@ -45,7 +43,7 @@ class ViewNewRound {
 
       // Print the player list.
       for (String player : initialPlayerNames) {
-         ViewUtils.indent(INDENT_WIDTH);
+         ViewUtils.indent();
          if (player.equals(activePlayer)) {
             System.out.print(PLAYER_ACTIVE.getCode());
          } else if (playerNames.contains(player)) {
@@ -57,7 +55,7 @@ class ViewNewRound {
          System.out.println();
       }
       System.out.println();
-      ViewUtils.indent(INDENT_WIDTH);
+      ViewUtils.indent();
       System.out.println("Your hand:");
 
       // Print the players hand.

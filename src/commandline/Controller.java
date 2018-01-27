@@ -58,14 +58,15 @@ class Controller implements Observer {
       } else if (selection == 2) {
          try {
             dbConnection.establishDBConnection();
-            dbConnection.getGameCount();
+            new ViewStats().show(dbConnection.getGameCount(),
+                    dbConnection.getAIWinCount(),
+                    dbConnection.getHumanWinCount(),
+                    dbConnection.getAverageDraws(),
+                    dbConnection.getMaxRoundCount());
             dbConnection.closeDBConnection();
-
          } catch (SQLException e) {
             new ViewDBError().show(e.getMessage());
          }
-
-         // Call stats view.
 
          // 3. Quit.
       } else {
