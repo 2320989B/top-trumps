@@ -5,7 +5,7 @@
 --winnerIsHuman: 0 = false, 1 = true
 CREATE TABLE GameData
 	(
-	gameNo INT CONSTRAINT game_pk PRIMARY KEY,
+	gameNo SERIAL CONSTRAINT game_pk PRIMARY KEY,
 	winnerIsHuman INT,
 	winnerName VARCHAR(40),
 	numOfDraws FLOAT,
@@ -35,3 +35,4 @@ CREATE TABLE GameData
 
 -- Grant privileges.
 GRANT SELECT, INSERT ON TABLE gamedata TO m_17_2349654m;
+GRANT USAGE ON SEQUENCE gamedata_gameno_seq TO m_17_2349654m;
