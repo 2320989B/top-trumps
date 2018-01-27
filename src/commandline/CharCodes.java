@@ -17,12 +17,12 @@ enum CharCodes {
    TEE_UP ("\u2534"),
 
    // Misc Symbols
-   PLAYER_ACTIVE ("\u25C9"),
-   PLAYER_WAITING ("\u25CE"),
-   PLAYER_OUT_GAME ("\u25CB"),
+   PLAYER_ACTIVE ("[A]"),
+   PLAYER_WAITING ("[ ]"),
+   PLAYER_OUT_GAME ("[X]"),
    ACTIVE_CATEGORY_LEFT ("["),
    ACTIVE_CATEGORY_RIGHT ("]"),
-   ROUND_WINNER ("\uD83C\uDFC6");
+   ROUND_WINNER ("[WIN!]");
 
    String code;
 
