@@ -98,7 +98,7 @@ class Controller implements Observer {
          game.setCategory(selection);
 
       } else if (gameState.equals(GameState.HUMAN_BOOTED)) {
-         new ViewHumanBooted().show();
+         new ViewHumanBooted().show(game.getPlayerNames());
          new ViewPause().show();
 
       } else if (gameState.equals(GameState.ROUND_COMPLETE)) {
