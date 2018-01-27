@@ -91,70 +91,48 @@ public class PostgresPersistence {
 	/**
 	 * Establish the connection to the database.
 	 */
-	public void establishDBConnection() {
+	public void establishDBConnection() throws SQLException {
 		// TODO: Remove, for testing only.
 		System.out.println("Attempting to establish database connection...");
-		try {
-			connection = DriverManager.getConnection(dbURL+dbname+logSuppressor, username, password);
-         // TODO: Remove, for testing only.
-         System.out.println("Connection established!");
-      } catch (SQLException e) {
-         System.out.println("Warning: Connection to database failed.");
-      }
+		connection = DriverManager.getConnection(dbURL+dbname+logSuppressor, username, password);
+		// TODO: Remove, for testing only.
+		System.out.println("Connection established!");
 	}
 
 	/**
 	 * Close the connection to the database.
 	 */
-	public void closeDBConnection() {
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			System.out.println("Warning! Close connection failed!");
-		}
-		// TODO: Remove, for testing only.
-		System.out.println("Connection closed.");
+	public void closeDBConnection() throws SQLException {
+		connection.close();
 	}
 
 	/**
 	* 	Commit a full game record to the database
 	*	@return True if successful
 	*/
-	public boolean commit() {
+	public void commit() throws SQLException {
 		// Get current game number (primary key of DB)
 		int gameNo = this.numOfGames + 1;
 
 		Statement statement = null;
 		String QUERY_commit = "INSERT INTO GameData VALUES(" + gameNo + ", " + gameWinnerHuman + ", " + gameWinnerName + ", " + this.numDraws + ", " + this.numOfRounds + ", " + this.numPlayerWins + ")";
-		try {
-			statement = connection.createStatement();
-			int resSet = statement.executeUpdate(QUERY_commit);
-			return true;
-		} catch (SQLException | NullPointerException e) {
-			System.err.println("DB commit failed");
-			return false;
-		}
 
+		statement = connection.createStatement();
+		statement.executeUpdate(QUERY_commit);
 	}
 
 	/**
 	*	Get the total number of games previously played
 	*	@return The number of games played
 	*/
-	public int getGameCount() {
+	public int getGameCount() throws SQLException {
 		Statement statement = null;
 		int gameNo = 0;
-		try {
-			statement = connection.createStatement();
-			ResultSet resSet = statement.executeQuery(QUERY_getNumOfGames);
-			while (resSet.next()) {
-				gameNo = resSet.getInt(1);
-			}
-		} catch (SQLException | NullPointerException e) {
-			e.printStackTrace();
-			System.err.println("Query failed");
+		statement = connection.createStatement();
+		ResultSet resSet = statement.executeQuery(QUERY_getNumOfGames);
+		while (resSet.next()) {
+			gameNo = resSet.getInt(1);
 		}
-
 		return gameNo;
 	}
 
@@ -162,18 +140,14 @@ public class PostgresPersistence {
 	* Get the number of previous games won by the AI
 	* @return The number of games
 	*/
-	public int getAIWinCount() {
+	public int getAIWinCount() throws SQLException {
 		Statement statement = null;
 		int AIWins = 0;
-		try {
-			statement = connection.createStatement();
-			ResultSet resSet = statement.executeQuery(QUERY_AIWins);
-			while (resSet.next()) {
-				AIWins = resSet.getInt(1);
-			}
-		} catch (SQLException | NullPointerException e) {
-			e.printStackTrace();
-			System.err.println("Query failed");
+		statement = connection.createStatement();
+		ResultSet resSet = statement.executeQuery(QUERY_AIWins);
+
+		while (resSet.next()) {
+			AIWins = resSet.getInt(1);
 		}
 
 		return AIWins;
@@ -183,18 +157,14 @@ public class PostgresPersistence {
 	* Get the number of previous games won by humans
 	* @return The number of games
 	*/
-	public int getHumanWinCount() {
+	public int getHumanWinCount() throws SQLException {
 		Statement statement = null;
 		int humanWins = 0;
-		try {
-			statement = connection.createStatement();
-			ResultSet resSet = statement.executeQuery(QUERY_humanWins);
-			while (resSet.next()) {
-				humanWins = resSet.getInt(1);
-			}
-		} catch (SQLException | NullPointerException e) {
-			e.printStackTrace();
-			System.err.println("Query failed");
+
+		statement = connection.createStatement();
+		ResultSet resSet = statement.executeQuery(QUERY_humanWins);
+		while (resSet.next()) {
+			humanWins = resSet.getInt(1);
 		}
 
 		return humanWins;
@@ -204,18 +174,13 @@ public class PostgresPersistence {
 	* Get the average number of draws in previous games
 	* @return The number of draws
 	*/
-	public double getAverageDraws() {
+	public double getAverageDraws() throws SQLException {
 		Statement statement = null;
 		double drawCount = 0;
-		try {
-			statement = connection.createStatement();
-			ResultSet resSet = statement.executeQuery(QUERY_avgDraws);
-			while (resSet.next()) {
-				drawCount = resSet.getDouble(1);
-			}
-		} catch (SQLException | NullPointerException e) {
-			e.printStackTrace();
-			System.err.println("Query failed");
+		statement = connection.createStatement();
+		ResultSet resSet = statement.executeQuery(QUERY_avgDraws);
+		while (resSet.next()) {
+			drawCount = resSet.getDouble(1);
 		}
 
 		return drawCount;
@@ -225,23 +190,16 @@ public class PostgresPersistence {
 	* Get the highest number of rounds played in a single game
 	* @return The number of rounds
 	*/
-	public int getMaxRoundCount() {
+	public int getMaxRoundCount() throws SQLException {
 		Statement statement = null;
 		int maxRounds = 0;
-		try {
 			statement = connection.createStatement();
 			ResultSet resSet = statement.executeQuery(QUERY_maxRounds);
 			while (resSet.next()) {
 				maxRounds = resSet.getInt(1);
 			}
-		} catch (SQLException | NullPointerException e) {
-			e.printStackTrace();
-			System.err.println("Query failed");
-		}
 
 		return maxRounds;
 	}
-
-
 
 }

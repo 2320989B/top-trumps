@@ -4,6 +4,7 @@ import model.Game;
 import model.GameState;
 import persistence.PostgresPersistence;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -27,6 +28,7 @@ class Controller implements Observer {
     */
    Controller(Boolean writeGameLogsToFile) {
       this.writeGameLogsToFile = writeGameLogsToFile;
+      dbConnection = new PostgresPersistence();
    }
 
    /**
@@ -54,10 +56,16 @@ class Controller implements Observer {
 
          // 2. View statistics.
       } else if (selection == 2) {
-         if (dbConnection == null) {
-            dbConnection = new PostgresPersistence();
+         try {
+            dbConnection.establishDBConnection();
+            dbConnection.getGameCount();
+            dbConnection.closeDBConnection();
+
+         } catch (SQLException e) {
+            // Call to view for failure?
          }
-         dbConnection.establishDBConnection();
+
+         // Call stats view.
 
          // 3. Quit.
       } else {
@@ -99,18 +107,24 @@ class Controller implements Observer {
                  game.getActivePlayer());
 
       } else if (gameState.equals(GameState.GAME_COMPLETE)) {
-         passDBStats(); //Get the stats from the game object and pass to the DB object
-         dbConnection.commit(); //Commit the DB object data to the database
          new ViewGameComplete().show(game.getRoundWinner());
+         try {
+            dbConnection.establishDBConnection();
+            passDBStats();
+            dbConnection.commit(); //Commit the DB object data to the database
+            dbConnection.closeDBConnection();
+         } catch (SQLException e) {
+            // Call to view for failure?
+         }
       }
    }
 
-
-  public void passDBStats() {
-    dbConnection.setGameDraws(game.getNumDraws());
-    dbConnection.setGameWinnerIsHuman(game.getWinnerHuman());
-    dbConnection.setGameWinnerName(game.getWinnerName());
-    dbConnection.setNumGameRounds(game.getRound());
-    dbConnection.setPlayerRounds(game.getHumanWonRounds());
-  }
+   // Get latest data from model and feed to DB object.
+   private void passDBStats() {
+      dbConnection.setGameDraws(game.getNumDraws());
+      dbConnection.setGameWinnerIsHuman(game.getWinnerHuman());
+      dbConnection.setGameWinnerName(game.getWinnerName());
+      dbConnection.setNumGameRounds(game.getRound());
+      dbConnection.setPlayerRounds(game.getHumanWonRounds());
+   }
 }
