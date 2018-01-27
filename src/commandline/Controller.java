@@ -64,8 +64,9 @@ class Controller implements Observer {
                     dbConnection.getAverageDraws(),
                     dbConnection.getMaxRoundCount());
             dbConnection.closeDBConnection();
-         } catch (SQLException e) {
+         } catch (SQLException | ClassNotFoundException e) {
             new ViewDBError().show(e.getMessage());
+            e.printStackTrace();
          }
 
          // 3. Quit.
@@ -114,8 +115,9 @@ class Controller implements Observer {
             passDBStats();
             dbConnection.commit(); //Commit the DB object data to the database
             dbConnection.closeDBConnection();
-         } catch (SQLException e) {
+         } catch (SQLException | ClassNotFoundException e) {
             new ViewDBError().show(e.getMessage());
+            e.printStackTrace();
          }
       }
    }

@@ -38,11 +38,16 @@ public class PostgresPersistence {
 		dbname = "m_17_2349654m";
 		logSuppressor = "?loggerLevel=OFF";
 
-		/** LOCAL VALUES */
+		// TODO: Remove, for testing only.
+		/** LOCAL VALUES - TM */
 		//username = "postgres";
 		//dbname = "dbname";
 		//password = "pw";
 		//dbURL = "jdbc:postgresql://localhost:5432/";
+
+		// TODO: Remove, for testing only.
+		// LOCAL VALUES - CB
+		dbURL = "jdbc:postgresql://192.168.1.4:5432/";
 
 		// Get the total previous games
 		// this.numOfGames = this.getGameCount();
@@ -91,7 +96,10 @@ public class PostgresPersistence {
 	/**
 	 * Establish the connection to the database.
 	 */
-	public void establishDBConnection() throws SQLException {
+	public void establishDBConnection() throws SQLException,
+			ClassNotFoundException {
+		// Define JDBC driver.
+		Class.forName("org.postgresql.Driver");
 		connection = DriverManager.getConnection(dbURL + dbname + logSuppressor,
 				username, password);
 	}
@@ -112,7 +120,8 @@ public class PostgresPersistence {
 		int gameNo = this.numOfGames + 1;
 
 		Statement statement = null;
-		String QUERY_commit = "INSERT INTO GameData VALUES(" + gameNo + ", " + gameWinnerHuman + ", " + gameWinnerName + ", " + this.numDraws + ", " + this.numOfRounds + ", " + this.numPlayerWins + ")";
+		String QUERY_commit = "INSERT INTO GameData VALUES(" + gameNo + ", " + gameWinnerHuman + ", '" + gameWinnerName + "', " + this.numDraws + ", " + this.numOfRounds + ", " + this.numPlayerWins + ")";
+		System.out.println(QUERY_commit);
 
 		statement = connection.createStatement();
 		statement.executeUpdate(QUERY_commit);

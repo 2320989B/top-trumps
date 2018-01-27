@@ -32,3 +32,6 @@ CREATE TABLE GameData
 
 --Commit the data
 --INSERT INTO GameData VALUES(gameNo, winnerIsHuman, winnerName, numOfDraws, numOfRounds, numPlayerWonRounds)
+
+-- Grant privileges.
+GRANT SELECT, INSERT ON TABLE gamedata TO m_17_2349654m;
