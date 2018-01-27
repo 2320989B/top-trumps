@@ -6,6 +6,9 @@ public class PostgresPersistence {
 	// Declare Connection
 	private Connection connection = null;
 
+	// Declare connection properties
+	private String dbURL, username, password, dbname, logSuppressor;
+
 	// Declare attributes to be written to the database
 	private int numOfGames = 0;
 	private int numOfRounds = 0;
@@ -27,34 +30,22 @@ public class PostgresPersistence {
 	 * Constructs a postgreSQL connection to the persistence database
 	 */
 	public PostgresPersistence() {
-		//Set up a connection
-		System.err.println("Attempting to establish database connection!");
-		try {
-			/** PRODUCTION VALUES */
+		/** PRODUCTION VALUES */
 
-			String dbURL = "jdbc:postgresql://yacata.dcs.gla.ac.uk:5432/";
-			String username = "m_17_2349654m";
-			String password = "2349654m";
-			String dbname = "m_17_2349654m";
-			String logSuppressor = "?loggerLevel=OFF";
+		dbURL = "jdbc:postgresql://yacata.dcs.gla.ac.uk:5432/";
+		username = "m_17_2349654m";
+		password = "2349654m";
+		dbname = "m_17_2349654m";
+		logSuppressor = "?loggerLevel=OFF";
 
-			/** LOCAL VALUES */
-			//String username = "postgres";
-			//String dbname = "dbname";
-			//String password = "pw";
-			//String dbURL = "jdbc:postgresql://localhost:5432/";
+		/** LOCAL VALUES */
+		//username = "postgres";
+		//dbname = "dbname";
+		//password = "pw";
+		//dbURL = "jdbc:postgresql://localhost:5432/";
 
-			// Establish connection
-			connection = DriverManager.getConnection(dbURL+dbname+logSuppressor, username, password);
-			System.out.println("Connection established!");
-
-			// Get the total previous games
-			this.numOfGames = this.getGameCount();
-
-		} catch (SQLException e) {
-			System.err.println("Connection to database failed!");
-			//e.printStackTrace();
-		}
+		// Get the total previous games
+		// this.numOfGames = this.getGameCount();
 	}
 
 	/**
@@ -95,6 +86,34 @@ public class PostgresPersistence {
 	*/
 	public void setPlayerRounds(int num) {
 		this.numPlayerWins = num;
+	}
+
+	/**
+	 * Establish the connection to the database.
+	 */
+	public void establishDBConnection() {
+		// TODO: Remove, for testing only.
+		System.out.println("Attempting to establish database connection...");
+		try {
+			connection = DriverManager.getConnection(dbURL+dbname+logSuppressor, username, password);
+         // TODO: Remove, for testing only.
+         System.out.println("Connection established!");
+      } catch (SQLException e) {
+         System.out.println("Warning: Connection to database failed.");
+      }
+	}
+
+	/**
+	 * Close the connection to the database.
+	 */
+	public void closeDBConnection() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			System.out.println("Warning! Close connection failed!");
+		}
+		// TODO: Remove, for testing only.
+		System.out.println("Connection closed.");
 	}
 
 	/**
