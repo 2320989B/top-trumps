@@ -92,11 +92,8 @@ public class PostgresPersistence {
 	 * Establish the connection to the database.
 	 */
 	public void establishDBConnection() throws SQLException {
-		// TODO: Remove, for testing only.
-		System.out.println("Attempting to establish database connection...");
-		connection = DriverManager.getConnection(dbURL+dbname+logSuppressor, username, password);
-		// TODO: Remove, for testing only.
-		System.out.println("Connection established!");
+		connection = DriverManager.getConnection(dbURL + dbname + logSuppressor,
+				username, password);
 	}
 
 	/**

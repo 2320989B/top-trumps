@@ -62,7 +62,7 @@ class Controller implements Observer {
             dbConnection.closeDBConnection();
 
          } catch (SQLException e) {
-            // Call to view for failure?
+            new ViewDBError().show(e.getMessage());
          }
 
          // Call stats view.
@@ -114,7 +114,7 @@ class Controller implements Observer {
             dbConnection.commit(); //Commit the DB object data to the database
             dbConnection.closeDBConnection();
          } catch (SQLException e) {
-            // Call to view for failure?
+            new ViewDBError().show(e.getMessage());
          }
       }
    }
