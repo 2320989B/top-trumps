@@ -66,7 +66,6 @@ class Controller implements Observer {
             dbConnection.closeDBConnection();
          } catch (SQLException | ClassNotFoundException e) {
             new ViewDBError().show(e.getMessage());
-            e.printStackTrace();
          }
 
          // 3. Quit.
@@ -117,7 +116,6 @@ class Controller implements Observer {
             dbConnection.closeDBConnection();
          } catch (SQLException | ClassNotFoundException e) {
             new ViewDBError().show(e.getMessage());
-            e.printStackTrace();
          }
       }
    }

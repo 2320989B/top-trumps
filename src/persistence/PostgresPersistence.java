@@ -4,20 +4,6 @@ import java.sql.*;
 
 public class PostgresPersistence {
 
-   // Declare Connection
-   private Connection connection = null;
-
-   // Declare connection properties
-   private String dbURL, username, password, dbname, logSuppressor;
-
-   // Declare attributes to be written to the database
-   private int numOfGames = 0;
-   private int numOfRounds = 0;
-   private int numPlayerWins = 0;
-   private int gameWinnerHuman = 0;
-   private String gameWinnerName;
-   private double numDraws = 0.0;
-
    /**
     * SQL Queries
     */
@@ -26,6 +12,17 @@ public class PostgresPersistence {
    String QUERY_humanWins = "SELECT COUNT (*) FROM GameData WHERE winnerIsHuman = '1'";
    String QUERY_avgDraws = "SELECT AVG(numOfDraws) FROM GameData";
    String QUERY_maxRounds = "SELECT MAX(numOfRounds) FROM GameData";
+   // Declare Connection
+   private Connection connection = null;
+   // Declare connection properties
+   private String dbURL, username, password, dbname, logSuppressor;
+   // Declare attributes to be written to the database
+   private int numOfGames = 0;
+   private int numOfRounds = 0;
+   private int numPlayerWins = 0;
+   private int gameWinnerHuman = 0;
+   private String gameWinnerName;
+   private double numDraws = 0.0;
 
    /**
     * Constructs a postgreSQL connection to the persistence database
@@ -48,7 +45,7 @@ public class PostgresPersistence {
 
       // TODO: Remove, for testing only.
       // LOCAL VALUES - CB
-      // dbURL = "jdbc:postgresql://192.168.1.4:5432/";
+      dbURL = "jdbc:postgresql://192.168.1.4:5432/";
 
       // Get the total previous games
       // this.numOfGames = this.getGameCount();
@@ -123,20 +120,29 @@ public class PostgresPersistence {
     * @return True if successful
     */
    public void commit() throws SQLException {
-      Statement statement = null;
-      String QUERY_commit = "INSERT INTO " +
-              "gamedata(winnerishuman, winnername, numofdraws, numofrounds, " +
-              "numplayerwonrounds)" +
+
+      String QUERY_commit = "INSERT INTO gamedata (" +
+              "winnerishuman, " +
+              "winnername, " +
+              "numofdraws, " +
+              "numofrounds, " +
+              "numplayerwonrounds" +
+              ") " +
               "VALUES (" +
-              gameWinnerHuman + ", " +
-              "'" + gameWinnerName + "'" + ", " +
-              numDraws + ", " +
-              numOfRounds + ", " +
-              numPlayerWins + ")";
+              gameWinnerHuman +
+              ", " +
+              "'" +
+              gameWinnerName +
+              "'" +
+              ", " +
+              numDraws +
+              ", " +
+              numOfRounds +
+              ", " +
+              numPlayerWins +
+              ")";
 
-      System.out.println(QUERY_commit);
-
-      statement = connection.createStatement();
+      Statement statement = connection.createStatement();
       statement.executeUpdate(QUERY_commit);
    }
 
