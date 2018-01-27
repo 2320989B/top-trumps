@@ -10,23 +10,32 @@
     	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/flick/jquery-ui.css">
 
 		<!-- Optional Styling of the Website, for the demo I used Bootstrap (see https://getbootstrap.com/docs/4.0/getting-started/introduction/) -->
-		<link rel="stylesheet" href="http://dcs.gla.ac.uk/~richardm/TREC_IS/bootstrap.min.css">
     	<script src="http://dcs.gla.ac.uk/~richardm/vex.combined.min.js"></script>
     	<script>vex.defaultOptions.className = 'vex-theme-os';</script>
     	<link rel="stylesheet" href="http://dcs.gla.ac.uk/~richardm/assets/stylesheets/vex.css"/>
     	<link rel="stylesheet" href="http://dcs.gla.ac.uk/~richardm/assets/stylesheets/vex-theme-os.css"/>
-    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
-	</head>
-
+      <!-- Custom styles for this template -->
+      <link href="main.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet"> 
+  </head>
+    <div class="row justify-content-md-center" id="titlebar">
+      <h1>Top Trumps</h1>
+    </div>
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
-    	
-    	<div class="container">
-
-			<!-- Add your HTML Here -->
-		
-		</div>
+      
+  <div class="container">
+    <div class="row justify-content-sm-center">
+          <div class="col-sm">
+			<button type="button" class="btn btn-primary btn-lg btn-block" id="menubtn">Start New Game</button>
+<!--           </div>
+          <div class="col-sm"> -->
+			<button type="button" class="btn btn-primary btn-lg btn-block" id="menubtn">View Statistics</button>
+          </div>
+    </div>
+  </div>
 		
 		<script type="text/javascript">
 		
