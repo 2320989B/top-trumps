@@ -1,5 +1,7 @@
 package commandline;
 
+import model.GameInfo;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,11 +20,12 @@ class ViewCategorySelector {
     *
     * @return a String representing the selected category.
     */
-   String show(Map<String, Integer> cardProperties) {
+   String show(GameInfo gameInfo) {
       System.out.println("Select a category:");
 
       // Extract the category names (key) and store in a List.
-      List<String> descriptionList = new ArrayList<>(cardProperties.keySet());
+      List<String> descriptionList = new ArrayList<>(gameInfo
+              .getCardCategories().keySet());
 
       // Display prompt and return the user selection.
       int response = ViewUtils.prompt(descriptionList);

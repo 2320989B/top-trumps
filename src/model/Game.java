@@ -4,7 +4,10 @@ import java.util.*;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class GameLogic extends Observable {
+/**
+ * The Game class is responsible for defining game logic and flow.
+ */
+public class Game extends Observable {
    private Logger logger;
    private GameState gameState;
    private ArrayList<Card> deck = new ArrayList<>();
@@ -20,18 +23,9 @@ public class GameLogic extends Observable {
    private int humanWonRounds = 0;
    private int numDraws = 0;
    private Boolean isHumanBooted = false;
-   //Tracked stats for DB
 
-   // constructor to create a deck, the players and deal the initial cards to
-   // players
-
-   public GameLogic(int numAIPlayers, String deckInputFile,
-                    Boolean writeGameLogsToFile) {
-      // presumably want to call the setGameState method here rather than just setting
-      // gameState variable
-      // this means that a notification is sent to the controller to say that New game
-      // has started
-      // the controller can then call the appropriate method in the view I think
+   public Game(int numAIPlayers, String deckInputFile,
+               Boolean writeGameLogsToFile) {
       this.deckInputFile = deckInputFile;
       this.numAIPlayers = numAIPlayers;
 
@@ -39,16 +33,8 @@ public class GameLogic extends Observable {
       logger = new Logger(logFilePath, writeGameLogsToFile);
    }
 
-   Logger getLogger() {
-      return logger;
-   }
-
    GameState getGameState() {
       return gameState;
-   }
-
-   ArrayList<Card> getDeck() {
-      return deck;
    }
 
    ArrayList<Player> getPlayers() {
@@ -67,23 +53,12 @@ public class GameLogic extends Observable {
       return gameWinner;
    }
 
-   String getDeckInputFile() {
-      return deckInputFile;
-   }
-
    String getActiveCategory() {
       return activeCategory;
    }
 
-   public void setActiveCategory(String activeCategory) {
-      this.activeCategory = activeCategory;
-   }
-
-   int getNumAIPlayers() {
-      return numAIPlayers;
-   }
-
    int getRound() {
+
       return round;
    }
 
@@ -95,14 +70,14 @@ public class GameLogic extends Observable {
       return numDraws;
    }
 
-   Boolean getHumanBooted() {
-      return isHumanBooted;
-   }
-
    private void setGameState(GameState gameState) {
       this.gameState = gameState;
       setChanged();
       notifyObservers();
+   }
+
+   public void setCategory(String category) {
+      activeCategory = category;
    }
 
    // worth thinking about whether we create a new game object instead of new game
