@@ -1,0 +1,92 @@
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #FCFFF5;
+}
+
+.container {
+  width: 80%;
+  padding-top: 50px;
+}
+
+h1 {
+  color: #193441;
+  font-size: 48;
+  font-weight: 800;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#titlebar {
+  padding: 10px 0px;
+  margin: 0px;
+  width:100%;
+  background-color: #91AAB4;
+  background-position: bottom;
+    background-image: url("background.png");
+  background-repeat: repeat-x;
+}
+
+#card {
+  margin: 15px;
+  max-width: 239px;
+  padding: 0px;
+  background-color: #91AAB4;
+/*  min-height:340px;
+*/  border-radius: 14px;
+  border-style: solid;
+  border-width: 4px;
+  border-color: #91AAB4;
+}
+
+.cardheader {
+  width:100%;
+  margin:0px;
+  padding:5px 10px 0px 10px;
+  min-height: 40px;
+  background-color: #91AAB4;
+  border-radius: 14px 14px 0px 0px;
+}
+
+.cardheader h2 {
+  font-size: 24;
+  color: #495F67;
+}
+
+.shipinfo p {
+  font-size: 18px;
+  margin: 2px;
+}
+
+.shipimg img{
+  width:100%;
+  max-height: 100px;
+}
+
+.shipname {
+  float: right;
+  max-width:50%;
+}
+.playername {
+  float: left;
+  max-width:50%;
+}
+
+#active {
+  color: #007F0E;
+}
+
+#menu {
+  margin: 40px 0px 0px 5px;
+}
+
+#menubtn {
+  min-height: 120px;
+  max-width:60%;
+  margin: 60px auto 60px auto;
+  font-size: 44px;
+  font-family: 'Montserrat', sans-serif;
+}
