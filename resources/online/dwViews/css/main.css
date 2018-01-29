@@ -30,7 +30,7 @@ h1 {
   background-repeat: repeat-x;
 }
 
-#card {
+.card {
   margin: 15px;
   max-width: 239px;
   padding: 0px;
