@@ -1,5 +1,7 @@
 package commandline;
 
+import model.GameInfo;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,9 +21,7 @@ class ViewNewRound {
     *
     * @return an int representing the menu selection.
     */
-   void show(int round, String cardName, Map<String, Integer> cardProperties,
-             String activePlayer, List<String> initialPlayerNames,
-             List<String> playerNames, int numCardsInHumanHand) {
+   void show(GameInfo gameInfo, List<String>initialPlayerNames) {
 
       // Character width of a card.
       final int CARD_WIDTH = 25;
@@ -34,7 +34,7 @@ class ViewNewRound {
 
       // Print the round.
       System.out.println();
-      String roundTitle = "ROUND " + round;
+      String roundTitle = "ROUND " + gameInfo.getRound();
       System.out.println(roundTitle);
       for (int i = 0; i < roundTitle.length(); i++) {
          System.out.print(HORIZONTAL.getCode());
@@ -44,9 +44,9 @@ class ViewNewRound {
       // Print the player list.
       for (String player : initialPlayerNames) {
          ViewUtils.indent();
-         if (player.equals(activePlayer)) {
+         if (player.equals(gameInfo.getActivePlayerName())) {
             System.out.print(PLAYER_ACTIVE.getCode());
-         } else if (playerNames.contains(player)) {
+         } else if (gameInfo.getPlayerNames().contains(player)) {
             System.out.print(PLAYER_WAITING.getCode());
          } else {
             System.out.print(PLAYER_OUT_GAME.getCode());
@@ -59,8 +59,10 @@ class ViewNewRound {
       System.out.println("Your hand:");
 
       // Print the players hand.
-      ViewUtils.printStackedCardStyle(MIDDLE_WIDTH, VALUE_WIDTH, cardName,
-              cardProperties, numCardsInHumanHand);
+      ViewUtils.printStackedCardStyle(MIDDLE_WIDTH, VALUE_WIDTH,
+              gameInfo.getHumanTopCardTitle(),
+              gameInfo.getCardCategories(),
+              gameInfo.getNumHumanCards());
    }
 
 }
