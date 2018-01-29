@@ -26,23 +26,19 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-
 body {
   background-color: #FCFFF5;
 }
-
 .container {
   width: 80%;
   padding-top: 50px;
 }
-
 h1 {
   color: #193441;
   font-size: 48;
   font-weight: 800;
   font-family: 'Montserrat', sans-serif;
 }
-
 #titlebar {
   padding: 10px 0px;
   margin: 0px;
@@ -52,7 +48,6 @@ h1 {
     background-image: url("background.png");
   background-repeat: repeat-x;
 }
-
 .card {
   margin: 15px;
   max-width: 239px;
@@ -64,7 +59,6 @@ h1 {
   border-width: 4px;
   border-color: #91AAB4;
 }
-
 .cardheader {
   width:100%;
   margin:0px;
@@ -73,22 +67,18 @@ h1 {
   background-color: #91AAB4;
   border-radius: 14px 14px 0px 0px;
 }
-
 .cardheader h2 {
   font-size: 24;
   color: #495F67;
 }
-
 .shipinfo p {
   font-size: 18px;
   margin: 2px;
 }
-
 .shipimg img{
   width:100%;
   max-height: 100px;
 }
-
 .shipname {
   float: right;
   max-width:50%;
@@ -97,15 +87,12 @@ h1 {
   float: left;
   max-width:50%;
 }
-
 #active {
   color: #007F0E;
 }
-
 #menu {
   margin: 40px 0px 0px 5px;
 }
-
 #menubtn {
   min-height: 120px;
   max-width:60%;
@@ -161,23 +148,17 @@ h1 {
 			function createCORSRequest(method, url) {
   				var xhr = new XMLHttpRequest();
   				if ("withCredentials" in xhr) {
-
     				// Check if the XMLHttpRequest object has a "withCredentials" property.
     				// "withCredentials" only exists on XMLHTTPRequest2 objects.
     				xhr.open(method, url, true);
-
   				} else if (typeof XDomainRequest != "undefined") {
-
     				// Otherwise, check if XDomainRequest.
     				// XDomainRequest only exists in IE, and is IE's way of making CORS requests.
     				xhr = new XDomainRequest();
     				xhr.open(method, url);
-
  				 } else {
-
     				// Otherwise, CORS is not supported by the browser.
     				xhr = null;
-
   				 }
   				 return xhr;
 			}
@@ -197,7 +178,6 @@ h1 {
 				if (!xhr) {
   					alert("CORS not supported");
 				}
-
 				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
 				// to do when the response arrives 
 				xhr.onload = function(e) {
@@ -221,7 +201,6 @@ h1 {
 				if (!xhr) {
   					alert("CORS not supported");
 				}
-
 				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
 				// to do when the response arrives 
 				xhr.onload = function(e) {
@@ -232,8 +211,8 @@ h1 {
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
 			}
-
 		</script>
 		
 		</body>
 </html>
+
