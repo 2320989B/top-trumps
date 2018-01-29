@@ -23,3 +23,4 @@ public class StatisticsView extends View {
         super("Statistics.ftl");
     }
 }
+

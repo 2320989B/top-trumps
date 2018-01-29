@@ -4,152 +4,80 @@ import java.util.*;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * The Game class is responsible for defining game logic and flow.
+ */
 public class Game extends Observable {
+   private Logger logger;
+   private GameState gameState;
    private ArrayList<Card> deck = new ArrayList<>();
    private ArrayList<Player> players = new ArrayList<>();
-   private GameState gameState; // I believe we will use this to update our
-   // observer
-   private int numAIPlayers; // need to have a record of how many players currently
-   private String deckInputFile;// need to have a reference to the input file
-   // Additional instance variables?
    private Player activePlayer;
-   private String activeCategory;
-   private int round = 0;
-   private Boolean isHumanBooted = false; //
-   private Boolean writeGameLogsToFile;
-   final private String logFilePath = "toptrumps.log";
-   private Logger logger;
    private Player roundWinner;
-   //Tracked stats for DB
+   // TODO: Is a new variable needed for gameWinner, we can just use the value of roundWinner at the end of the game instead.
+   private Player gameWinner;
+   private String deckInputFile;
+   private String activeCategory;
+   private int numAIPlayers;
+   private int round = 0;
    private int humanWonRounds = 0;
    private int numDraws = 0;
-   private Player gameWinner;
+   private Boolean isHumanBooted = false;
 
-   // constructor to create a deck, the players and deal the intial cards to
-   // players
    public Game(int numAIPlayers, String deckInputFile,
                Boolean writeGameLogsToFile) {
-      // presumably want to call the setGameState method here rather than just setting
-      // gameState variable
-      // this means that a notification is sent to the controller to say that New game
-      // has started
-      // the controller can then call the appropriate method in the view I think
       this.deckInputFile = deckInputFile;
       this.numAIPlayers = numAIPlayers;
-      this.writeGameLogsToFile = writeGameLogsToFile;
 
+      String logFilePath = "toptrumps.log";
       logger = new Logger(logFilePath, writeGameLogsToFile);
    }
 
-   private Game() {
-
+   GameState getGameState() {
+      return gameState;
    }
 
-   /**
-   * DATABASE GETTERS
-   */
-   public int getNumDraws() {
-      return numDraws;
+   ArrayList<Player> getPlayers() {
+      return players;
    }
 
-   public int getHumanWonRounds() {
-      return humanWonRounds;
+   Player getActivePlayer() {
+      return activePlayer;
    }
 
-   public String getWinnerName() {
-      return gameWinner.getName();
+   Player getRoundWinner() {
+      return roundWinner;
    }
 
-   public int getWinnerHuman() {
-      if (gameWinner.getIsHuman()) {
-         return 1; //Human
-      } else {
-         return 0; //Not Human
-      }
+   Player getGameWinner() {
+      return gameWinner;
    }
 
-
-
-
-   public int getRound() {
-      return round;
-   }
-
-   public String getActiveCategory() {
+   String getActiveCategory() {
       return activeCategory;
    }
 
-   public String getCardDescription() {
-      return getHumanPlayer().getTopMostCard().getName();
+   int getRound() {
+
+      return round;
    }
 
-   public Map<String, Integer> getCardCategories() {
-      return getHumanPlayer().getTopMostCard().getCardProperties();
+   int getHumanWonRounds() {
+      return humanWonRounds;
    }
 
-   public String getActivePlayer() {
-      return activePlayer.getName();
+   int getNumDraws() {
+      return numDraws;
    }
-
-   // get the current gameState
-   public GameState getGameState() {
-      return this.gameState;
-   }
-
-   // set initial ActivePlayer at random
-   // set the current Active Category
-   public void setCategory(String category) {
-      activeCategory = category;
-   }
-
-   // not sure what the return or type is here
-   public void getStats() {
-
-   }
-
-   public String getRoundWinner() {
-      if (roundWinner == null) {
-         return null;
-      } else {
-         return roundWinner.getName();
-      }
-   }
-
-
-   public List<Map<String, Integer>> getAllTopCards() {
-      List<Map<String, Integer>> allTopCards = new ArrayList<>();
-      for (Player player : players) {
-         allTopCards.add(player.getTopMostCard().getCardProperties());
-      }
-      return allTopCards;
-   }
-
-   public List<String> getPlayerNames() {
-      List<String> playerNames = new ArrayList<>();
-      for (Player player : players) {
-         playerNames.add(player.getName());
-      }
-      return playerNames;
-   }
-
-   public List<String> getAllTopCardTitles() {
-      List<String> allTopCardTitles = new ArrayList<>();
-      for (Player player : players) {
-         allTopCardTitles.add(player.getTopMostCard().getName());
-      }
-      return allTopCardTitles;
-   }
-
-   public int getNumCardsInHumanHand() {
-      return getHumanPlayer().hand.size();
-   }
-
-// set the gameState during the game logic
 
    private void setGameState(GameState gameState) {
       this.gameState = gameState;
       setChanged();
       notifyObservers();
+   }
+
+   public void setCategory(String category) {
+      activeCategory = category;
    }
 
    // worth thinking about whether we create a new game object instead of new game
@@ -242,15 +170,6 @@ public class Game extends Observable {
             index = 0;
          }
       }
-   }
-
-   private Player getHumanPlayer() {
-      for (Player player : players) {
-         if (player.getIsHuman()) {
-            return player;
-         }
-      }
-      return null;
    }
 
    private void selectRandomPlayer() {
@@ -351,9 +270,6 @@ public class Game extends Observable {
          // if the human player still exists
          if (!isHumanBooted) {
             setGameState(GameState.NEW_ROUND);
-         } else {
-//            System.out.println("Current round is: " + round + " and human " +
-//                    "has been eliminated");
          }
 
          if (!isHumanBooted && !activePlayer.getIsHuman()) {
@@ -435,115 +351,5 @@ public class Game extends Observable {
       }
    }
 
-   public static void main(String[] args) {
-
-      Game game = new Game();
-
-      // Test createPlayers.
-      System.out.println("\nTesting createPlayers...");
-      System.out.println("========================");
-
-      game.numAIPlayers = 2;
-      game.createPlayers();
-
-      // Check the players are created.
-      for (Player player : game.players) {
-         System.out.println(player.getName());
-      }
-
-      // Test createDeck.
-      System.out.println("\nTesting createDeck...");
-      System.out.println("=====================");
-
-      game.deckInputFile = "StarCitizenDeck.txt";
-      game.createDeck();
-
-      // Check that the deck is created.
-      for (Card card : game.deck) {
-         System.out.println(card.getName());
-      }
-      System.out.println("Size of deck: " + game.deck.size());
-
-      // Test shuffleDeck.
-      System.out.println("\nTesting shuffleDeck...");
-      System.out.println("======================");
-
-      game.shuffleDeck();
-
-      // Check the deck is shuffled.
-      for (Card card : game.deck) {
-         System.out.println(card.getName());
-      }
-      System.out.println("Size of deck: " + game.deck.size());
-
-      // Test deal.
-      System.out.println("\nTesting deal...");
-      System.out.println("===============");
-
-      game.deal();
-      System.out.println("Size of deck after deal: " + game.deck.size());
-      int totalCardsInAllHands = 0;
-      for (Player player : game.players) {
-         System.out.println(player.getName() + " has " + player.hand.size() + " cards in their hand.");
-         totalCardsInAllHands += player.hand.size();
-      }
-      System.out.println("Sum of all cards in all hands: " + totalCardsInAllHands);
-
-      // Test selectRandomPlayer.
-      System.out.println("\nTesting selectRandomPlayer...");
-      System.out.println("=============================");
-
-      // Do some runs and make sure this looks randomy.
-      for (int i = 0; i < 10; i++) {
-         game.selectRandomPlayer();
-         System.out.println(game.activePlayer.getName());
-      }
-
-      // Test getHumanPlayer.
-      System.out.println("\nTesting getHumanPlayer...");
-      System.out.println("=========================");
-
-      System.out.println("Human player: " + game.getHumanPlayer().getName());
-
-      // Test getCardDescription.
-      System.out.println("\nTesting getCardDescription...");
-      System.out.println("=============================");
-
-      System.out.println("Human's card: " + game.getCardDescription());
-      // Human will be at index 0 in the player list, and his top card will at
-      // index 0 in his hand.
-      System.out.println("Direct call: " + game.players.get(0).hand.get(0).getName());
-
-      // Test getActivePlayer.
-      System.out.println("\nTesting getActivePlayer...");
-      System.out.println("===============================");
-
-      game.activePlayer = game.players.get(0);
-      System.out.println("Active Player is :" + game.getActivePlayer());
-      game.activePlayer = game.players.get(1);
-      System.out.println("Active Player is :" + game.getActivePlayer());
-
-      // Test getCardProperties.
-      System.out.println("\nTesting getCardProperties...");
-      System.out.println("===============================");
-
-      for (Map.Entry<String, Integer> entry : game.getCardCategories().entrySet()) {
-         System.out.println("Key is: " + entry.getKey() + "   Value is: " + entry.getValue());
-      }
-
-      // Test Game.
-      System.out.println("\nTesting getCardProperties...");
-      System.out.println("===============================");
-
-      game.numAIPlayers = 4;
-      game.createDeck();
-      game.shuffleDeck();
-      game.createPlayers();
-      game.deal();
-      game.selectRandomPlayer();
-      System.out.println("Active Player is: " + game.activePlayer);
-      System.out.println("is HumanBooted: " + game.isHumanBooted);
-
-   }
 
 }

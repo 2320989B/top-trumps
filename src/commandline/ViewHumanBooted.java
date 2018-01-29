@@ -1,14 +1,14 @@
 package commandline;
 
-import java.util.List;
+import model.GameInfo;
 
 class ViewHumanBooted {
 
-   void show(List<String> playerNames) {
+   void show(GameInfo gameInfo) {
       ViewUtils.indent();
       System.out.print("You have lost! ");
 
-      if (playerNames.size() > 1) {
+      if (gameInfo.getPlayerNames().size() > 1) {
          System.out.print("Now be a good sport and let the AI finish...");
       }
 
