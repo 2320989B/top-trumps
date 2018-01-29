@@ -1,6 +1,7 @@
 package commandline;
 
 import model.Game;
+import model.GameInfo;
 import model.GameState;
 import persistence.PostgresPersistence;
 
@@ -11,7 +12,7 @@ import java.util.Observer;
 
 /**
  * The Controller class is responsible for triggering appropriate Views,
- * handling any returned user input, and reacting to Game events (game states).
+ * handling any returned user input, and reacting to Game events (gameAPI states).
  */
 class Controller implements Observer {
 
@@ -23,7 +24,7 @@ class Controller implements Observer {
    /**
     * Instantiates a new Controller.
     *
-    * @param writeGameLogsToFile flag to indicate if game logs should be
+    * @param writeGameLogsToFile flag to indicate if gameAPI logs should be
     *                            written to a debug file.
     */
    Controller(Boolean writeGameLogsToFile) {
@@ -47,10 +48,11 @@ class Controller implements Observer {
       final int selection = new ViewMainMenu().show();
 
       // Now handle the response appropriately.
-      // 1. Start a new game.
+      // 1. Start a new gameAPI.
       if (selection == 1) {
-         game = new Game(NUM_AI_PLAYERS, DECK_INPUT_FILE, writeGameLogsToFile);
-         // Observe the game.
+         game = new Game(NUM_AI_PLAYERS, DECK_INPUT_FILE,
+                 writeGameLogsToFile);
+         // Observe the gameAPI.
          game.addObserver(this);
          game.newGame();
 
@@ -78,40 +80,35 @@ class Controller implements Observer {
    }
 
    public void update(Observable observable, Object o) {
-      GameState gameState = game.getGameState();
+      GameInfo gameInfo = new GameInfo(game);
+
+      GameState gameState = gameInfo.getGameState();
 
       if (gameState.equals(GameState.PLAYERS_SPAWNED)) {
-         initialPlayerNames = game.getPlayerNames();
+         initialPlayerNames = gameInfo.getPlayerNames();
 
       } else if (gameState.equals(GameState.NEW_ROUND)) {
-         new ViewNewRound().show(game.getRound(), game.getCardDescription(),
-                 game.getCardCategories(), game.getActivePlayer(),
-                 initialPlayerNames, game.getPlayerNames(),
-                 game.getNumCardsInHumanHand());
+         new ViewNewRound().show(gameInfo, initialPlayerNames);
 
       } else if (gameState.equals(GameState.PAUSE)) {
          new ViewPause().show();
 
       } else if (gameState.equals(GameState.CATEGORY_REQUIRED)) {
-         final String selection = new ViewCategorySelector().show(
-                 game.getCardCategories());
+         final String selection = new ViewCategorySelector().show(gameInfo);
          game.setCategory(selection);
 
       } else if (gameState.equals(GameState.HUMAN_BOOTED)) {
-         new ViewHumanBooted().show(game.getPlayerNames());
+         new ViewHumanBooted().show(gameInfo);
          new ViewPause().show();
 
       } else if (gameState.equals(GameState.ROUND_COMPLETE)) {
-         new ViewRoundSummary().show(game.getActiveCategory(),
-                 game.getRoundWinner(), game.getPlayerNames(),
-                 game.getAllTopCardTitles(), game.getAllTopCards(),
-                 game.getActivePlayer());
+         new ViewRoundSummary().show(gameInfo);
 
       } else if (gameState.equals(GameState.GAME_COMPLETE)) {
-         new ViewGameComplete().show(game.getRoundWinner());
+         new ViewGameComplete().show(gameInfo);
          try {
             dbConnection.establishDBConnection();
-            passDBStats();
+            passDBStats(gameInfo);
             dbConnection.commit(); //Commit the DB object data to the database
             dbConnection.closeDBConnection();
          } catch (SQLException | ClassNotFoundException e) {
@@ -121,11 +118,12 @@ class Controller implements Observer {
    }
 
    // Get latest data from model and feed to DB object.
-   private void passDBStats() {
-      dbConnection.setGameDraws(game.getNumDraws());
-      dbConnection.setGameWinnerIsHuman(game.getWinnerHuman());
-      dbConnection.setGameWinnerName(game.getWinnerName());
-      dbConnection.setNumGameRounds(game.getRound());
-      dbConnection.setPlayerRounds(game.getHumanWonRounds());
+   private void passDBStats(GameInfo gameInfo) {
+      dbConnection.setGameDraws(gameInfo.getNumDraws());
+      // TODO: Add required getters to gameInfo.
+//      dbConnection.setGameWinnerIsHuman(gameAPI.getGameInfo().getWinnerHuman());
+//      dbConnection.setGameWinnerName(gameAPI.getGameInfo().getWinnerName());
+//      dbConnection.setNumGameRounds(gameAPI.getRound());
+      dbConnection.setPlayerRounds(gameInfo.getHumanRoundsWon());
    }
 }

@@ -20,7 +20,7 @@ public class PostgresPersistence {
    private int numOfGames = 0;
    private int numOfRounds = 0;
    private int numPlayerWins = 0;
-   private int gameWinnerHuman = 0;
+   private Boolean gameWinnerHuman;
    private String gameWinnerName;
    private double numDraws = 0.0;
 
@@ -72,10 +72,10 @@ public class PostgresPersistence {
    /**
     * Set the winner human status
     *
-    * @param num An int (1 = human, 0 = AI)
+    * @param isHuman An int (1 = human, 0 = AI)
     */
-   public void setGameWinnerIsHuman(int num) {
-      this.gameWinnerHuman = num;
+   public void setGameWinnerIsHuman(Boolean isHuman) {
+      this.gameWinnerHuman = isHuman;
    }
 
    /**

@@ -1,7 +1,13 @@
 package commandline;
 
+import model.GameInfo;
+
 class ViewGameComplete {
-   void show(String winner) {
+   void show(GameInfo gameInfo) {
+
+      // Extract required values from gameInfo.
+      String winner = gameInfo.getRoundWinnerName();
+
       ViewUtils.indent();
       if (winner == null) {
          System.out.println("Game Over: Stalemate!");

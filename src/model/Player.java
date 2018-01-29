@@ -8,12 +8,6 @@ package model;
 
 import java.util.*;
 
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.Scanner;
-
 class Player {
 
    /**
@@ -39,7 +33,7 @@ class Player {
    /**
     *  constructor for the Class
     */
-   public Player(String name, boolean isHuman) {
+   Player(String name, boolean isHuman) {
       this.name = name;
       this.isHuman = isHuman;
    }
@@ -48,15 +42,19 @@ class Player {
    /**
     * Getter method for player name
     */
-   public String getName() {
+   String getName() {
       return name;
    }
 
-   public ArrayList<Card> getList() {
+   ArrayList<Card> getHand() {
       return hand;
    }
 
-   public Boolean getIsHuman() {
+   ArrayList<Card> getList() {
+      return hand;
+   }
+
+   Boolean getIsHuman() {
       return isHuman;
    }
 
@@ -66,7 +64,7 @@ class Player {
     * players hand of cards
     * @return
     */
-   public Card getTopMostCard() {
+   Card getTopMostCard() {
 
       try {
          if (hand.size() != 0) {
@@ -76,7 +74,7 @@ class Player {
          System.out.println("No cards in the player's hand");
          return null;
       }
-      return hand.get(0);
+      return null;
 
    }
 
@@ -89,7 +87,7 @@ class Player {
     * from there. Apply to every player, after every round
     * @param aDeck
     */
-   public void submitActiveCard(ArrayList<Card> aDeck) {
+   void submitActiveCard(ArrayList<Card> aDeck) {
       try {
          if (hand.size() != 0) {
             aDeck.add(hand.get(0));
@@ -103,7 +101,7 @@ class Player {
 
    //possible method to add a card to the player's deck - Joe
    //useful for dealing at the start
-   public void receiveCard(Card card) {
+   void receiveCard(Card card) {
       hand.add(card);
    }
 
@@ -115,7 +113,7 @@ class Player {
     * or draw and pile cards if there was a draw previously
     * and the pile had already some cards in it
     */
-   public void takeAllCards(ArrayList<Card> aDeck) {
+   void takeAllCards(ArrayList<Card> aDeck) {
 
       try {
          if (!aDeck.isEmpty()) {

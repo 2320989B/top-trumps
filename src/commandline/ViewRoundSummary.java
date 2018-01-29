@@ -1,5 +1,7 @@
 package commandline;
 
+import model.GameInfo;
+
 import java.util.List;
 import java.util.Map;
 import static commandline.CharCodes.*;
@@ -15,12 +17,18 @@ class ViewRoundSummary {
    /**
     * Show the summary.
     *
-    * @param activeCategory the active category
-    * @param roundWinner    the round winner
+    * @param gameInfo the game info object.
+    *
     */
-   void show(String activeCategory, String roundWinner,
-             List<String> playerNames, List<String> allTopCardTitles,
-             List<Map<String, Integer>> allTopCards, String activePlayer) {
+   void show(GameInfo gameInfo) {
+
+      // Extract required values from gameInfo.
+      List<String> allTopCardTitles = gameInfo.getTopCardTitles();
+      List<Map<String, Integer>> allTopCards = gameInfo.getTopCards();
+      String activeCategory = gameInfo.getActiveCategory();
+      List<String> playerNames = gameInfo.getPlayerNames();
+      String roundWinner = gameInfo.getRoundWinnerName();
+      String activePlayer = gameInfo.getActivePlayerName();
 
       // Character width of a card.
       final int CARD_WIDTH = 25;
