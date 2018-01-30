@@ -140,22 +140,12 @@ class Controller implements Observer {
             new ViewGameComplete().show(gameInfo);
             try {
                dbConnection.establishDBConnection();
-               passDBStats(gameInfo);
-               // dbConnection.commit();
+               dbConnection.update(gameInfo);
+               //dbConnection.commit();
                dbConnection.closeDBConnection();
             } catch (SQLException | ClassNotFoundException e) {
                new ViewDBError().show(e.getMessage());
             }
          }
       }
-
-   // TODO: Update DB stuff to accept a GameInfo object.
-   // Get latest data from model and feed to DB object.
-   private void passDBStats(GameInfo gameInfo) {
-//      dbConnection.setGameDraws(gameInfo.getNumDraws());
-//      dbConnection.setGameWinnerIsHuman(gameAPI.getGameInfo().getWinnerHuman());
-//      dbConnection.setGameWinnerName(gameAPI.getGameInfo().getWinnerName());
-//      dbConnection.setNumGameRounds(gameAPI.getRound());
-//      dbConnection.setPlayerRounds(gameInfo.getHumanRoundsWon());
-   }
 }

@@ -25,7 +25,7 @@ public class PostgresPersistence {
    private double numDraws = 0.0;
 
    /**
-    * Constructs a postgreSQL connection to the persistence database
+    * Constructs a postgreSQL connection to the persistence database with no preset stats
     */
    public PostgresPersistence() {
       /** PRODUCTION VALUES */
@@ -46,9 +46,20 @@ public class PostgresPersistence {
       // TODO: Remove, for testing only.
       // LOCAL VALUES - CB
       dbURL = "jdbc:postgresql://192.168.1.4:5432/";
-
       // Get the total previous games
       // this.numOfGames = this.getGameCount();
+   }
+
+   /**
+    * Updates all properties based on a GameInfo object
+    * @param gameInfo The GameInfo object
+    */
+   public void update(model.GameInfo gameInfo) {
+     this.setGameDraws(gameInfo.getNumDraws());
+     this.setGameWinnerIsHuman(gameInfo.getGameWinnerHuman());
+     this.setGameWinnerName(gameInfo.getGameWinnerName());
+     this.setNumGameRounds(gameInfo.getRound());
+     this.setPlayerRounds(gameInfo.getHumanRoundsWon());
    }
 
    /**
@@ -57,7 +68,7 @@ public class PostgresPersistence {
     * @param num The number of draws
     */
    public void setGameDraws(int num) {
-      this.numDraws = (double) num;
+      this.numDraws = (double)num;
    }
 
    /**
