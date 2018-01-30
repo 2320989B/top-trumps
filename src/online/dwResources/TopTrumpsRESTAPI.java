@@ -98,12 +98,15 @@ public class TopTrumpsRESTAPI {
 		@Path("/startNewGame")
 		public String startNewGame() throws IOException{
 			//just setting to false just now
-			Game newGame = new Game(numAIPlayers, deckInputFile, false);
+			//TODO: Broken by updates to Model, needs updated to talk to GameAPI?
+			//Game newGame = new Game(numAIPlayers, deckInputFile, false);
 			//add the new Game object to the list of Games
-			Games.add(newGame);
-			
+			//TODO: Broken by updates to Model, needs updated to talk to GameAPI?
+			//Games.add(newGame);
+
 			//start a new game
-			Games.get(0).newGame();
+			//TODO: Broken by updates to Model, needs updated to talk to GameAPI?
+			//Games.get(0).newGame();
 			//create a String List with the information we would want to pass to web page
 			// numAIplayers should be a separate method I think - want to keep checking
 			// we do want to pass the index of this Game object for web page to store

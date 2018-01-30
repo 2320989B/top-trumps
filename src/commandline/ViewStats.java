@@ -39,9 +39,4 @@ class ViewStats {
               "Max rounds in one game:", maxRoundCount));
    }
 
-   public static void main(String[] args) {
-      new ViewStats().show(10, 10, 10, 10, 10);
-   }
-
-
 }

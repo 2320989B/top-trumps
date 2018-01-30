@@ -22,16 +22,25 @@ public class Game extends Observable {
    private int round = 0;
    private int humanWonRounds = 0;
    private int numDraws = 0;
-   private Boolean isHumanBooted = false;
 
-   public Game(int numAIPlayers, String deckInputFile,
-               Boolean writeGameLogsToFile) {
+
+   // =========================================================================
+   // CONSTRUCTORS
+   // =========================================================================
+
+   Game(int numAIPlayers, String deckInputFile,
+        Boolean writeGameLogsToFile) {
       this.deckInputFile = deckInputFile;
       this.numAIPlayers = numAIPlayers;
 
       String logFilePath = "toptrumps.log";
       logger = new Logger(logFilePath, writeGameLogsToFile);
    }
+
+
+   // =========================================================================
+   // GETTERS & SETTERS
+   // =========================================================================
 
    GameState getGameState() {
       return gameState;
@@ -76,40 +85,137 @@ public class Game extends Observable {
       notifyObservers();
    }
 
-   public void setCategory(String category) {
+   void setCategory(String category) {
       activeCategory = category;
    }
 
-   // worth thinking about whether we create a new game object instead of new game
 
-   public void newGame() {
+   // =========================================================================
+   // GAME LOGIC METHODS
+   // =========================================================================
+
+   /*
+   /  Initialises a new game by loading the deck, spawning players, dealing the
+   /  cards and selecting the first active player.
+   */
+   void newGame() {
       logger.log("New game starting.");
-      // create the deck
+
+      // Create the deck.
       createDeck();
       logger.log("Deck loaded: " + deck.toString());
-      // shuffle the deck
+
+      // Shuffle the deck.
       shuffleDeck();
       logger.log("Deck shuffled: " + deck.toString());
-      // create the players
-      createPlayers();
 
+      // Create the players.
+      createPlayers();
       setGameState(GameState.PLAYERS_SPAWNED);
 
-      // deal cards to players' decks
+      // Deal cards to players' decks.
       deal();
       for (Player player : players) {
          logger.log("Hand: " + player);
       }
+
       // Randomly select the active player for the first round.
       selectRandomPlayer();
-      // Set first round.
-      // round = 1; //TODO: maybe easier to increase the round at the start of the
-      // loop?
 
-      playRound();
-
-      setGameState(GameState.GAME_COMPLETE);
+      setGameState(GameState.NEW_GAME_INITIALISED);
    }
+
+   /*
+   /  Initialises a new round by incrementing the round number.
+   */
+   void newRound() {
+      // Increase the round number on every round.
+      round++;
+
+      logger.log("\nRound " + round + " starting.");
+      logger.log("Active player: " + activePlayer.getName());
+
+      // Log player name and topmost card for all players.
+      for (Player player : players) {
+         logger.log(player.getName() + "'s card: " + player.getTopMostCard()
+                 .toString());
+      }
+
+      setGameState(GameState.NEW_ROUND_INITIALISED);
+   }
+
+   /*
+   /  Set the active category, either by asking the player or by
+   /  automatically selecting a category, depending on whether the active player
+   /  is human.
+   */
+   void selectCategory() {
+      // If user is the active player, ask for the user's category.
+      if (activePlayer.getIsHuman()) {
+         setGameState(GameState.CATEGORY_REQUIRED);
+      }
+      // Or get AI active player to select best category.
+      else {
+         Card activeCard = activePlayer.getTopMostCard();
+         activeCategory = activeCard.getBestCategory();
+      }
+
+      logger.log("Selected category: " + activeCategory + "=" +
+              activePlayer.getTopMostCard().getCardProperties()
+                      .get(activeCategory));
+
+      setGameState(GameState.CATEGORY_SELECTED);
+   }
+
+   /*
+   /  Establish the result of the round by comparing the top card of all
+   /  players.
+   */
+   void computeResult() {
+      // Get the winner (null if draw).
+      roundWinner = compareTopCards();
+
+      if (roundWinner == null) {
+         logger.log("Round winner: Draw");
+         // Increment statistic.
+         numDraws++;
+
+      } else {
+         logger.log("Round winner: " + roundWinner.getName());
+         this.gameWinner = roundWinner;
+         if (roundWinner.getIsHuman()) {
+            // Increment statistic.
+            humanWonRounds++;
+         }
+      }
+
+      setGameState(GameState.ROUND_RESULT_COMPUTED);
+   }
+
+   /*
+   /  Conclude the round by reallocating cards and eliminating players with no
+   /  remaining cards.
+   */
+   void concludeRound() {
+
+      ArrayList<Card> currentTopCards = getCurrentTopCards();
+      transferCards(roundWinner, currentTopCards);
+      eliminatePlayers();
+
+      logger.log("Communal Deck: " + deck);
+      for (Player player : players) {
+         logger.log("Hand: " + player);
+      }
+
+      logger.log("Round complete.");
+
+      setGameState(GameState.ROUND_COMPLETE);
+   }
+
+
+   // =========================================================================
+   // HELPER METHODS
+   // =========================================================================
 
    private void createPlayers() {
       // create human player first
@@ -123,7 +229,6 @@ public class Game extends Observable {
    }
 
    // read in file to create the deck and shuffle
-
    private void createDeck() {
       FileReader reader = null;
       try {
@@ -178,18 +283,6 @@ public class Game extends Observable {
       // - 1 to offset zero-based index numbering.
       int random = rand.nextInt(players.size());
       activePlayer = players.get(random);
-   }
-
-   private void selectActiveCategory() {
-      // if user is the active player, ask for the user's category
-      if (activePlayer.getIsHuman() == true) {
-         setGameState(GameState.CATEGORY_REQUIRED);
-      }
-      // get AI active player to select best category
-      else {
-         Card activeCard = activePlayer.getTopMostCard();
-         activeCategory = activeCard.getBestCategory();
-      }
    }
 
    private Player compareTopCards() {
@@ -251,71 +344,6 @@ public class Game extends Observable {
       }
    }
 
-   private void playRound() {
-      // game logic which should keep looping for every round
-      while (players.size() > 1) {
-         // increase the round number on every round
-         round++;
-
-         logger.log("\nRound " + round + " starting.");
-         logger.log("Active player: " + activePlayer.getName());
-         // Log player name and topmost card for all players.
-         for (Player player : players) {
-            logger.log(player.getName() + "'s card: " + player.getTopMostCard()
-                    .toString());
-         }
-
-         // signal to the controller that we wish to start a new round
-         // controller will present user's top card to the correct view
-         // if the human player still exists
-         if (!isHumanBooted) {
-            setGameState(GameState.NEW_ROUND);
-         }
-
-         if (!isHumanBooted && !activePlayer.getIsHuman()) {
-            setGameState(GameState.PAUSE);
-         }
-
-         // get active category for round, from user input or AI decision
-         selectActiveCategory();
-         logger.log("Selected category: " + activeCategory + "=" +
-                 activePlayer.getTopMostCard().getCardProperties().get(activeCategory));
-
-         // find whether the current round winner exists or is null
-         roundWinner = compareTopCards();
-
-         if (roundWinner == null) {
-            logger.log("Round winner: Draw");
-            this.numDraws++;
-         } else {
-            logger.log("Round winner: " + roundWinner.getName());
-            this.gameWinner = roundWinner;
-            if (roundWinner.getIsHuman()) {
-               this.humanWonRounds++;
-            }
-         }
-
-         setGameState(GameState.ROUND_COMPLETE);
-
-         ArrayList<Card> currentTopCards = getCurrentTopCards();
-
-         transferCards(roundWinner, currentTopCards);
-
-         eliminatePlayers();
-
-
-         if (!isHumanBooted) {
-            setGameState(GameState.PAUSE);
-         }
-
-         logger.log("Communal Deck: " + deck);
-         for (Player player : players) {
-            logger.log("Hand: " + player);
-         }
-         logger.log("Round complete.");
-      }
-   }
-
    private void eliminatePlayers() {
       // check if any players have no cards and eliminate them if so/////////may need
       // to make tidier
@@ -334,12 +362,6 @@ public class Game extends Observable {
          Player player = iter.next();
 
          if (player.getList().isEmpty()) {
-            // if the player with an empty deck is humnan, flag that they have been booted
-            // from game
-            if (player.getIsHuman()) {
-               isHumanBooted = true;
-               setGameState(GameState.HUMAN_BOOTED);
-            }
             iter.remove();
             // need to remember that due to successive draws, the active player could run
             // out of cards
@@ -350,6 +372,4 @@ public class Game extends Observable {
          }
       }
    }
-
-
 }
