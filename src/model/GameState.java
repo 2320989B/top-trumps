@@ -1,14 +1,12 @@
 package model;
 
 public enum GameState {
-
-      // Create an enum as we know all possible states before compile time.
+      // A list of all possible game states.
       PLAYERS_SPAWNED,
-      NEW_ROUND,
-      PAUSE,
+      NEW_GAME_INITIALISED,
+      NEW_ROUND_INITIALISED,
       CATEGORY_REQUIRED,
+      CATEGORY_SELECTED,
       ROUND_COMPLETE,
-      HUMAN_BOOTED,
-      GAME_COMPLETE
-
+      ROUND_RESULT_COMPUTED
 }

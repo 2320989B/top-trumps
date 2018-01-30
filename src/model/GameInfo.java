@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The GameInfo class is responsible for marshalling relevant data from
- * within the model package, and provides getters to allow other packages
- * to extract this data.
+ * The GameInfo class is an Immutable Parameter Object responsible for
+ * providing a snapshot of various game data. The class marshals relevant
+ * data from within the model package, and provides getters
+ * to allow other packages to extract this data.
  */
 public class GameInfo {
    private final List<Map<String, Integer>> topCards;
    private final List<String> playerNames;
-   private final Player humanPlayer;
    private final List<String> topCardTitles;
    private Integer numHumanCards;
    private String humanTopCardTitle;
@@ -69,7 +69,7 @@ public class GameInfo {
       topCards = getTopCards(game);
       playerNames = getPlayerNames(game);
       topCardTitles = getTopCardTitles(game);
-      humanPlayer = getHumanPlayer(game);
+      Player humanPlayer = getHumanPlayer(game);
 
       if (humanPlayer != null && humanPlayer.getHand() != null) {
          numHumanCards = humanPlayer.getHand().size();
@@ -126,7 +126,7 @@ public class GameInfo {
       return gameState;
    }
 
-   public int getNumHumanCards() {
+   public Integer getNumHumanCards() {
       return numHumanCards;
    }
 

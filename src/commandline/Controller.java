@@ -1,6 +1,6 @@
 package commandline;
 
-import model.Game;
+import model.GameAPI;
 import model.GameInfo;
 import model.GameState;
 import persistence.PostgresPersistence;
@@ -17,7 +17,7 @@ import java.util.Observer;
 class Controller implements Observer {
 
    private Boolean writeGameLogsToFile;
-   private Game game;
+   private GameAPI gameAPI;
    private List<String> initialPlayerNames;
    private PostgresPersistence dbConnection;
 
@@ -33,7 +33,7 @@ class Controller implements Observer {
    }
 
    /**
-    * Start the controller logic path.
+    * Handle main menu selection.
     *
     * @return a quit flag.
     */
@@ -48,15 +48,15 @@ class Controller implements Observer {
       final int selection = new ViewMainMenu().show();
 
       // Now handle the response appropriately.
-      // 1. Start a new gameAPI.
+      // Start a new game.
       if (selection == 1) {
-         game = new Game(NUM_AI_PLAYERS, DECK_INPUT_FILE,
+         gameAPI = new GameAPI(NUM_AI_PLAYERS, DECK_INPUT_FILE,
                  writeGameLogsToFile);
          // Observe the gameAPI.
-         game.addObserver(this);
-         game.newGame();
+         gameAPI.addObserver(this);
+         gameAPI.newGame();
 
-         // 2. View statistics.
+         // View statistics.
       } else if (selection == 2) {
          try {
             dbConnection.establishDBConnection();
@@ -70,7 +70,7 @@ class Controller implements Observer {
             new ViewDBError().show(e.getMessage());
          }
 
-         // 3. Quit.
+         // Quit.
       } else {
          return true;
       }
@@ -79,51 +79,83 @@ class Controller implements Observer {
 
    }
 
+   /*
+   /  Observe the game and react as appropriate to key events.
+   */
    public void update(Observable observable, Object o) {
-      GameInfo gameInfo = new GameInfo(game);
-
+      // Take a snapshot of game info and establish the game state.
+      GameInfo gameInfo = gameAPI.getGameInfo();
       GameState gameState = gameInfo.getGameState();
 
+      /*
+      /  The following conditional block reacts to game events by serving
+      /  views, commencing further game logic etc, as appropriate for the
+      /  received event.
+      */
       if (gameState.equals(GameState.PLAYERS_SPAWNED)) {
+         // Record the player names at onset of a new game.
          initialPlayerNames = gameInfo.getPlayerNames();
 
-      } else if (gameState.equals(GameState.NEW_ROUND)) {
-         new ViewNewRound().show(gameInfo, initialPlayerNames);
+      } else if (gameState.equals(GameState.NEW_GAME_INITIALISED)) {
+         // Once the game has been initialised, we start the first round.
+         gameAPI.newRound();
 
-      } else if (gameState.equals(GameState.PAUSE)) {
-         new ViewPause().show();
+      } else if (gameState.equals(GameState.NEW_ROUND_INITIALISED)) {
+         // If the user is still in the game, we show the user his top card,
+         // and enforce a pause to allow the user to review his card.
+         if (gameInfo.getNumHumanCards() != null) {
+            new ViewNewRound().show(gameInfo, initialPlayerNames);
+            new ViewPause().show();
+         }
+         // Regardless of whether the human is in the game, commence category
+         // selection logic.
+         gameAPI.selectCategory();
 
       } else if (gameState.equals(GameState.CATEGORY_REQUIRED)) {
+         // The human is the active player, so he should select a category.
+         // Show the appropriate view, and return the result to the game.
          final String selection = new ViewCategorySelector().show(gameInfo);
-         game.setCategory(selection);
+         gameAPI.setCategory(selection);
 
-      } else if (gameState.equals(GameState.HUMAN_BOOTED)) {
-         new ViewHumanBooted().show(gameInfo);
-         new ViewPause().show();
+      } else if (gameState.equals(GameState.CATEGORY_SELECTED)) {
+         // When the category is defined, compute the winner.
+            gameAPI.computeResult();
 
-      } else if (gameState.equals(GameState.ROUND_COMPLETE)) {
+      } else if (gameState.equals(GameState.ROUND_RESULT_COMPUTED)) {
+         // Show the results of the round.
          new ViewRoundSummary().show(gameInfo);
+         // If the user is still in the game, enforce a pause to allow the
+         // user to review the results.
+         if (gameInfo.getNumHumanCards() != null) {
+            new ViewPause().show();
+         }
+         gameAPI.concludeRound();
 
-      } else if (gameState.equals(GameState.GAME_COMPLETE)) {
-         new ViewGameComplete().show(gameInfo);
-         try {
-            dbConnection.establishDBConnection();
-            passDBStats(gameInfo);
-            dbConnection.commit(); //Commit the DB object data to the database
-            dbConnection.closeDBConnection();
-         } catch (SQLException | ClassNotFoundException e) {
-            new ViewDBError().show(e.getMessage());
+      } else if (gameState.equals(GameState.ROUND_COMPLETE))
+         // Continue to play rounds so long as there is more than one player
+         // in the game.
+         if (gameInfo.getPlayerNames().size() > 1) {
+            gameAPI.newRound();
+         } else {
+            new ViewGameComplete().show(gameInfo);
+            try {
+               dbConnection.establishDBConnection();
+               passDBStats(gameInfo);
+               // dbConnection.commit();
+               dbConnection.closeDBConnection();
+            } catch (SQLException | ClassNotFoundException e) {
+               new ViewDBError().show(e.getMessage());
+            }
          }
       }
-   }
 
+   // TODO: Update DB stuff to accept a GameInfo object.
    // Get latest data from model and feed to DB object.
    private void passDBStats(GameInfo gameInfo) {
-      dbConnection.setGameDraws(gameInfo.getNumDraws());
-      // TODO: Add required getters to gameInfo.
+//      dbConnection.setGameDraws(gameInfo.getNumDraws());
 //      dbConnection.setGameWinnerIsHuman(gameAPI.getGameInfo().getWinnerHuman());
 //      dbConnection.setGameWinnerName(gameAPI.getGameInfo().getWinnerName());
 //      dbConnection.setNumGameRounds(gameAPI.getRound());
-      dbConnection.setPlayerRounds(gameInfo.getHumanRoundsWon());
+//      dbConnection.setPlayerRounds(gameInfo.getHumanRoundsWon());
    }
 }
