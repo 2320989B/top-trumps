@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import model.Game;
+import model.GameAPI;
 //import model.Player; // not sure why this class is invisible, if you make it public it should work
 
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
@@ -44,7 +45,7 @@ public class TopTrumpsRESTAPI {
 		// and we also surely have to have a list of Game objects - we need a list because
 		// multiple tabs need their own instance of Game, and we also need to maintain
 		// references to Game objects or they will be garbage collected
-		private List<Game> Games;
+		private List<GameAPI> Games;
 		private int numOfCurrentGames;
 		// can extract these values from TopTrumpsConfiguration conf
 		private String deckInputFile;
@@ -62,7 +63,7 @@ public class TopTrumpsRESTAPI {
 		numOfCurrentGames = 0;
 		deckInputFile = conf.getDeckFile();
 		numAIPlayers = conf.getNumAIPlayers();
-		Games = new ArrayList<Game>();
+		Games = new ArrayList<GameAPI>();
 	}
 
 	
@@ -97,16 +98,15 @@ public class TopTrumpsRESTAPI {
 		@GET
 		@Path("/startNewGame")
 		public String startNewGame() throws IOException{
-			//just setting to false just now
-			//TODO: Broken by updates to Model, needs updated to talk to GameAPI?
-			//Game newGame = new Game(numAIPlayers, deckInputFile, false);
-			//add the new Game object to the list of Games
-			//TODO: Broken by updates to Model, needs updated to talk to GameAPI?
-			//Games.add(newGame);
+			//create a GameAPI object to get access to Game methods
+			GameAPI game = new GameAPI(numAIPlayers, deckInputFile, false);
+			
+			//add the new GameAPI object to the list of Games
+			Games.add(game);
 
 			//start a new game
-			//TODO: Broken by updates to Model, needs updated to talk to GameAPI?
-			//Games.get(0).newGame();
+			game.newGame();
+			
 			//create a String List with the information we would want to pass to web page
 			// numAIplayers should be a separate method I think - want to keep checking
 			// we do want to pass the index of this Game object for web page to store
@@ -114,18 +114,18 @@ public class TopTrumpsRESTAPI {
 			// possibly want a separate method to return current top card
 			//possibly separate to return categories and values
 			//so
-			List<String> gameIndex = new ArrayList<String>();
-			gameIndex.add("GameIndex");
+			//List<String> gameIndex = new ArrayList<String>();
+			//gameIndex.add("plop");
 			String gameInd = "" + numOfCurrentGames;
-			gameIndex.add(gameInd);
+			//gameIndex.add(gameInd);
 			
 			// increment number of current Games in preparation for another Game
 			numOfCurrentGames++;
 			//send the Index to the web page
 			//there is a method startNewGame() in GameScreen.ftl which will grab this info
 			
-			String listAsJSONString = oWriter.writeValueAsString(gameIndex);
-			return listAsJSONString;
+			String stringAsJSONString = oWriter.writeValueAsString(gameInd);
+			return stringAsJSONString;
 		}
 	//an attempt at getting the active player
 		/*@GET

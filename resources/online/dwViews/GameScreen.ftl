@@ -233,6 +233,12 @@ h1 {
 		<p id="gameNumber"></p>
 		<p id="cat1"></p>
 	</div>
+    <hr />
+    <div>
+        <p>To test API calls we should maybe output the values here for just now</p>
+        <p id="gameindex"></p>
+        <p id="categories"></p>
+        <p id="currentRound"></p>
   </div>
 		
 		<script type="text/javascript">
@@ -349,7 +355,7 @@ h1 {
 				// to do when the response arrives 
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
-					alert(responseText);
+					document.getElementById("gameindex").innerHTML = "Game Number: " + responseText;
 					
 				};
 				
