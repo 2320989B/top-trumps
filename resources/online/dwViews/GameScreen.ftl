@@ -132,7 +132,7 @@ h1 {
             </div>
             <div class="shipinfo">
               <div class="shipimg">
-                <img src="ship.png" />
+                <img id="shipImgChange" src="http://dcs.gla.ac.uk/~richardm/TopTrumps/Hawk.jpg" />
               </div>
                 <p id="p1_cat1_name">Size</p>
                 <p id="p1_cat1_value">20</p>
@@ -236,15 +236,32 @@ h1 {
     <hr />
     <div>
         <p>To test API calls we should maybe output the values here for just now</p>
-        <p id="gameindex"></p>
+        <p id="gameIndex"></p>
         <p id="categories"></p>
         <p id="currentRound"></p>
+        <p id="startNumberAIPlayers"></p>
+        <p id="isHuman"></p>
+        <p id="playerNames"></p>
+        <p id="currentActivePlayer"></p>
+        <p id="topCardTitles"></p>
+        <p id="p1NumberOfCardsLeft"</p>
+        <p id="p1CategoryValues"</p>
+        <p id="ai1NumberOfCardsLeft"</p>
+        <p id="ai1CategoryValues"</p>
+        <p id="ai2NumberOfCardsLeft"</p>
+        <p id="ai2CategoryValues"</p>
+        <p id="ai3NumberOfCardsLeft"</p>
+        <p id="ai3CategoryValues"</p>
+        <p id="ai4NumberOfCardsLeft"</p>
+        <p id="ai4CategoryValues"</p>
+        <button onclick="getStuff()">Get Categories</button>
   </div>
 		
 		<script type="text/javascript">
 			//set a global variable which holds game number then update the HTML element with id "gameNumber" to show this
-			var gameNumber = "10";
-			document.getElementById("gameNumber").innerHTML = "Game Number: " + gameNumber;
+			var gameIndex = 0;
+            var categories = "";
+			//document.getElementById("gameNumber").innerHTML = "Game Number: " + gameNumber;
 			
 			//set a player to be invisble if they are out of the game?
 			document.getElementById("AI 2").style.visibility = "hidden";
@@ -267,11 +284,22 @@ h1 {
 				// You can call other methods you want to run when the page first loads here
 				// --------------------------------------------------------------------------
 				
-				// For example, lets call our sample methods
-				helloJSONList();
-				helloWord("Student");
-				startNewGame();
 				
+				startNewGame();
+            }
+            
+			function getStuff() {
+
+				getCategories(gameIndex);	
+                newRound(gameIndex);
+                getActivePlayer(gameIndex);
+                isHuman(gameIndex);
+                getPlayerNames(gameIndex);
+                getTopCardTitles(gameIndex);
+                
+                //example of changing image based on description
+                var cardname = "Carrack"
+                changeImage(cardname);
 				
 			}
 			
@@ -308,31 +336,7 @@ h1 {
 		
 		<!-- Here are examples of how to call REST API Methods -->
 		<script type="text/javascript">
-		
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloJSONList() {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloJSONList"); // Request type and URL
 				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-					alert("CORS not supported");
-				}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
-					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
-			
-			
-			
 			
 			//When you start a new game you will want some important information:
 			// Number of AIPlayers
@@ -355,41 +359,20 @@ h1 {
 				// to do when the response arrives 
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
-					document.getElementById("gameindex").innerHTML = "Game Number: " + responseText;
+                    gameIndex = JSON.parse(responseText);
+					document.getElementById("gameIndex").innerHTML = "Game Number: " + gameIndex;
 					
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
 			}
-			
-			//function getActivePlayer() {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				//var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getActivePlayer"); // Request type and URL
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				//if (!xhr) {
-					//alert("CORS not supported");
-				//}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				//xhr.onload = function(e) {
-					//var responseText = xhr.response; // the text of the response
-					//alert(responseText);
-					//document.getElementById("cat1").innerHTML = responseText;
-				//};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				//xhr.send();		
-			//}
-			
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloWord(word) {
+            
+            // This calls the getCategories REST method from TopTrumpsRESTAPI
+			function getCategories(gameIndex) {
 			
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloWord?Word="+word); // Request type and URL+parameters
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getCategories?gameIndex="+gameIndex); // Request type and URL+parameters
 				
 				// Message is not sent yet, but we can check that the browser supports CORS
 				if (!xhr) {
@@ -400,12 +383,136 @@ h1 {
 				// to do when the response arrives 
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
+					categories = JSON.parse(responseText);
+                    document.getElementById("categories").innerHTML = "Categories: Size - " + categories.Size + " Speed - " + categories.Speed + " Range - " + categories.Range + " Firepower - " + categories.Firepower
+                    + " Cargo - " + categories.Cargo;
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
 			}
+            
+            // This calls the newRound REST method from TopTrumpsRESTAPI
+			function newRound(gameIndex) {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/newRound?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					round = JSON.parse(responseText);
+                    document.getElementById("currentRound").innerHTML = "Current Round: " + round;
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+            
+            // This calls the getActivePlayer REST method from TopTrumpsRESTAPI
+			function getActivePlayer(gameIndex) {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getActivePlayer?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					currentActivePlayer = JSON.parse(responseText);
+                    document.getElementById("currentActivePlayer").innerHTML = "Current ActivePlayer: " + currentActivePlayer;
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+             // This calls the isHuman REST method from TopTrumpsRESTAPI
+			function isHuman(gameIndex) {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/isHuman?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					isHuman = JSON.parse(responseText);
+                    document.getElementById("isHuman").innerHTML = "Human Player Still in Game?: " + isHuman;
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+            
+            // This calls the getPlayerNames REST method from TopTrumpsRESTAPI
+			function getPlayerNames(gameIndex) {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getPlayerNames?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					playerNames = JSON.parse(responseText);
+                    document.getElementById("playerNames").innerHTML = "Players still in game: " + playerNames;
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+            // This calls the getTopCardTitles REST method from TopTrumpsRESTAPI
+			function getTopCardTitles(gameIndex) {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getTopCardTitles?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					topCardTitles = JSON.parse(responseText);
+                    document.getElementById("topCardTitles").innerHTML = "Top cards are: " + topCardTitles;
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+            
+            //small example of how to change img src
+            
+            
+            function changeImage(imgName){
+                document.getElementById("shipImgChange").src = "http://dcs.gla.ac.uk/~richardm/TopTrumps/" + imgName +".jpg"
+            }
 
 		</script>
 		
