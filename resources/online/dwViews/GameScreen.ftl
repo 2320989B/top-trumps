@@ -261,6 +261,14 @@ h1 {
 			//set a global variable which holds game number then update the HTML element with id "gameNumber" to show this
 			var gameIndex = 0;
             var categories = "";
+            var numPlayersLeft = 5;
+            var category1 = "";
+            var category2 = "";
+            var category3 = "";
+            var category4 = "";
+            var category5 = "";
+            
+            
 			//document.getElementById("gameNumber").innerHTML = "Game Number: " + gameNumber;
 			
 			//set a player to be invisble if they are out of the game?
@@ -296,6 +304,7 @@ h1 {
                 isHuman(gameIndex);
                 getPlayerNames(gameIndex);
                 getTopCardTitles(gameIndex);
+                getTopCards(gameIndex);
                 
                 //example of changing image based on description
                 var cardname = "Carrack"
@@ -384,8 +393,14 @@ h1 {
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
 					categories = JSON.parse(responseText);
-                    document.getElementById("categories").innerHTML = "Categories: Size - " + categories.Size + " Speed - " + categories.Speed + " Range - " + categories.Range + " Firepower - " + categories.Firepower
-                    + " Cargo - " + categories.Cargo;
+					categoryNames = Object.keys(categories); 
+					category1 = categoryNames[0];
+            		category2 = categoryNames[1];
+            		category3 = categoryNames[2];
+            		category4 = categoryNames[3];
+            		category5 = categoryNames[4];
+                    document.getElementById("categories").innerHTML = "Categories: " + category1 + ", " + category2 + ", " + category3 + ", " 
+                    + category4 + ", " + category5;
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -501,6 +516,37 @@ h1 {
 					var responseText = xhr.response; // the text of the response
 					topCardTitles = JSON.parse(responseText);
                     document.getElementById("topCardTitles").innerHTML = "Top cards are: " + topCardTitles;
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+			// This calls the getCategories REST method from TopTrumpsRESTAPI
+			function getTopCards(gameIndex) {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getTopCards?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					topCards = JSON.parse(responseText);
+					document.getElementById("p1CategoryValues").innerHTML = "Player 1 topCard: " + category1 + ": " + topCards[0][category1] 
+					+ category2 + ": " + topCards[0][category2] + category3 + ": " + topCards[0][category3] 
+					+ category4 + ": " + topCards[0][category4] + category5 + ": " + topCards[0][category5];
+					for (i = 1; i < numPlayersLeft; i++) {
+						var id = "ai" + i + "CategoryValues";
+                    	document.getElementById(id).innerHTML = "Player AI " + i + "'s Top Card: " + category1 + ": " + topCards[i][category1] 
+					+ category2 + ": " + topCards[i][category2] + category3 + ": " + topCards[i][category3] 
+					+ category4 + ": " + topCards[i][category4] + category5 + ": " + topCards[i][category5];
+					}
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
