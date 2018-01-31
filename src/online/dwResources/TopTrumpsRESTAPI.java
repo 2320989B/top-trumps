@@ -302,4 +302,102 @@ public class TopTrumpsRESTAPI {
 		String stringAsJSONString = oWriter.writeValueAsString(topCards);
 		return stringAsJSONString;
 	}
+	
+	@GET
+	@Path("/selectCategory")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String selectCategory(@QueryParam("gameIndex") String gameIndex) throws IOException {
+		//convert the string gameIndex to an int
+		int gameNumber = Integer.parseInt(gameIndex);
+	
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		//select category in game
+		game.selectCategory();
+		
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		//use GameInfo object method to return the new round number
+		String activeCategory = gameInfo.getActiveCategory();
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(activeCategory);
+		return stringAsJSONString;
+	}
+	
+	@GET
+	@Path("/selectCategoryHuman")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String selectCategoryHuman(@QueryParam("gameIndexCat") String gameIndexCat) throws IOException {
+		//convert the string gameIndex to an int
+		System.out.println("GameIndexCat: " + gameIndexCat);
+		//split the string into a String array, splitting on "xxxxx"
+		String[] request = gameIndexCat.split("xxxxx");
+		String num = request[0];
+		int gameNumber = Integer.parseInt(num);
+	
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		//select category in game
+		game.selectCategory();
+		
+		//Human actually needs to set category
+		String selectedCategory = request[1];
+		game.setCategory(selectedCategory);
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		//use GameInfo object method to return the new round number
+		String activeCategoryCheck = gameInfo.getActiveCategory();
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(activeCategoryCheck);
+		return stringAsJSONString;
+	}
+	
+	@GET
+	@Path("/computeResult")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String computeResult(@QueryParam("gameIndex") String gameIndex) throws IOException {
+		//convert the string gameIndex to an int
+		int gameNumber = Integer.parseInt(gameIndex);
+	
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		//compare Cards
+		game.computeResult();
+		
+		//transfer cards
+		game.concludeRound();
+		
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		//use GameInfo object method to return the new round number
+		String roundWinner = gameInfo.getRoundWinnerName();
+		System.out.println("String is: " + roundWinner);
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(roundWinner);
+		return stringAsJSONString;
+	}
 }

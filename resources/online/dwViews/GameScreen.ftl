@@ -254,7 +254,14 @@ h1 {
         <p id="ai3CategoryValues"</p>
         <p id="ai4NumberOfCardsLeft"</p>
         <p id="ai4CategoryValues"</p>
-        <button onclick="getStuff()">Get Categories</button>
+        <div>
+        	<button id="categoryButton" onclick="getStuff()">Get Categories</button>
+        	<button id="beginButton" onclick="beginRound()">Begin Round</button>
+        	<p id="message">Hello</p>
+        	<button id="controlButton" onclick="compareCards()">Compare Cards</button>
+        	<button id="roundWinnerButton" onclick="showWinner()">Show Winner</button>
+        	<button id="NewRoundButton" onclick="setUpNewRound()">Set Up New Round</button>
+        </div>
   </div>
 		
 		<script type="text/javascript">
@@ -262,11 +269,14 @@ h1 {
 			var gameIndex = 0;
             var categories = "";
             var numPlayersLeft = 5;
+            var activePlayer = "";
+            var activeCategory = "";
             var category1 = "";
             var category2 = "";
             var category3 = "";
             var category4 = "";
             var category5 = "";
+            var roundWinner = "";
             
             
 			//document.getElementById("gameNumber").innerHTML = "Game Number: " + gameNumber;
@@ -310,6 +320,87 @@ h1 {
                 var cardname = "Carrack"
                 changeImage(cardname);
 				
+			}
+			
+			function beginRound() {
+				if(activePlayer != "Player 1"){
+					//you want to wait and print message saying AI is choosing category
+					//update a button with continue
+					document.getElementById("message").innerHTML = activePlayer + " is choosing a category...";
+					//document.getElementById("controlButton").onclick = function(){compareCards();};
+				}
+				else{
+					//you want to print a message saying choose your category 
+					document.getElementById("message").innerHTML = activePlayer + " choose your category";
+					// add 5 buttons to the DOM
+					
+						var btn = document.createElement("button");
+						var txt = document.createTextNode(category1);
+						btn.appendChild(txt);
+						btn.onclick = function(){chooseCategory(category1)};
+						var element = document.getElementById("menu");
+						element.appendChild(btn); 
+						
+						var btn = document.createElement("button");
+						var txt = document.createTextNode(category2);
+						btn.appendChild(txt);
+						btn.onclick = function(){chooseCategory(category2)};
+						var element = document.getElementById("menu");
+						element.appendChild(btn);
+						
+						var btn = document.createElement("button");
+						var txt = document.createTextNode(category3);
+						btn.appendChild(txt);
+						btn.onclick = function(){chooseCategory(category3)};
+						var element = document.getElementById("menu");
+						element.appendChild(btn);
+						
+						var btn = document.createElement("button");
+						var txt = document.createTextNode(category4);
+						btn.appendChild(txt);
+						btn.onclick = function(){chooseCategory(category4)};
+						var element = document.getElementById("menu");
+						element.appendChild(btn);
+						
+						var btn = document.createElement("button");
+						var txt = document.createTextNode(category5);
+						btn.appendChild(txt);
+						btn.onclick = function(){chooseCategory(category5)};
+						var element = document.getElementById("menu");
+						element.appendChild(btn);
+					
+					//have another function outside here called ChooseCategory
+					
+				}
+			}
+			
+			function chooseCategory(category){
+				activeCategory = category;
+				document.getElementById("message").innerHTML = "Player 1 chose " + activeCategory;
+			}
+			
+			function compareCards(){
+				if (activePlayer != "Player 1"){
+					selectCategory(gameIndex);
+				}
+				else {
+					alert("hllo");
+					var gameIndexCat = "" + gameIndex + "xxxxx" + activeCategory;
+					alert(gameIndexCat);
+					selectCategoryHuman(gameIndexCat);
+				}
+				
+			}
+			
+			function showWinner() {
+				computeResult(gameIndex);
+				
+			}
+				
+			function setUpNewRound() {
+				newRound(gameIndex);
+				getTopCardTitles(gameIndex);
+				getTopCards(gameIndex);
 			}
 			
 			// -----------------------------------------
@@ -445,8 +536,8 @@ h1 {
 				// to do when the response arrives 
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
-					currentActivePlayer = JSON.parse(responseText);
-                    document.getElementById("currentActivePlayer").innerHTML = "Current ActivePlayer: " + currentActivePlayer;
+					activePlayer = JSON.parse(responseText);
+                    document.getElementById("currentActivePlayer").innerHTML = "Current ActivePlayer: " + activePlayer;
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -522,7 +613,7 @@ h1 {
 				xhr.send();		
 			}
 			
-			// This calls the getCategories REST method from TopTrumpsRESTAPI
+			// This calls the getTopCards REST method from TopTrumpsRESTAPI
 			function getTopCards(gameIndex) {
 			
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -553,6 +644,88 @@ h1 {
 				xhr.send();		
 			}
             
+            // This asks Game to select a category for the active AI Player
+            // This calls the selectCategory REST method from TopTrumpsRESTAPI
+			function selectCategory(gameIndex) {
+			
+				//First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/selectCategory?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				//Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				//CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					activeCategory = JSON.parse(responseText);
+					
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+			// If a human is the activePlayer, this method passes their choice to the Game
+			// This is not perfect as I pass both gameIndex and the Category choice as one parameter
+			// This calls the selectCategoryHuman REST method from TopTrumpsRESTAPI
+			function selectCategoryHuman(gameIndexCat) {
+			
+				//First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/selectCategoryHuman?gameIndexCat="+gameIndexCat); // Request type and URL+parameters
+				
+				//Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				//CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					activeCategory = JSON.parse(responseText);
+					document.getElementById("message").innerHTML = activePlayer + " chose " + activeCategory;
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+			// This calls the computeResult REST method from TopTrumpsRESTAPI
+			// This will compareCards and end the round, transferring cards
+			// This will return the roundWinner
+			function computeResult(gameIndex) {
+			
+				//First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/computeResult?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				//Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				//CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					roundWinner = JSON.parse(responseText);
+					if (roundWinner == null){
+						document.getElementById("message").innerHTML = activePlayer + " chose " + activeCategory + " and it was a draw.";
+					}
+					else {
+						document.getElementById("message").innerHTML = roundWinner + "won!";
+						activePlayer = roundWinner;
+					}
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+			
+			
             //small example of how to change img src
             
             
