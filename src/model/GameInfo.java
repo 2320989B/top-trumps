@@ -53,7 +53,6 @@ public class GameInfo {
          roundWinnerName = null;
       }
 
-      // TODO: Is a new variable needed for gameWinner, we can just use the value of roundWinner at the end of the game instead.
       if (game.getGameWinner() != null) {
          gameWinnerName = game.getGameWinner().getName();
       } else {
@@ -120,6 +119,14 @@ public class GameInfo {
 
    public String getRoundWinnerName() {
       return roundWinnerName;
+   }
+
+   public String getGameWinnerName() {
+      return gameWinnerName;
+   }
+
+   public Boolean getGameWinnerHuman() {
+      return winnerHuman;
    }
 
    public GameState getGameState() {

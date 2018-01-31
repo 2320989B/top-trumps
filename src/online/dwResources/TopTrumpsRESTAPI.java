@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -18,7 +19,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import model.Game;
+import model.GameAPI;
 //import model.Player; // not sure why this class is invisible, if you make it public it should work
+import model.GameInfo;
 
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
 @Produces(MediaType.APPLICATION_JSON) // This resource returns JSON content
@@ -44,7 +47,7 @@ public class TopTrumpsRESTAPI {
 		// and we also surely have to have a list of Game objects - we need a list because
 		// multiple tabs need their own instance of Game, and we also need to maintain
 		// references to Game objects or they will be garbage collected
-		private List<Game> Games;
+		private List<GameAPI> games;
 		private int numOfCurrentGames;
 		// can extract these values from TopTrumpsConfiguration conf
 		private String deckInputFile;
@@ -62,7 +65,7 @@ public class TopTrumpsRESTAPI {
 		numOfCurrentGames = 0;
 		deckInputFile = conf.getDeckFile();
 		numAIPlayers = conf.getNumAIPlayers();
-		Games = new ArrayList<Game>();
+		games = new ArrayList<GameAPI>();
 	}
 
 	
@@ -70,26 +73,7 @@ public class TopTrumpsRESTAPI {
 	// Add relevant API methods here
 	// ----------------------------------------------------
 	
-	@GET
-	@Path("/helloJSONList")
-	/**
-	 * Here is an example of a simple REST get request that returns a String.
-	 * We also illustrate here how we can convert Java objects to JSON strings.
-	 * @return - List of words as JSON
-	 * @throws IOException
-	 */
-	public String helloJSONList() throws IOException {
-		
-		List<String> listOfWords = new ArrayList<String>();
-		listOfWords.add("Hello");
-		listOfWords.add("World!");
-		
-		// We can turn arbatory Java objects directly into JSON strings using
-		// Jackson seralization, assuming that the Java objects are not too complex.
-		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
-		
-		return listAsJSONString;
-	}
+	
 	
 	//We wish to create a Game object, but return the index of the Game object
 		// so that the tab can keep track of which Game object it 'owns', 
@@ -97,16 +81,15 @@ public class TopTrumpsRESTAPI {
 		@GET
 		@Path("/startNewGame")
 		public String startNewGame() throws IOException{
-			//just setting to false just now
-			//TODO: Broken by updates to Model, needs updated to talk to GameAPI?
-			//Game newGame = new Game(numAIPlayers, deckInputFile, false);
-			//add the new Game object to the list of Games
-			//TODO: Broken by updates to Model, needs updated to talk to GameAPI?
-			//Games.add(newGame);
+			//create a GameAPI object to get access to Game methods
+			GameAPI game = new GameAPI(numAIPlayers, deckInputFile, false);
+			
+			//add the new GameAPI object to the list of Games
+			games.add(game);
 
 			//start a new game
-			//TODO: Broken by updates to Model, needs updated to talk to GameAPI?
-			//Games.get(0).newGame();
+			game.newGame();
+			
 			//create a String List with the information we would want to pass to web page
 			// numAIplayers should be a separate method I think - want to keep checking
 			// we do want to pass the index of this Game object for web page to store
@@ -114,49 +97,183 @@ public class TopTrumpsRESTAPI {
 			// possibly want a separate method to return current top card
 			//possibly separate to return categories and values
 			//so
-			List<String> gameIndex = new ArrayList<String>();
-			gameIndex.add("GameIndex");
+			//List<String> gameIndex = new ArrayList<String>();
+			//gameIndex.add("plop");
 			String gameInd = "" + numOfCurrentGames;
-			gameIndex.add(gameInd);
+			//gameIndex.add(gameInd);
 			
 			// increment number of current Games in preparation for another Game
 			numOfCurrentGames++;
 			//send the Index to the web page
 			//there is a method startNewGame() in GameScreen.ftl which will grab this info
 			
-			String listAsJSONString = oWriter.writeValueAsString(gameIndex);
-			return listAsJSONString;
+			String stringAsJSONString = oWriter.writeValueAsString(gameInd);
+			
+			return stringAsJSONString;
 		}
-	//an attempt at getting the active player
-		/*@GET
-		@Path("/getActivePlayer")
-		public String getActivePlayer() throws IOException{
-			
-			
-			//just to check that we can do this with Game 0
-			Game currentGame = Games.get(0);
-			
-			//get the current Active Player and send it through to the web page
-			String activePlayer = currentGame.getActivePlayer();
-			System.out.println("ActivePlayer: " + activePlayer);
-			List<String> activeName = new ArrayList<String>();
-			activeName.add("ActivePlayer");
-			activeName.add(activePlayer);
-			
-			String listAsJSONString = oWriter.writeValueAsString(activeName);
-			
-			return listAsJSONString;
-		}*/
+	
 	@GET
-	@Path("/helloWord")
+	@Path("/getCategories")
 	/**
 	 * Here is an example of how to read parameters provided in an HTML Get request.
-	 * @param Word - A word
+	 * @param gameIndex - The index of this particular game in the games list
 	 * @return - A String
 	 * @throws IOException
 	 */
-	public String helloWord(@QueryParam("Word") String Word) throws IOException {
-		return "Hello "+Word;
+	public String getCategories(@QueryParam("gameIndex") String gameIndex) throws IOException {
+		//convert the string gameIndex to an int
+		int gameNumber = Integer.parseInt(gameIndex);
+		
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		//use GameInfo object method to get the list of categories
+		Map<String, Integer> categories = gameInfo.getCardCategories();
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(categories);
+		return stringAsJSONString;
 	}
 	
+	@GET
+	@Path("/newRound")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String newRound(@QueryParam("gameIndex") String gameIndex) throws IOException {
+		//convert the string gameIndex to an int
+		int gameNumber = Integer.parseInt(gameIndex);
+	
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		//start a new round
+		game.newRound();
+		
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		//use GameInfo object method to return the new round number
+		int round = gameInfo.getRound();
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(round);
+		return stringAsJSONString;
+	}
+	
+	@GET
+	@Path("/getActivePlayer")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String getActivePlayer(@QueryParam("gameIndex") String gameIndex) throws IOException {
+		//convert the string gameIndex to an int
+		int gameNumber = Integer.parseInt(gameIndex);
+	
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		//use GameInfo object method to return the new round number
+		String activePlayer  = gameInfo.getActivePlayerName();
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(activePlayer);
+		return stringAsJSONString;
+	}
+	
+	@GET
+	@Path("/isHuman")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String isHuman(@QueryParam("gameIndex") String gameIndex) throws IOException {
+		//convert the string gameIndex to an int
+		int gameNumber = Integer.parseInt(gameIndex);
+	
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		//use GameInfo object method to return the new round number
+		List<String> players = gameInfo.getPlayerNames();
+		boolean isHuman;
+		if (players.contains("Player 1")) {
+			isHuman = true;
+		}
+		else
+			isHuman = false;
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(isHuman);
+		return stringAsJSONString;
+	}
+	
+	@GET
+	@Path("/getPlayerNames")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String getPlayerNames(@QueryParam("gameIndex") String gameIndex) throws IOException {
+		//convert the string gameIndex to an int
+		int gameNumber = Integer.parseInt(gameIndex);
+	
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		//use GameInfo object method to return the new round number
+		List<String> players = gameInfo.getPlayerNames();
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(players);
+		return stringAsJSONString;
+	}
+	
+	@GET
+	@Path("/getTopCardTitles")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String getTopCardTitles(@QueryParam("gameIndex") String gameIndex) throws IOException {
+		//convert the string gameIndex to an int
+		int gameNumber = Integer.parseInt(gameIndex);
+	
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		//use GameInfo object method to return the new round number
+		List<String> topCardTitles = gameInfo.getTopCardTitles();
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(topCardTitles);
+		return stringAsJSONString;
+	}
 }
