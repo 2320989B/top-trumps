@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,9 +15,12 @@ public class GameInfo {
    private final List<Map<String, Integer>> topCards;
    private final List<String> playerNames;
    private final List<String> topCardTitles;
+   private ArrayList<Card> deck;
+   private int numOfCommunalCards;
    private Integer numHumanCards;
    private String humanTopCardTitle;
    private Map<String, Integer> cardCategories;
+   private Map<String, Integer> numOfCardsLeft;
    private String activeCategory;
    private int round;
    private int humanRoundsWon;
@@ -53,6 +57,7 @@ public class GameInfo {
          roundWinnerName = null;
       }
 
+      // TODO: Is a new variable needed for gameWinner, we can just use the value of roundWinner at the end of the game instead.
       if (game.getGameWinner() != null) {
          gameWinnerName = game.getGameWinner().getName();
       } else {
@@ -68,13 +73,21 @@ public class GameInfo {
       topCards = getTopCards(game);
       playerNames = getPlayerNames(game);
       topCardTitles = getTopCardTitles(game);
+      deck = getDeck(game);
       Player humanPlayer = getHumanPlayer(game);
+      numOfCardsLeft = getNumOfCards(game);
 
       if (humanPlayer != null && humanPlayer.getHand() != null) {
          numHumanCards = humanPlayer.getHand().size();
       } else {
          numHumanCards = null;
       }
+      
+      if (deck.size() > 0) {
+          numOfCommunalCards = deck.size();
+       } else {
+          numHumanCards = 0;
+       }
 
       if (humanPlayer != null && humanPlayer.getTopMostCard() != null) {
          humanTopCardTitle = humanPlayer.getTopMostCard().getName();
@@ -121,16 +134,16 @@ public class GameInfo {
       return roundWinnerName;
    }
 
-   public String getGameWinnerName() {
-      return gameWinnerName;
-   }
-
-   public Boolean getGameWinnerHuman() {
-      return winnerHuman;
-   }
-
    public GameState getGameState() {
       return gameState;
+   }
+   
+   public int getNumOfCommunalCards() {
+	   return numOfCommunalCards;
+   }
+   
+   public Map<String, Integer> getNumOfCardsLeft() {
+	   return numOfCardsLeft;
    }
 
    public Integer getNumHumanCards() {
@@ -184,6 +197,20 @@ public class GameInfo {
          }
       }
       return null;
+   }
+   
+   private ArrayList<Card> getDeck(Game game) {
+	   return game.getDeck();
+   }
+   
+   private Map<String, Integer> getNumOfCards(Game game) {
+	   Map<String, Integer> numOfPlayerCards = new LinkedHashMap<String, Integer>();
+	   for (Player player : game.getPlayers()) {
+	       String name = player.getName();
+	       Integer cardsLeft = player.getHand().size();
+	       numOfPlayerCards.put(name, cardsLeft);
+	   }
+	   return numOfPlayerCards;
    }
 
 }

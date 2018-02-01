@@ -45,6 +45,10 @@ public class Game extends Observable {
    GameState getGameState() {
       return gameState;
    }
+   
+   ArrayList<Card> getDeck() {
+	   return deck;
+   }
 
    ArrayList<Player> getPlayers() {
       return players;

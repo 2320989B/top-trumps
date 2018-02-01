@@ -168,6 +168,59 @@ public class TopTrumpsRESTAPI {
 	}
 	
 	@GET
+	@Path("/getNumOfCardsLeft")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	
+	public String getNumOfCardsLeft(@QueryParam("gameIndex") String gameIndex) throws IOException {
+		//convert the string gameIndex to an int
+		int gameNumber = Integer.parseInt(gameIndex);
+		
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		//use GameInfo object method to get a list of cards left
+		Map<String, Integer> cardsLeft = gameInfo.getNumOfCardsLeft();
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(cardsLeft);
+		return stringAsJSONString;
+	}
+	
+	@GET
+	@Path("/getNumCommunalCards")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String getNumCommunalCards(@QueryParam("gameIndex") String gameIndex) throws IOException {
+		//convert the string gameIndex to an int
+		int gameNumber = Integer.parseInt(gameIndex);
+		
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		//use GameInfo object method to get the number of communal cards
+		int numOfCommunalCards = gameInfo.getNumOfCommunalCards();
+		System.out.println("Number of Communal Cards: " + numOfCommunalCards);
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(numOfCommunalCards);
+		return stringAsJSONString;
+	}
+	
+	@GET
 	@Path("/getActivePlayer")
 	/**
 	 * Here is an example of how to read parameters provided in an HTML Get request.

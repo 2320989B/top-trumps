@@ -139,6 +139,7 @@ h1 {
                 <p id="p1_cat3_name"></p>
                 <p id="p1_cat4_name"></p>
                 <p id="p1_cat5_name"></p>
+                <p id="p1_cards_left"></p>
               </div>
           </div>
           
@@ -160,6 +161,7 @@ h1 {
                 <p id="ai1_cat3_name"></p>
                 <p id="ai1_cat4_name"></p>
                 <p id="ai1_cat5_name"></p>
+                <p id="ai1_cards_left"></p>
             </div>
           </div>
           <div class="col-sm card" id="AI 2">
@@ -180,6 +182,7 @@ h1 {
                 <p id="ai2_cat3_name"></p>
                 <p id="ai2_cat4_name"></p>
                 <p id="ai2_cat5_name"></p>
+                <p id="ai2_cards_left"></p>
             </div>
           </div>
           <div class="col-sm card" id="AI 3">
@@ -200,6 +203,7 @@ h1 {
                 <p id="ai3_cat3_name"></p>
                 <p id="ai3_cat4_name"></p>
                 <p id="ai3_cat5_name"></p>
+                <p id="ai3_cards_left"></p>
             </div>
           </div>
           <div class="col-sm card" id="AI 4">
@@ -220,6 +224,7 @@ h1 {
                 <p id="ai4_cat3_name"></p>
                 <p id="ai4_cat4_name"></p>
                 <p id="ai4_cat5_name"></p>
+                <p id="ai4_cards_left"></p>
             </div>
           </div>
     </div>
@@ -239,11 +244,12 @@ h1 {
         <p id="playerNames"></p>
         <p id="currentActivePlayer"></p>
         <p id="topCardTitles"></p>
-        <p id="p1NumberOfCardsLeft"</p>
-        <p id="p1CategoryValues"</p>
-        <p id="ai1NumberOfCardsLeft"</p>
-        <p id="ai1CategoryValues"</p>
-        <p id="ai2NumberOfCardsLeft"</p>
+        <p id="numOfCommunalCards"></p>
+        <p id="p1NumberOfCardsLeft"></p>
+        <p id="p1CategoryValues"></p>
+        <p id="ai1NumberOfCardsLeft"></p>
+        <p id="ai1CategoryValues"></p>
+        <p id="ai2NumberOfCardsLeft"></p>
         <p id="ai2CategoryValues"</p>
         <p id="ai3NumberOfCardsLeft"</p>
         <p id="ai3CategoryValues"</p>
@@ -272,6 +278,7 @@ h1 {
             var category4 = "";
             var category5 = "";
             var roundWinner = "";
+            var numOfCommunalCards = 0;
             
 			//document.getElementById("AI 2").style.visibility = "hidden";
 			
@@ -383,7 +390,69 @@ h1 {
 					var responseText = xhr.response; // the text of the response
                     gameIndex = JSON.parse(responseText);
 					document.getElementById("gameIndex").innerHTML = "Game Number: " + gameIndex;
+					getNumCommunalCards(gameIndex);
+					getNumOfCardsLeft(gameIndex);
 					getCategories(gameIndex);	
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+			// This calls the getNumCommunalCards REST method from TopTrumpsRESTAPI
+			function getNumCommunalCards(gameIndex) {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getNumCommunalCards?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					numOfCommunalCards = JSON.parse(responseText);
+                    document.getElementById("numOfCommunalCards").innerHTML = "There are " + numOfCommunalCards 
+                    + " cards in the communal pile.";
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+			// This calls the getNumOfCardsLeft REST method from TopTrumpsRESTAPI
+			function getNumOfCardsLeft(gameIndex) {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getNumOfCardsLeft?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					var numOfCardsLeft = JSON.parse(responseText);
+					var playerNames = Object.keys(numOfCardsLeft);
+					for (i = 0; i < 5; i++) {
+						if (playerNames[i] == "Player 1") {
+							document.getElementById("p1_cards_left").innerHTML = numOfCardsLeft[playerNames[i]];
+						}
+						else {
+							for (j = 1; j < 5; j++) {
+								if (playerNames[i] == "AI " + j){
+									document.getElementById("ai" + j + "_cards_left").innerHTML = numOfCardsLeft[playerNames[i]];
+								}
+							}
+						}
+					}		
+
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -730,7 +799,8 @@ h1 {
 						document.getElementById("message").innerHTML = roundWinner + "won!";
 						activePlayer = roundWinner;
 					}
-					
+					getNumCommunalCards(gameIndex);
+					getNumOfCardsLeft(gameIndex);
 					//update categoryButton to "Show Winner", computeResult()
 					updateButton("categoryButton", newRound, gameIndex, "Next Round");
 					
