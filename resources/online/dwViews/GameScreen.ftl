@@ -273,10 +273,6 @@ h1 {
             var category5 = "";
             var roundWinner = "";
             
-            
-			//document.getElementById("gameNumber").innerHTML = "Game Number: " + gameNumber;
-			
-			//set a player to be invisble if they are out of the game?
 			//document.getElementById("AI 2").style.visibility = "hidden";
 			
 			
@@ -287,116 +283,20 @@ h1 {
 				// You can call other methods you want to run when the page first loads here
 				// --------------------------------------------------------------------------
 				
-				
 				startNewGame();
             }
-            
-			
-
-				//getCategories(gameIndex);	//this is from human top card
-                //newRound(gameIndex);
-           		//getPlayerNames(gameIndex);
-                //isHuman(gameIndex);
-                //getHumanTopCardTitle(gameIndex);
-                //getHumanTopCardCategories(gameIndex);
-                //getActivePlayer(gameIndex);
                 
             function categorySelection() {
             	if (activePlayer != "Player 1") {
             		selectCategory(gameIndex);
-            		//getTopCardTitles(gameIndex); - update showing titles and images
-            		//getTopCards(gameIndex); - update showing categories and values
-            		//have a show winner button
             	}
-            	//else if Player 1
-            		//need to let human select somehow
-            		//selectCategoryHuman(gameIndexCat); - figure out how to send 2 parameters later
-            		//getTopCardTitles(gameIndex);
-            		//getTopCards(gameIndex);
+            	else {
+            		document.getElementById("message").innerHTML = "Player 1, please select a category on your card";
+            		for (i = 0; i < 5; i++) {
+            			userCategoriesActivate("p1_cat" + (i + 1) + "_name", categories[i]);
+            		}
+            	}
             }
-                
-                  
-                //getTopCardTitles(gameIndex);
-                //getTopCards(gameIndex);
-                
-                //example of changing image based on description
-               // var cardname = "Carrack"
-               // changeImage(cardname);
-				
-			
-			
-			//startNewGame - gives gameIndex
-			//getCategories - gets category names and stores in global variables
-			//newRound - start 1st Round
-			//getPlayerNames - should update global variables, visible list of players?
-			//getActivePlayer
-			//is player1 still in the game?
-			//get player1 top card if so -----------------
-			//need something to show how many cards player 1 has left
-			
-			//if AI player is active Player, button showing Category Selection results:
-			
-			//"AI player selected FirePower" and all cards are shown
-			
-			//button "Show Winner"
-			
-			//everything disappears
-			//message saying "Player 1 won the round"
-			//Button "Next Round"
-			
-			function beginRound() {
-				if(activePlayer != "Player 1"){
-					//you want to wait and print message saying AI is choosing category
-					//update a button with continue
-					document.getElementById("message").innerHTML = activePlayer + " is choosing a category...";
-					//document.getElementById("controlButton").onclick = function(){compareCards();};
-				}
-				else{
-					//you want to print a message saying choose your category 
-					document.getElementById("message").innerHTML = activePlayer + " choose your category";
-					// add 5 buttons to the DOM
-					
-						var btn = document.createElement("button");
-						var txt = document.createTextNode(category1);
-						btn.appendChild(txt);
-						btn.onclick = function(){chooseCategory(category1)};
-						var element = document.getElementById("menu");
-						element.appendChild(btn); 
-						
-						
-						
-						var btn = document.createElement("button");
-						var txt = document.createTextNode(category2);
-						btn.appendChild(txt);
-						btn.onclick = function(){chooseCategory(category2)};
-						var element = document.getElementById("menu");
-						element.appendChild(btn);
-						
-						var btn = document.createElement("button");
-						var txt = document.createTextNode(category3);
-						btn.appendChild(txt);
-						btn.onclick = function(){chooseCategory(category3)};
-						var element = document.getElementById("menu");
-						element.appendChild(btn);
-						
-						var btn = document.createElement("button");
-						var txt = document.createTextNode(category4);
-						btn.appendChild(txt);
-						btn.onclick = function(){chooseCategory(category4)};
-						var element = document.getElementById("menu");
-						element.appendChild(btn);
-						
-						var btn = document.createElement("button");
-						var txt = document.createTextNode(category5);
-						btn.appendChild(txt);
-						btn.onclick = function(){chooseCategory(category5)};
-						var element = document.getElementById("menu");
-						element.appendChild(btn);
-					
-					//have another function outside here called ChooseCategory
-					
-				}
-			}
 			
 			function chooseCategory(category){
 				activeCategory = category;
@@ -514,6 +414,7 @@ h1 {
             		category5 = categoryNames[4];
                     document.getElementById("categories").innerHTML = "Categories: " + category1 + ", " + category2 + ", " + category3 + ", " 
                     + category4 + ", " + category5;
+                    categories = [category1, category2, category3, category4, category5];
                     newRound(gameIndex);
 				};
 				
@@ -796,7 +697,8 @@ h1 {
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
 					activeCategory = JSON.parse(responseText);
-					document.getElementById("message").innerHTML = activePlayer + " chose " + activeCategory;
+					document.getElementById("message").innerHTML = activePlayer + " selected " + activeCategory;
+					getTopCardTitles(gameIndex);
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -841,7 +743,7 @@ h1 {
 			}
 			
 			
-			
+			//---------------HELPER METHODS--------------------------------
 			
 			
             //small example of how to change img src
@@ -856,10 +758,23 @@ h1 {
 						document.getElementById(id).innerHTML = key + ": " + value;
 			}
 			
+			//update a specific button and the function it points to
 			
 			function updateButton(id, funcName, parameter, text) {
 					document.getElementById(id).innerHTML = text;
 					document.getElementById(id).onclick = function(){funcName(parameter)};
+			}
+			
+			//make the categories on Player 1's card eventlisteners
+			
+			function userCategoriesActivate(id, category) {
+				
+				document.getElementById(id).addEventListener("click", function(){
+					activeCategory = category;
+					var gameIndexCat = "" + gameIndex + "xxxxx" + category;
+    				selectCategoryHuman(gameIndexCat);
+				});
+				
 			}
 
 		</script>
