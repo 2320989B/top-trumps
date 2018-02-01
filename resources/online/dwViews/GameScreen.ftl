@@ -127,44 +127,39 @@ h1 {
                 <h2>Player 1</h2>
               </div>
               <div class="shipname">
-                <h2>Sabre</h2>
+                <h2 id="p1_card_name">Sabre</h2>
               </div>
             </div>
             <div class="shipinfo">
               <div class="shipimg">
-                <img id="shipImgChange" src="http://dcs.gla.ac.uk/~richardm/TopTrumps/Hawk.jpg" />
+                <img id="p1_shipImg" src="" />
               </div>
-                <p id="p1_cat1_name">Size</p>
-                <p id="p1_cat1_value">20</p>
-                <p id="p1_cat2_name">Speed</p>
-                <p id="p1_cat2_value">20</p>
-                <p id="p1_cat3_name">Range</p>
-                <p id="p1_cat3_value">20</p>
-                <p id="p1_cat4_name">Firepower</p>
-                <p id="p1_cat4_value">20</p>
-                <p id="p1_cat5_name">Cargo</p>
-                <p id="p1_cat5_value">20</p>
-            </div>
+                <p id="p1_cat1_name"></p>
+                <p id="p1_cat2_name"></p>
+                <p id="p1_cat3_name"></p>
+                <p id="p1_cat4_name"></p>
+                <p id="p1_cat5_name"></p>
+              </div>
           </div>
           
           <div class="col-sm card" id="AI 1">
             <div class="cardheader">
               <div class="playername">
-                <h2>AI 1</h2>
+                <h2 >AI 1</h2>
               </div>
               <div class="shipname">
-                <h2>Sabre</h2>
+                <h2 id="ai1_card_name"></h2>
               </div>
             </div>
             <div class="shipinfo">
               <div class="shipimg">
-                <img src="ship.png" />
+                <img id="ai1_shipImg" src="" />
               </div>
-              <p>Size: 1</p>
-              <p>Speed: 1</p>
-              <p>Range: 1</p>
-              <p>Firepower: 1</p>
-              <p>Cargo: 1</p>
+              	<p id="ai1_cat1_name"></p>
+                <p id="ai1_cat2_name"></p>
+                <p id="ai1_cat3_name"></p>
+                <p id="ai1_cat4_name"></p>
+                <p id="ai1_cat5_name"></p>
             </div>
           </div>
           <div class="col-sm card" id="AI 2">
@@ -173,18 +168,18 @@ h1 {
                 <h2>AI 2</h2>
               </div>
               <div class="shipname">
-                <h2>Sabre</h2>
+                <h2 id="ai2_card_name"></h2>
               </div>
             </div>
             <div class="shipinfo">
               <div class="shipimg">
-                <img src="ship.png" />
+                <img id="ai2_shipImg" src="" />
               </div>
-              <p>Size: 1</p>
-              <p>Speed: 1</p>
-              <p>Range: 1</p>
-              <p>Firepower: 1</p>
-              <p>Cargo: 1</p>
+              <p id="ai2_cat1_name"></p>
+                <p id="ai2_cat2_name"></p>
+                <p id="ai2_cat3_name"></p>
+                <p id="ai2_cat4_name"></p>
+                <p id="ai2_cat5_name"></p>
             </div>
           </div>
           <div class="col-sm card" id="AI 3">
@@ -193,18 +188,18 @@ h1 {
                 <h2>AI 3</h2>
               </div>
               <div class="shipname">
-                <h2>Sabre</h2>
+                <h2 id="ai3_card_name"></h2>
               </div>
             </div>
             <div class="shipinfo">
               <div class="shipimg">
-                <img src="ship.png" />
+                <img id="ai3_shipImg" src="" />
               </div>
-              <p>Size: 1</p>
-              <p>Speed: 1</p>
-              <p>Range: 1</p>
-              <p>Firepower: 1</p>
-              <p>Cargo: 1</p>
+              <p id="ai3_cat1_name"></p>
+                <p id="ai3_cat2_name"></p>
+                <p id="ai3_cat3_name"></p>
+                <p id="ai3_cat4_name"></p>
+                <p id="ai3_cat5_name"></p>
             </div>
           </div>
           <div class="col-sm card" id="AI 4">
@@ -213,18 +208,18 @@ h1 {
                 <h2>AI 4</h2>
               </div>
               <div class="shipname">
-                <h2>Sabre</h2>
+                <h2 id="ai4_card_name"></h2>
               </div>
             </div>
             <div class="shipinfo">
               <div class="shipimg">
-                <img src="ship.png" />
+                <img id="ai4_shipImg" src="" />
               </div>
-              <p>Size: 1</p>
-              <p>Speed: 1</p>
-              <p>Range: 1</p>
-              <p>Firepower: 1</p>
-              <p>Cargo: 1</p>
+              <p id="ai4_cat1_name"></p>
+                <p id="ai4_cat2_name"></p>
+                <p id="ai4_cat3_name"></p>
+                <p id="ai4_cat4_name"></p>
+                <p id="ai4_cat5_name"></p>
             </div>
           </div>
     </div>
@@ -255,12 +250,12 @@ h1 {
         <p id="ai4NumberOfCardsLeft"</p>
         <p id="ai4CategoryValues"</p>
         <div>
-        	<button id="categoryButton" onclick="getStuff()">Get Categories</button>
-        	<button id="beginButton" onclick="beginRound()">Begin Round</button>
+        	<button id="categoryButton" onclick="categorySelection()">Category Selection</button>
+        	<!-- <button id="beginButton" onclick="beginRound()">Begin Round</button> -->
         	<p id="message">Hello</p>
-        	<button id="controlButton" onclick="compareCards()">Compare Cards</button>
-        	<button id="roundWinnerButton" onclick="showWinner()">Show Winner</button>
-        	<button id="NewRoundButton" onclick="setUpNewRound()">Set Up New Round</button>
+        	<!-- <button id="controlButton" onclick="compareCards()">Compare Cards</button> -->
+        	<!-- <button id="roundWinnerButton" onclick="showWinner()">Show Winner</button> -->
+        	<!-- <button id="NewRoundButton" onclick="setUpNewRound()">Set Up New Round</button> -->
         </div>
   </div>
 		
@@ -282,18 +277,8 @@ h1 {
 			//document.getElementById("gameNumber").innerHTML = "Game Number: " + gameNumber;
 			
 			//set a player to be invisble if they are out of the game?
-			document.getElementById("AI 2").style.visibility = "hidden";
+			//document.getElementById("AI 2").style.visibility = "hidden";
 			
-			//update the names of all categories
-			category1 = "SIZE";
-			document.getElementById("p1_cat1_name").innerHTML = category1;
-			
-			//Update a player's category value
-			document.getElementById("p1_cat1_value").innerHTML = "100";
-			
-			//get the value of a specific category and display it next to menu items
-			var x = document.getElementById("p1_cat1_value").innerHTML;
-			document.getElementById("cat1").innerHTML = x;
 			
 			// Method that is called on page load
 			function initalize() {
@@ -306,21 +291,58 @@ h1 {
 				startNewGame();
             }
             
-			function getStuff() {
+			
 
-				getCategories(gameIndex);	
-                newRound(gameIndex);
-                getActivePlayer(gameIndex);
-                isHuman(gameIndex);
-                getPlayerNames(gameIndex);
-                getTopCardTitles(gameIndex);
-                getTopCards(gameIndex);
+				//getCategories(gameIndex);	//this is from human top card
+                //newRound(gameIndex);
+           		//getPlayerNames(gameIndex);
+                //isHuman(gameIndex);
+                //getHumanTopCardTitle(gameIndex);
+                //getHumanTopCardCategories(gameIndex);
+                //getActivePlayer(gameIndex);
+                
+            function categorySelection() {
+            	if (activePlayer != "Player 1") {
+            		selectCategory(gameIndex);
+            		//getTopCardTitles(gameIndex); - update showing titles and images
+            		//getTopCards(gameIndex); - update showing categories and values
+            		//have a show winner button
+            	}
+            	//else if Player 1
+            		//need to let human select somehow
+            		//selectCategoryHuman(gameIndexCat); - figure out how to send 2 parameters later
+            		//getTopCardTitles(gameIndex);
+            		//getTopCards(gameIndex);
+            }
+                
+                  
+                //getTopCardTitles(gameIndex);
+                //getTopCards(gameIndex);
                 
                 //example of changing image based on description
-                var cardname = "Carrack"
-                changeImage(cardname);
+               // var cardname = "Carrack"
+               // changeImage(cardname);
 				
-			}
+			
+			
+			//startNewGame - gives gameIndex
+			//getCategories - gets category names and stores in global variables
+			//newRound - start 1st Round
+			//getPlayerNames - should update global variables, visible list of players?
+			//getActivePlayer
+			//is player1 still in the game?
+			//get player1 top card if so -----------------
+			//need something to show how many cards player 1 has left
+			
+			//if AI player is active Player, button showing Category Selection results:
+			
+			//"AI player selected FirePower" and all cards are shown
+			
+			//button "Show Winner"
+			
+			//everything disappears
+			//message saying "Player 1 won the round"
+			//Button "Next Round"
 			
 			function beginRound() {
 				if(activePlayer != "Player 1"){
@@ -340,6 +362,8 @@ h1 {
 						btn.onclick = function(){chooseCategory(category1)};
 						var element = document.getElementById("menu");
 						element.appendChild(btn); 
+						
+						
 						
 						var btn = document.createElement("button");
 						var txt = document.createTextNode(category2);
@@ -384,7 +408,7 @@ h1 {
 					selectCategory(gameIndex);
 				}
 				else {
-					alert("hllo");
+					
 					var gameIndexCat = "" + gameIndex + "xxxxx" + activeCategory;
 					alert(gameIndexCat);
 					selectCategoryHuman(gameIndexCat);
@@ -438,10 +462,8 @@ h1 {
 		<script type="text/javascript">
 				
 			
-			//When you start a new game you will want some important information:
-			// Number of AIPlayers
-			// 
 			
+		//-------------------------------------------First Part of Game-----------------------------	
 			
 			
 			
@@ -461,7 +483,7 @@ h1 {
 					var responseText = xhr.response; // the text of the response
                     gameIndex = JSON.parse(responseText);
 					document.getElementById("gameIndex").innerHTML = "Game Number: " + gameIndex;
-					
+					getCategories(gameIndex);	
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -492,6 +514,7 @@ h1 {
             		category5 = categoryNames[4];
                     document.getElementById("categories").innerHTML = "Categories: " + category1 + ", " + category2 + ", " + category3 + ", " 
                     + category4 + ", " + category5;
+                    newRound(gameIndex);
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -514,7 +537,122 @@ h1 {
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
 					round = JSON.parse(responseText);
-                    document.getElementById("currentRound").innerHTML = "Current Round: " + round;
+                    document.getElementById("currentRound").innerHTML = "Current Round: " + round 
+                    + " - Players have drawn their cards.";
+                    getPlayerNames(gameIndex);
+                    updateButton("categoryButton", categorySelection, gameIndex, "Category Selection");
+                    document.getElementById("gameIndex").innerHTML = "Game Number: " + gameIndex;
+                    document.getElementById("message").innerHTML = "Players have drawn their cards";
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+			// This calls the getPlayerNames REST method from TopTrumpsRESTAPI
+			function getPlayerNames(gameIndex) {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getPlayerNames?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					playerNames = JSON.parse(responseText);
+                    document.getElementById("playerNames").innerHTML = "Players still in game: " + playerNames;
+                    
+					//isHuman(gameIndex); ----------Not sure but this seems to be causing issues on the 2nd round
+					getHumanTopCardTitle(gameIndex);
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+			// This calls the isHuman REST method from TopTrumpsRESTAPI
+			function isHuman(gameIndex) {
+			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/isHuman?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					alert("isHuman");
+					isHuman = JSON.parse(responseText);
+                    document.getElementById("isHuman").innerHTML = "Human Player Still in Game?: " + isHuman;
+                    if (isHuman == true){
+                    	getHumanTopCardTitle(gameIndex);
+                    }
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+			// This calls the getHumanTopCardTitle REST method from TopTrumpsRESTAPI
+			// This will return the getHumanTopCardTitle
+			function getHumanTopCardTitle(gameIndex) {
+			
+				//First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getHumanTopCardTitle?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				//Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				//CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					var humanTopCardTitle = JSON.parse(responseText);
+					document.getElementById("p1_card_name").innerHTML = humanTopCardTitle;
+					changeImage("p1_shipImg", humanTopCardTitle);
+					getHumanTopCardCategories(gameIndex);
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
+			
+			
+			// This calls the getHumanTopCardCategories REST method from TopTrumpsRESTAPI
+			// This will return the getHumanTopCardCategories
+			function getHumanTopCardCategories(gameIndex) {
+			
+				//First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getHumanTopCardCategories?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				//Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				//CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					var humanTopCardCategories = JSON.parse(responseText);
+					
+					var categoryNames = Object.keys(humanTopCardCategories);
+					for (i = 0; i < categoryNames.length; i++) {
+						updateCategories("p1_cat" + (i + 1) + "_name", categoryNames[i], 
+						humanTopCardCategories[categoryNames[i]]);
+				    }  
+				    getActivePlayer(gameIndex);              
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -544,51 +682,36 @@ h1 {
 				xhr.send();		
 			}
 			
-             // This calls the isHuman REST method from TopTrumpsRESTAPI
-			function isHuman(gameIndex) {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/isHuman?gameIndex="+gameIndex); // Request type and URL+parameters
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-					alert("CORS not supported");
-				}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
-					var responseText = xhr.response; // the text of the response
-					isHuman = JSON.parse(responseText);
-                    document.getElementById("isHuman").innerHTML = "Human Player Still in Game?: " + isHuman;
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
+             
             
-            // This calls the getPlayerNames REST method from TopTrumpsRESTAPI
-			function getPlayerNames(gameIndex) {
+        //---------------------------------------Second Part of Game - Category Selection--------------    
 			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getPlayerNames?gameIndex="+gameIndex); // Request type and URL+parameters
+			
+			// This asks Game to select a category for the active AI Player
+            // This calls the selectCategory REST method from TopTrumpsRESTAPI
+			function selectCategory(gameIndex) {
+			
+				//First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/selectCategory?gameIndex="+gameIndex); // Request type and URL+parameters
 				
-				// Message is not sent yet, but we can check that the browser supports CORS
+				//Message is not sent yet, but we can check that the browser supports CORS
 				if (!xhr) {
 					alert("CORS not supported");
 				}
 
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				//CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
 				// to do when the response arrives 
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
-					playerNames = JSON.parse(responseText);
-                    document.getElementById("playerNames").innerHTML = "Players still in game: " + playerNames;
+					activeCategory = JSON.parse(responseText);
+					document.getElementById("message").innerHTML = activePlayer + " selected " + activeCategory;
+					getTopCardTitles(gameIndex);
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
 			}
+			
 			
             // This calls the getTopCardTitles REST method from TopTrumpsRESTAPI
 			function getTopCardTitles(gameIndex) {
@@ -606,7 +729,13 @@ h1 {
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
 					topCardTitles = JSON.parse(responseText);
-                    document.getElementById("topCardTitles").innerHTML = "Top cards are: " + topCardTitles;
+		
+					for(i = 1; i < 5; i++) {
+						document.getElementById("ai" + i + "_card_name").innerHTML = topCardTitles[i];
+						changeImage("ai" + i + "_shipImg", topCardTitles[i]);
+						
+					}
+					getTopCards(gameIndex);    
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -629,44 +758,25 @@ h1 {
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
 					topCards = JSON.parse(responseText);
-					document.getElementById("p1CategoryValues").innerHTML = "Player 1 topCard: " + category1 + ": " + topCards[0][category1] 
-					+ category2 + ": " + topCards[0][category2] + category3 + ": " + topCards[0][category3] 
-					+ category4 + ": " + topCards[0][category4] + category5 + ": " + topCards[0][category5];
-					for (i = 1; i < numPlayersLeft; i++) {
-						var id = "ai" + i + "CategoryValues";
-                    	document.getElementById(id).innerHTML = "Player AI " + i + "'s Top Card: " + category1 + ": " + topCards[i][category1] 
-					+ category2 + ": " + topCards[i][category2] + category3 + ": " + topCards[i][category3] 
-					+ category4 + ": " + topCards[i][category4] + category5 + ": " + topCards[i][category5];
+					topCardsCategories = Object.keys(topCards[0]);
+					
+					for (i = 1; i < topCards.length; i++) {
+						for (j = 0; j < topCardsCategories.length; j++) {
+							updateCategories("ai" + i +"_cat" + (j + 1) + "_name", topCardsCategories[j], 
+							topCards[i][topCardsCategories[j]]);
+						}
+					
 					}
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
-            
-            // This asks Game to select a category for the active AI Player
-            // This calls the selectCategory REST method from TopTrumpsRESTAPI
-			function selectCategory(gameIndex) {
-			
-				//First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/selectCategory?gameIndex="+gameIndex); // Request type and URL+parameters
-				
-				//Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-					alert("CORS not supported");
-				}
-
-				//CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
-					var responseText = xhr.response; // the text of the response
-					activeCategory = JSON.parse(responseText);
+					//update categoryButton to "Show Winner", computeResult()
+					updateButton("categoryButton", computeResult, gameIndex, "Show Winner");
 					
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
 			}
+            
+            
 			
 			// If a human is the activePlayer, this method passes their choice to the Game
 			// This is not perfect as I pass both gameIndex and the Category choice as one parameter
@@ -718,7 +828,13 @@ h1 {
 						document.getElementById("message").innerHTML = roundWinner + "won!";
 						activePlayer = roundWinner;
 					}
+					
+					//update categoryButton to "Show Winner", computeResult()
+					updateButton("categoryButton", newRound, gameIndex, "Next Round");
+					
 				};
+				
+				
 				
 				// We have done everything we need to prepare the CORS request, so send it
 				xhr.send();		
@@ -726,12 +842,25 @@ h1 {
 			
 			
 			
+			
+			
             //small example of how to change img src
             
-            
-            function changeImage(imgName){
-                document.getElementById("shipImgChange").src = "http://dcs.gla.ac.uk/~richardm/TopTrumps/" + imgName +".jpg"
+            function changeImage(id, imgName){
+                document.getElementById(id).src = "http://dcs.gla.ac.uk/~richardm/TopTrumps/" + imgName +".jpg"
             }
+            
+            //small example of how to update card categories
+            
+            function updateCategories(id, key, value){
+						document.getElementById(id).innerHTML = key + ": " + value;
+			}
+			
+			
+			function updateButton(id, funcName, parameter, text) {
+					document.getElementById(id).innerHTML = text;
+					document.getElementById(id).onclick = function(){funcName(parameter)};
+			}
 
 		</script>
 		
