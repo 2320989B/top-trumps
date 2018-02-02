@@ -122,6 +122,13 @@ public class GameInfo {
       return humanRoundsWon;
    }
 
+   public String getGameWinnerName() {
+	  return gameWinnerName;
+   }
+	   
+   public Boolean getGameWinnerHuman() {
+	  return winnerHuman;
+	     }
    public int getNumDraws() {
       return numDraws;
    }
