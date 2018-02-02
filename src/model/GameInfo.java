@@ -26,6 +26,7 @@ public class GameInfo {
    private int humanRoundsWon;
    private int numDraws;
    private String activePlayerName;
+   private Boolean activePlayerHuman;
    private String roundWinnerName;
    private String gameWinnerName;
    private Boolean winnerHuman;
@@ -47,8 +48,10 @@ public class GameInfo {
 
       if (game.getActivePlayer() != null) {
          activePlayerName = game.getActivePlayer().getName();
+         activePlayerHuman = game.getActivePlayer().getIsHuman();
       } else {
          activePlayerName = null;
+         activePlayerHuman = null;
       }
 
       if (game.getRoundWinner() != null) {
@@ -135,6 +138,10 @@ public class GameInfo {
 
    public String getActivePlayerName() {
       return activePlayerName;
+   }
+
+   public Boolean getActivePlayerHuman() {
+      return activePlayerHuman;
    }
 
    public String getRoundWinnerName() {
