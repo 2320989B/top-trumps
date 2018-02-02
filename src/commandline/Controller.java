@@ -101,15 +101,19 @@ class Controller implements Observer {
          gameAPI.newRound();
 
       } else if (gameState.equals(GameState.NEW_ROUND_INITIALISED)) {
-         // If the user is still in the game, we show the user his top card,
-         // and enforce a pause to allow the user to review his card.
+         // If the user is still in the game, we show the user his top card.
          if (gameInfo.getNumHumanCards() != null) {
             new ViewNewRound().show(gameInfo, initialPlayerNames);
+         }
+         // Pause if the active player is not human, to allow the user to review
+         // his card.
+         if (!gameInfo.getActivePlayerHuman()) {
             new ViewPause().show();
          }
          // Regardless of whether the human is in the game, commence category
          // selection logic.
          gameAPI.selectCategory();
+
 
       } else if (gameState.equals(GameState.CATEGORY_REQUIRED)) {
          // The human is the active player, so he should select a category.
@@ -130,6 +134,10 @@ class Controller implements Observer {
             new ViewPause().show();
          }
          gameAPI.concludeRound();
+
+      } else if (gameState.equals(GameState.HUMAN_OUT)) {
+         new ViewHumanBooted().show(gameInfo);
+         new ViewPause().show();
 
       } else if (gameState.equals(GameState.ROUND_COMPLETE))
          // Continue to play rounds so long as there is more than one player

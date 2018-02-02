@@ -50,6 +50,7 @@ class Player {
       return hand;
    }
 
+   // TODO: This looks like a duplicate of getHand().
    ArrayList<Card> getList() {
       return hand;
    }

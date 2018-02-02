@@ -93,7 +93,6 @@ public class Game extends Observable {
       activeCategory = category;
    }
 
-
    // =========================================================================
    // GAME LOGIC METHODS
    // =========================================================================
@@ -367,6 +366,9 @@ public class Game extends Observable {
 
          if (player.getList().isEmpty()) {
             iter.remove();
+            if (player.getIsHuman()) {
+               setGameState(GameState.HUMAN_OUT);
+            }
             // need to remember that due to successive draws, the active player could run
             // out of cards
             // select a new random player if playe
