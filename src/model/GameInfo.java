@@ -86,7 +86,7 @@ public class GameInfo {
       if (deck.size() > 0) {
           numOfCommunalCards = deck.size();
        } else {
-          numHumanCards = 0;
+         numOfCommunalCards = 0;
        }
 
       if (humanPlayer != null && humanPlayer.getTopMostCard() != null) {
