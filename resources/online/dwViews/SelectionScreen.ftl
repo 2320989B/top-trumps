@@ -118,7 +118,7 @@ h1 {
 			<a href="http://localhost:7777/toptrumps/game"><button type="button" class="btn btn-primary btn-lg btn-block" id="menubtn">Start New Game</button></a>
 <!--           </div>
           <div class="col-sm"> -->
-			<button type="button" class="btn btn-primary btn-lg btn-block" id="menubtn">View Statistics</button>
+			<a href="http://localhost:7777/toptrumps/stats"><button type="button" class="btn btn-primary btn-lg btn-block" id="menubtn">View Statistics</button></a>
           </div>
     </div>
   </div>

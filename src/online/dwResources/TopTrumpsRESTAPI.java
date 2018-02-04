@@ -3,6 +3,7 @@ package online.dwResources;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +20,9 @@ import persistence.PostgresPersistence;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
-//import commandline.ViewDBError;
-//import model.Game;
+
 import model.GameAPI;
-//import model.Player; // not sure why this class is invisible, if you make it public it should work
+
 import model.GameInfo;
 
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
@@ -546,5 +546,55 @@ public class TopTrumpsRESTAPI {
 		return stringAsJSONString;
 	}
 	
+	@GET
+	@Path("/getDB")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String getDB() throws IOException {
+		//convert the string gameIndex to an int
+		//int gameNumber = Integer.parseInt(gameIndex);
 	
+		//get the specific instance of GameAPI associated with the tab calling this API
+		//GameAPI game = games.get(gameNumber);
+		
+		
+		
+		//create a GameInfo object to get information about this specific game
+		//GameInfo gameInfo = game.getGameInfo();
+		
+		Map<String, Integer> dbDetails = new LinkedHashMap<String, Integer>();
+		
+		try {
+            dbConnection.establishDBConnection();
+            		dbDetails.put("Games", dbConnection.getGameCount());
+            		dbDetails.put("AI Wins", dbConnection.getAIWinCount());
+            		dbDetails.put("Human Wins", dbConnection.getHumanWinCount());
+            		dbDetails.put("Average Draws per game", (int) dbConnection.getAverageDraws());
+            		dbDetails.put("Longest Game", dbConnection.getMaxRoundCount());
+            dbConnection.closeDBConnection();
+         } catch (SQLException | ClassNotFoundException e) {
+            //new ViewDBError().show(e.getMessage());
+        	 System.out.println("Database Error");
+         }
+		
+		/* Can try commenting out the try/catch above and uncommenting below
+		 * if you have problems - just a dummy set of data to send to the page
+		 * 
+            		dbDetails.put("Games", 1);
+            		dbDetails.put("AI Wins", 0);
+            		dbDetails.put("Human Wins", 1);
+            		dbDetails.put("Average Draws per game", 3);
+            		dbDetails.put("Longest Game", 43);
+         */   
+         System.out.println(dbDetails.get("Games"));
+
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(dbDetails);
+		return stringAsJSONString;
+	}
 }
