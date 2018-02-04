@@ -6,7 +6,7 @@
 CREATE TABLE GameData
 	(
 	gameNo SERIAL CONSTRAINT game_pk PRIMARY KEY,
-	winnerIsHuman INT,
+	winnerIsHuman BOOLEAN,
 	winnerName VARCHAR(40),
 	numOfDraws FLOAT,
 	numOfRounds INT,
