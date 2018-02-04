@@ -1,7 +1,7 @@
 package online.dwResources;
 
 import java.io.IOException;
-
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +14,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import online.configuration.TopTrumpsJSONConfiguration;
+import persistence.PostgresPersistence;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
-import model.Game;
+//import commandline.ViewDBError;
+//import model.Game;
 import model.GameAPI;
 //import model.Player; // not sure why this class is invisible, if you make it public it should work
 import model.GameInfo;
@@ -52,6 +54,7 @@ public class TopTrumpsRESTAPI {
 		// can extract these values from TopTrumpsConfiguration conf
 		private String deckInputFile;
 		private int numAIPlayers;
+		private PostgresPersistence dbConnection;
 	/**
 	 * Contructor method for the REST API. This is called first. It provides
 	 * a TopTrumpsJSONConfiguration from which you can get the location of
@@ -66,6 +69,7 @@ public class TopTrumpsRESTAPI {
 		deckInputFile = conf.getDeckFile();
 		numAIPlayers = conf.getNumAIPlayers();
 		games = new ArrayList<GameAPI>();
+		dbConnection = new PostgresPersistence();
 	}
 
 	
@@ -505,4 +509,42 @@ public class TopTrumpsRESTAPI {
 		String stringAsJSONString = oWriter.writeValueAsString(roundWinner);
 		return stringAsJSONString;
 	}
+	
+	@GET
+	@Path("/updateDB")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String updateDB(@QueryParam("gameIndex") String gameIndex) throws IOException {
+		//convert the string gameIndex to an int
+		int gameNumber = Integer.parseInt(gameIndex);
+	
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		
+		
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		String message = "DB updated";
+		try {
+			dbConnection.establishDBConnection();
+            dbConnection.update(gameInfo);
+            dbConnection.commit();
+            dbConnection.closeDBConnection();
+        } catch (SQLException | ClassNotFoundException e) {
+            //new ViewDBError().show(e.getMessage());
+        	message = "Database Error";
+        }
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(message);
+		return stringAsJSONString;
+	}
+	
+	
 }
