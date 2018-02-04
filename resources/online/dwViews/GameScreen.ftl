@@ -605,11 +605,7 @@ nav ul a {
 						if (playerNames[i] == "Player 1") {
 							document.getElementById("p1_cards_left").innerHTML = numOfCardsLeft[playerNames[i]];
 							player1Found = true;
-							if (numOfCardsLeft[playerNames[i]] == 40) {
-								document.getElementById("p1_cards_left").innerHTML = "WINNER";
-								updateButton("categoryButton", updateButtonComplete, 'http://localhost:7777/toptrumps/', "Return to Selection");
-								updateDB(gameIndex);
-							}
+							
 						}
 					}
 					if (player1Found == false) {
@@ -622,11 +618,7 @@ nav ul a {
 							if (playerNames[j] == "AI " + i) {
 								document.getElementById("ai" + i + "_cards_left").innerHTML = numOfCardsLeft[playerNames[j]];
 								aiPlayerFound = true;
-								if (numOfCardsLeft[playerNames[j]] == 40) {
-									document.getElementById("ai" + i + "_cards_left").innerHTML = "WINNER";
-									updateButton("categoryButton", updateButtonComplete, 'http://localhost:7777/toptrumps/', "Return to Selection");
-									updateDB(gameIndex);
-								}
+								
 							}
 						}
 						if (aiPlayerFound == false) {
@@ -1112,10 +1104,7 @@ nav ul a {
 						activePlayer = roundWinner;
 					}
 					
-					getNumCommunalCards(gameIndex);
-					getNumOfCardsLeft(gameIndex);
-					//update categoryButton to "Show Winner", computeResult()
-					updateButton("categoryButton", newRound, gameIndex, "Next Round");
+					getPlayersLeft(gameIndex);
 					
 				};
 				
@@ -1126,7 +1115,51 @@ nav ul a {
 			}
 			
 			
+			// This calls the getPlayersLeft REST method from TopTrumpsRESTAPI
+			function getPlayersLeft(gameIndex) {
 			
+				// First create a CORS request, this is the message we are going to send (a get request in this case)
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getPlayersLeft?gameIndex="+gameIndex); // Request type and URL+parameters
+				
+				// Message is not sent yet, but we can check that the browser supports CORS
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+
+				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+				// to do when the response arrives 
+				xhr.onload = function(e) {
+					var responseText = xhr.response; // the text of the response
+					var playersLeft = JSON.parse(responseText);
+                    if (playersLeft.length < 2) {
+                        if (playersLeft == "Player 1"){
+                            document.getElementById("p1_cards_left").innerHTML = "WINNER";
+				            updateButton("categoryButton", updateButtonComplete, 'http://localhost:7777/toptrumps/', "Return to Selection");
+				            updateDB(gameIndex);
+                        }
+                        else {
+                            for (i = 1; i < 5; i++) {
+				                if (playersLeft == "AI " + i) {
+								
+								
+									document.getElementById("ai" + i + "_cards_left").innerHTML = "WINNER";
+									updateButton("categoryButton", updateButtonComplete, 'http://localhost:7777/toptrumps/', "Return to Selection");
+									updateDB(gameIndex);
+								}
+                            }
+                        }
+                    }
+                    else {
+                        getNumCommunalCards(gameIndex);
+					    getNumOfCardsLeft(gameIndex);
+					    //update categoryButton to "Show Winner", computeResult()
+					    updateButton("categoryButton", newRound, gameIndex, "Next Round");
+                    }
+				};
+				
+				// We have done everything we need to prepare the CORS request, so send it
+				xhr.send();		
+			}
 			
 			
 			function updateDB(gameIndex) {

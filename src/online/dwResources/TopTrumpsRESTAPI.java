@@ -511,6 +511,32 @@ public class TopTrumpsRESTAPI {
 	}
 	
 	@GET
+	@Path("/getPlayersLeft")
+	/**
+	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 * @param gameIndex - The index of this particular game in the games list
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String getPlayerLeft(@QueryParam("gameIndex") String gameIndex) throws IOException {
+		//convert the string gameIndex to an int
+		int gameNumber = Integer.parseInt(gameIndex);
+	
+		//get the specific instance of GameAPI associated with the tab calling this API
+		GameAPI game = games.get(gameNumber);
+		
+		//create a GameInfo object to get information about this specific game
+		GameInfo gameInfo = game.getGameInfo();
+		
+		//use GameInfo object method to return the new round number
+		List<String> players = gameInfo.getPlayerNames();
+		
+		//send the map of categories to the tab as a JSON string
+		String stringAsJSONString = oWriter.writeValueAsString(players);
+		return stringAsJSONString;
+	}
+	
+	@GET
 	@Path("/updateDB")
 	/**
 	 * Here is an example of how to read parameters provided in an HTML Get request.
