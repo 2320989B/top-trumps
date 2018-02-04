@@ -150,7 +150,7 @@ class Controller implements Observer {
             try {
                dbConnection.establishDBConnection();
                dbConnection.update(gameInfo);
-               //dbConnection.commit();
+               dbConnection.commit();
                dbConnection.closeDBConnection();
             } catch (SQLException | ClassNotFoundException e) {
                new ViewDBError().show(e.getMessage());
