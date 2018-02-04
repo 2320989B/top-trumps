@@ -107,7 +107,8 @@ class Controller implements Observer {
          }
          // Pause if the active player is not human, to allow the user to review
          // his card.
-         if (!gameInfo.getActivePlayerHuman()) {
+         if (!gameInfo.getActivePlayerHuman() &&
+                 gameInfo.getNumHumanCards() != null) {
             new ViewPause().show();
          }
          // Regardless of whether the human is in the game, commence category
