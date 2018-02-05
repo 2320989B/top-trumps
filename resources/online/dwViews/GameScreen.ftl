@@ -317,7 +317,7 @@ nav ul a {
 			var gameIndex = 0;
             var categories = "";
             var totalPlayers = "";
-            var numPlayersLeft = 5;
+            var numPlayersLeft = 0;
             var activePlayer = "";
             var activeCategory = "";
             var category1 = "";
@@ -733,9 +733,9 @@ nav ul a {
                     document.getElementById("playerNames").innerHTML = "Players still in game: " + playerNames;
                     
                     if (round == 1) {
-						totalPlayers = playerNames.length;
+						numPlayersLeft = playerNames.length;
 						document.getElementById("p1_wins").innerHTML = "Player 1 wins: 0";
-						for (i = 1; i < totalPlayers; i++) {
+						for (i = 1; i < numPlayersLeft; i++) {
 							document.getElementById("ai" + i + "_wins").innerHTML = "AI " + i + " wins: 0";
 						}
 						document.getElementById("num_draws").innerHTML = "Number of draws: 0";
@@ -1093,7 +1093,7 @@ nav ul a {
 							document.getElementById("p1_wins").innerHTML = "Player 1 wins: " + wins[0];
 						}
 						else {
-							for (i = 1; i < totalPlayers; i++) {
+							for (i = 1; i < numPlayersLeft; i++) {
 								if (roundWinner == ("AI " + i)) {
 									wins[i] += 1;
 									document.getElementById("ai" + i + "_wins").innerHTML = "AI " + i + " wins: " + wins[i];
