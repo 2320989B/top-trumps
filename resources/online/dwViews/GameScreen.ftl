@@ -140,11 +140,8 @@ nav ul a {
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     
     	<nav>
-			<ul>
+			<ul><li><p id="gameIndex"></p></li>
 				<li><p id="currentRound"></p></li>
-				
-				<li><button id="categoryButton" onclick="categorySelection()">Category Selection</button></li>
-				<li><p id="message">Hello</p></li>
 				<li><p id="p1_wins"></p></li>
 				<li><p id="ai1_wins"></p></li>
 				<li><p id="ai2_wins"></p></li>
@@ -153,6 +150,13 @@ nav ul a {
 				<li><p id="ai5_wins"></p></li>
 				<li><p id="num_draws"></p></li>
 				<li><p id="db_message"></p></li>
+				<br />
+				<li><button id="categoryButton" onclick="categorySelection()">Category Selection</button></li>
+				<li><p id="message"></p></li>
+				<li><p id="currentActivePlayer"></p></li>
+        		<li><p id="numOfCommunalCards"></p></li>
+        		<li><p id="playerNames"></p></li>
+        		
 			
 		<!--		<li><button type="button" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#myModal">Select Difficulty</button></li><br />
 				<li><button id="beginButton" onclick="getStuff()" class="btn btn-default btn-block btn-lg" >Begin Round</button></li><br />
@@ -276,32 +280,9 @@ nav ul a {
           </div>
     </div>
 	<div class="row" id="menu">
-	  MENU ITEMS
-		<p id="gameNumber"></p>
-		<p id="cat1"></p>
 	</div>
-    <hr />
-    <div>
-        <p>To test API calls we should maybe output the values here for just now</p>
-        <p id="gameIndex"></p>
-        <p id="categories"></p>
-        
-        <p id="startNumberAIPlayers"></p>
-        <p id="isHuman"></p>
-        <p id="playerNames"></p>
-        <p id="currentActivePlayer"></p>
-        <p id="topCardTitles"></p>
-        <p id="numOfCommunalCards"></p>
-        <p id="p1NumberOfCardsLeft"></p>
-        <p id="p1CategoryValues"></p>
-        <p id="ai1NumberOfCardsLeft"></p>
-        <p id="ai1CategoryValues"></p>
-        <p id="ai2NumberOfCardsLeft"></p>
-        <p id="ai2CategoryValues"</p>
-        <p id="ai3NumberOfCardsLeft"</p>
-        <p id="ai3CategoryValues"</p>
-        <p id="ai4NumberOfCardsLeft"</p>
-        <p id="ai4CategoryValues"</p>
+    
+    <div> 
         <div>
         	
         	<!-- <button id="beginButton" onclick="beginRound()">Begin Round</button> -->
@@ -313,24 +294,17 @@ nav ul a {
   </div>
 		
 		<script type="text/javascript">
-			//set a global variable which holds game number then update the HTML element with id "gameNumber" to show this
-			var gameIndex = 0;
-            var categories = "";
-            var totalPlayers = "";
-            var numPlayersLeft = 0;
-            var activePlayer = "";
-            var activeCategory = "";
-            var category1 = "";
-            var category2 = "";
-            var category3 = "";
-            var category4 = "";
-            var category5 = "";
+			var gameIndex = 0;                 // value which holds the game reference for this tab
+            var categories = "";			   // variable used to store category names
+            var numPlayersLeft = 0;            // value used to keep track of how many players are left in the game
+            var activePlayer = "";             // variable used to keep track of the current Active Player
+            var activeCategory = "";		   // variable used to keep track of the current ActiveCategory
             var roundWinner = "";
-            var numOfCommunalCards = 0;
+            
             var isHuman = "";
             
-            var wins = [0, 0, 0, 0, 0, 0];
-            var draws = 0;
+            var wins = [0, 0, 0, 0, 0, 0];     // an array which keeps tracks of player wins, used by computeResult() API method
+            var draws = 0;                     // value which keeps track of the number of draws
 			//document.getElementById("AI 2").style.visibility = "hidden";
 			
 			
@@ -425,7 +399,10 @@ nav ul a {
 				
 			}
 			
-			
+			// -------------------------------------------------------------------------------------------------------------------
+			// Call the updateButtonComplete() helper method with the link you wish the button to link to when game complete.
+			// Called by the playersLeft() API method when there is an overall winner.
+			// -------------------------------------------------------------------------------------------------------------------
 			
 			function updateButtonComplete(link) {
         		window.location=link;
@@ -433,47 +410,7 @@ nav ul a {
 			
 			
 			
-			//-----------------------------------------------------------------------------------------------------------
 			
-             //<!-- ------------------ I THINK THESE METHODS ARE NO LONGER REQUIRED ------------------------------ -->
-			
-			 
-			//function chooseCategory(category){
-				//activeCategory = category;
-				//document.getElementById("message").innerHTML = "Player 1 chose " + activeCategory;
-			//}
-			
-			
-			//function compareCards(){
-				//if (activePlayer != "Player 1"){
-					//selectCategory(gameIndex);
-				//}
-				//else {
-					
-					//var gameIndexCat = "" + gameIndex + "xxxxx" + activeCategory;
-					//alert(gameIndexCat);
-					//selectCategoryHuman(gameIndexCat);
-				//}
-				
-			//}
-			
-			
-			
-			
-			//function showWinner() {
-				//computeResult(gameIndex);
-				
-			//}
-			
-			
-				
-			//function setUpNewRound() {
-				//newRound(gameIndex);
-				//getTopCardTitles(gameIndex);
-				//getTopCards(gameIndex);
-			//} 
-			
-			//-------------------------------------------------------------------------------------------- -->
 			
 			// -----------------------------------------
 			// Add your other Javascript methods Here
@@ -566,7 +503,7 @@ nav ul a {
 				// to do when the response arrives 
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
-					numOfCommunalCards = JSON.parse(responseText);
+					var numOfCommunalCards = JSON.parse(responseText);
                     document.getElementById("numOfCommunalCards").innerHTML = "There are " + numOfCommunalCards 
                     + " cards in the communal pile.";
 				};
@@ -655,14 +592,7 @@ nav ul a {
 					var responseText = xhr.response; // the text of the response
 					categories = JSON.parse(responseText);
 					categoryNames = Object.keys(categories); 
-					category1 = categoryNames[0];
-            		category2 = categoryNames[1];
-            		category3 = categoryNames[2];
-            		category4 = categoryNames[3];
-            		category5 = categoryNames[4];
-                    document.getElementById("categories").innerHTML = "Categories: " + category1 + ", " + category2 + ", " + category3 + ", " 
-                    + category4 + ", " + category5;
-                    categories = [category1, category2, category3, category4, category5];
+                    categories = [categoryNames[0], categoryNames[1], categoryNames[2], categoryNames[3], categoryNames[4]];
                     newRound(gameIndex);
 				};
 				
@@ -695,8 +625,7 @@ nav ul a {
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
 					round = JSON.parse(responseText);
-                    document.getElementById("currentRound").innerHTML = "Current Round: " + round 
-                    + " - Players have drawn their cards.";
+                    document.getElementById("currentRound").innerHTML = "Current Round: " + round;
                     getPlayerNames(gameIndex);
                     updateButton("categoryButton", categorySelection, gameIndex, "Category Selection");
                     document.getElementById("gameIndex").innerHTML = "Game Number: " + gameIndex;
@@ -1114,6 +1043,11 @@ nav ul a {
 				xhr.send();		
 			}
 			
+			// -----------------------------------------------------------------------------------------------
+			// Call the getPlayersLeft() API method with the gameIndex number for this particular tab.
+			// Receives the number of players left and checks to see if there is only one left.
+			// Called from computeResult() API method.
+			// -----------------------------------------------------------------------------------------------
 			
 			// This calls the getPlayersLeft REST method from TopTrumpsRESTAPI
 			function getPlayersLeft(gameIndex) {
@@ -1161,6 +1095,11 @@ nav ul a {
 				xhr.send();		
 			}
 			
+			// -----------------------------------------------------------------------------------------------
+			// Call the updateDB() API method with the gameIndex number for this particular tab.
+			// Tells the game to commit the results to the database.
+			// Called by playersLeft() API method when there is only one player left.
+			// -----------------------------------------------------------------------------------------------
 			
 			function updateDB(gameIndex) {
 			
