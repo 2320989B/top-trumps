@@ -17,14 +17,15 @@
     	<link rel="stylesheet" href="http://dcs.gla.ac.uk/~richardm/assets/stylesheets/vex-theme-os.css"/>
     	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-
-	</head>
+      <!-- Custom styles for this template -->
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet"> 
+      <link rel="stylesheet" href="../resources/main.css"/>
+  </head>
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     	
     	<div class="container">
 
-			<!-- Add your HTML Here -->
 				<p id="games"></p>
                 <p id="human_wins"></p>
                 <p id="ai_wins"></p>

@@ -1,3 +1,4 @@
+<style>
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -90,3 +91,24 @@ h1 {
   font-size: 44px;
   font-family: 'Montserrat', sans-serif;
 }
+
+/* Pavlos: add a side menu*/
+nav {
+    float: left;
+    min-width: 360px;
+    max-width: 360px;
+    margin: 0;
+    padding: 1em;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul a {
+    text-decoration: none;
+}
+
+
+</style>
