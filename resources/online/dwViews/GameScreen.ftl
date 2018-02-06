@@ -67,23 +67,23 @@
                 <h2>Player 1</h2>
               </div>
               <div class="shipname">
-                <h2 id="p1_card_name">Sabre</h2>
+                <h2 id="p1_card_name"></h2>
               </div>
             </div>
             <div class="shipinfo">
               <div class="shipimg">
                 <img id="p1_shipImg" src="" />
               </div>
-                <p id="p1_cat1_name"></p>
-                <p id="p1_cat2_name"></p>
-                <p id="p1_cat3_name"></p>
-                <p id="p1_cat4_name"></p>
-                <p id="p1_cat5_name"></p>
+                <button id="p1_cat1_name"></button>
+                <button id="p1_cat2_name"></button>
+                <button id="p1_cat3_name"></button>
+                <button id="p1_cat4_name"></button>
+                <button id="p1_cat5_name"></button>
                 <p id="p1_cards_left"></p>
               </div>
           </div>
           
-          <div class="col-sm card" id="AI 1">
+          <div class="col-sm card" id="AI 1" style="visibility:hidden">
             <div class="cardheader">
               <div class="playername">
                 <h2 >AI 1</h2>
@@ -104,7 +104,7 @@
                 <p id="ai1_cards_left"></p>
             </div>
           </div>
-          <div class="col-sm card" id="AI 2">
+          <div class="col-sm card" id="AI 2" style="visibility:hidden">
             <div class="cardheader">
               <div class="playername">
                 <h2>AI 2</h2>
@@ -125,7 +125,7 @@
                 <p id="ai2_cards_left"></p>
             </div>
           </div>
-          <div class="col-sm card" id="AI 3">
+          <div class="col-sm card" id="AI 3" style="visibility:hidden">
             <div class="cardheader">
               <div class="playername">
                 <h2>AI 3</h2>
@@ -146,7 +146,7 @@
                 <p id="ai3_cards_left"></p>
             </div>
           </div>
-          <div class="col-sm card" id="AI 4">
+          <div class="col-sm card" id="AI 4" style="visibility:hidden">
             <div class="cardheader">
               <div class="playername">
                 <h2>AI 4</h2>
@@ -186,6 +186,7 @@
 			var gameIndex = 0;                 // value which holds the game reference for this tab
             var categories = "";			   // variable used to store category names
             var numPlayersLeft = 0;            // value used to keep track of how many players are left in the game
+            var playerNames = "";
             var activePlayer = "";             // variable used to keep track of the current Active Player
             var activeCategory = "";		   // variable used to keep track of the current ActiveCategory
             var roundWinner = "";
@@ -264,13 +265,51 @@
             	}
             	else {
             		document.getElementById("message").innerHTML = "Player 1, please select a category on your card";
-            		for (i = 0; i < 5; i++) {
-            			userCategoriesActivate("p1_cat" + (i + 1) + "_name", categories[i]);
-            		}
+            		
+            		//----------------------------------------------------------------------------------------------------
+            		//temporarily disabled the loop because of the way it adds event listeners to p tags
+            		//have adjusted to use the userChoice() method to assign an onclick method to button tags 
+            		//instead of p tags. The onclick can be easily changed, whereas it is trickier to reove eventlisteners
+            		//and impossible to remove anonymous eventlisteners.
+            		//----------------------------------------------------------------------------------------------------
+            		//for (i = 0; i < 5; i++) {
+            			//userCategoriesActivate("p1_cat" + (i + 1) + "_name", categories[i]);
+            		//}
+            		userChoice();
             	}
             }
+            
+            // assign an onclick method to each category on the user's card when it is Player 1's turn to select category
+			function userChoice() {
+			
+			    document.getElementById("p1_cat1_name").onclick = function(){userChoiceMade(categories[0])};
+			    document.getElementById("p1_cat2_name").onclick = function(){userChoiceMade(categories[1])};
+			    document.getElementById("p1_cat3_name").onclick = function(){userChoiceMade(categories[2])};
+			    document.getElementById("p1_cat4_name").onclick = function(){userChoiceMade(categories[3])};
+			    document.getElementById("p1_cat5_name").onclick = function(){userChoiceMade(categories[4])};
+			
+			}
 			
 			
+			//-------------------------------------------------------------------------------------------------------------
+			//Remove the onclick event from the categories on Player 1's card after a selection has been made
+			//Also set the choice to be the activeCategory and pass along with gameIndex to selectCategoryHuman() API method.
+			//Called by categorySelection() helper method.
+			//--------------------------------------------------------------------------------------------------------------
+			function userChoiceMade(category) {
+				
+				document.getElementById("p1_cat1_name").onclick = '';
+			    document.getElementById("p1_cat2_name").onclick = '';
+			    document.getElementById("p1_cat3_name").onclick = '';
+			    document.getElementById("p1_cat4_name").onclick = '';
+			    document.getElementById("p1_cat5_name").onclick = '';
+				//document.getElementById(id).addEventListener("click", function(){
+			    activeCategory = category;
+			    var gameIndexCat = "" + gameIndex + "xxxxx" + category;
+    			selectCategoryHuman(gameIndexCat);
+    		}
+			
+			//---------------------------TEMPORARILY DISABLED----------------------------------------------------------------------------------------
 			// --------------------------------------------------------------------------------------------------------------------------------------
 			// Call the userCategoriesActivate() helper method with the id name of the tag to be updated and the category to be assigned.
 			// Adds an event listener to a category on the user's card and calls the selectCategoryHuman() API method when clicked, passing
@@ -278,15 +317,15 @@
 			// Called by the categorySelection() helper method.
 			// -------------------------------------------------------------------------------------------------------------------------------------
 			
-			function userCategoriesActivate(id, category) {
+			//function userCategoriesActivate(id, category) {
 				
-				document.getElementById(id).addEventListener("click", function(){
-					activeCategory = category;
-					var gameIndexCat = "" + gameIndex + "xxxxx" + category;
-    				selectCategoryHuman(gameIndexCat);
-				});
+				//document.getElementById(id).addEventListener("click", function(){
+					//activeCategory = category;
+					//var gameIndexCat = "" + gameIndex + "xxxxx" + category;
+    				//selectCategoryHuman(gameIndexCat);
+				//});
 				
-			}
+			//}
 			
 			// -------------------------------------------------------------------------------------------------------------------
 			// Call the updateButtonComplete() helper method with the link you wish the button to link to when game complete.
@@ -298,7 +337,32 @@
    			}
 			
 			
+			//--------------------------------------------------------------------------------------------------------------------
+			// Call makeVisible() helper method to make AI cards visible when it is the correct time in the game.
+			// Called by 
+			//----------------------------------------------------------------------------------------------------------------------
 			
+			function makeVisible() {
+				//document.getElementById("AI 1").style.visibility = "visible";
+				for (i = 0; i < numPlayersLeft; i++) {
+					for (j = 1; j < 5; j++) {
+						if (playerNames[i] == ("AI " + j)) {
+							document.getElementById("AI " + j).style.visibility = "visible";
+						}
+					}
+				}
+			}
+			
+			//--------------------------------------------------------------------------------------------------------------------
+			// Call makeInvisible() helper method to make all AI cards invisible when it is the correct time in the game.
+			// Called by newRound() API method.
+			//----------------------------------------------------------------------------------------------------------------------
+			
+			function makeInvisible() {								
+				for (i = 1; i < 5; i++) {
+					document.getElementById("AI " + i).style.visibility = "hidden";
+				}
+			}
 			
 			
 			// -----------------------------------------
@@ -553,7 +617,7 @@
                     if (round == 1) {
 						numPlayersLeft = playerNames.length;
 						document.getElementById("p1_wins").innerHTML = "Player 1 wins: 0";
-						for (i = 1; i < numPlayersLeft; i++) {
+						for (i = 1; i < 5; i++) {
 							document.getElementById("ai" + i + "_wins").innerHTML = "AI " + i + " wins: 0";
 						}
 						document.getElementById("num_draws").innerHTML = "Number of draws: 0";
@@ -564,8 +628,10 @@
 						getHumanTopCardTitle(gameIndex);
 					}
 					else {
+						document.getElementById("Player 1").style.visibility = "hidden";
 						getActivePlayer(gameIndex);
 					}
+					makeInvisible();
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -831,6 +897,7 @@
 						}
 					}
 					//update categoryButton to "Show Winner", computeResult()
+					makeVisible();
 					updateButton("categoryButton", computeResult, gameIndex, "Show Winner");
 					
 				};
@@ -911,7 +978,7 @@
 							document.getElementById("p1_wins").innerHTML = "Player 1 wins: " + wins[0];
 						}
 						else {
-							for (i = 1; i < numPlayersLeft; i++) {
+							for (i = 1; i < 5; i++) {
 								if (roundWinner == ("AI " + i)) {
 									wins[i] += 1;
 									document.getElementById("ai" + i + "_wins").innerHTML = "AI " + i + " wins: " + wins[i];
