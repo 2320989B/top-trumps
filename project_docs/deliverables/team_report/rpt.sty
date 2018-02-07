@@ -6,4 +6,17 @@
 \graphicspath{{./img/}}
 \usepackage{caption}
 
-
+% Flashcard environment.
+\usepackage{tcolorbox}
+\newenvironment{card}[5] {
+	\begin{center}
+        \begin{tcolorbox}[colback=yellow!5!white,colframe=#1!55!black,fonttitle=\bfseries,height=7.6cm,width=12.7cm,text fill,sharpish corners,title=#2]
+        #3 \hfill #4 #5
+        \vspace*{\fill}
+            \begin{center}
+            }{
+            \end{center}
+        \vspace*{\fill}
+        \end{tcolorbox}
+    \end{center}
+}
