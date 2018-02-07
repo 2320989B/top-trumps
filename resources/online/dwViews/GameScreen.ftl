@@ -42,11 +42,11 @@
 			  <div class="shipimg">
 				<img id="p1_shipImg" src="" />
 			  </div>
-				<button id="p1_cat1_name"></button><br />
-				<button id="p1_cat2_name"></button><br />
-				<button id="p1_cat3_name"></button><br />
-				<button id="p1_cat4_name"></button><br />
-				<button id="p1_cat5_name"></button><br />
+				<button id="p1_cat1_name" disabled></button><br />
+				<button id="p1_cat2_name" disabled></button><br />
+				<button id="p1_cat3_name" disabled></button><br />
+				<button id="p1_cat4_name" disabled></button><br />
+				<button id="p1_cat5_name" disabled></button><br />
 				<p id="p1_cards_left">Cards Remaining: </p>
 			  </div>
 		  </div>
@@ -265,6 +265,12 @@
 			// assign an onclick method to each category on the user's card when it is Player 1's turn to select category
 			function userChoice() {
 			
+				document.getElementById("p1_cat1_name").disabled = false;
+				document.getElementById("p1_cat2_name").disabled = false;
+				document.getElementById("p1_cat3_name").disabled = false;
+				document.getElementById("p1_cat4_name").disabled = false;
+				document.getElementById("p1_cat5_name").disabled = false;
+						
 				document.getElementById("p1_cat1_name").onclick = function(){userChoiceMade(categories[0])};
 				document.getElementById("p1_cat2_name").onclick = function(){userChoiceMade(categories[1])};
 				document.getElementById("p1_cat3_name").onclick = function(){userChoiceMade(categories[2])};
@@ -281,11 +287,11 @@
 			//--------------------------------------------------------------------------------------------------------------
 			function userChoiceMade(category) {
 				
-				document.getElementById("p1_cat1_name").onclick = '';
-				document.getElementById("p1_cat2_name").onclick = '';
-				document.getElementById("p1_cat3_name").onclick = '';
-				document.getElementById("p1_cat4_name").onclick = '';
-				document.getElementById("p1_cat5_name").onclick = '';
+				document.getElementById("p1_cat1_name").disabled = true;
+				document.getElementById("p1_cat2_name").disabled = true;
+				document.getElementById("p1_cat3_name").disabled = true;
+				document.getElementById("p1_cat4_name").disabled = true;
+				document.getElementById("p1_cat5_name").disabled = true;
 				//document.getElementById(id).addEventListener("click", function(){
 				activeCategory = category;
 				var gameIndexCat = "" + gameIndex + "xxxxx" + category;
