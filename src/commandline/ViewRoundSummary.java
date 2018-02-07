@@ -63,7 +63,7 @@ class ViewRoundSummary {
       ViewUtils.indent(INDENT_WIDTH);
       if (roundWinner == null) {
          System.out.println(activePlayer + " picks category " +
-                 activeCategory + " and draws.");
+                 activeCategory + " and the result is a draw.");
       } else if (activePlayer.equals(roundWinner)) {
          System.out.println(activePlayer + " picks category " +
                  activeCategory + " and wins!");
