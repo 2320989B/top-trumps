@@ -792,6 +792,7 @@
 					var responseText = xhr.response; // the text of the response
 					activeCategory = JSON.parse(responseText);
 					document.getElementById("message").innerHTML = activePlayer + " selected " + activeCategory;
+					highlightCategory(activeCategory);
 					getTopCardTitles(gameIndex);
 				};
 				
@@ -922,6 +923,8 @@
 					var responseText = xhr.response; // the text of the response
 					activeCategory = JSON.parse(responseText);
 					document.getElementById("message").innerHTML = activePlayer + " selected " + activeCategory;
+					highlightCategory(activeCategory);
+
 					getTopCardTitles(gameIndex);
 				};
 				
@@ -930,6 +933,29 @@
 			}
 			
 			
+			// -----------------------------------------------------------------------------------------------
+			// Highlight the selected category and unhighlight all other categories
+			// -----------------------------------------------------------------------------------------------
+			function highlightCategory(activeCategory) {
+					var categories = ['Size', 'Speed', 'Range', 'Firepower', 'Cargo'];
+					for (j = 0; j < categories.length; j++) {
+						if (activeCategory == categories[j]) {
+							for (i = 1; i < numPlayersLeft; i++) {
+								console.log("BOLDING " + "ai" + i +"_cat" + (j + 1) + "_name")
+								document.getElementById("ai" + i +"_cat" + (j + 1) + "_name").style.fontWeight = 'bold';
+							}
+							document.getElementById("p1_cat" + (j+1) + "_name").style.fontWeight = 'bold';
+						} else {
+							for (i = 1; i < numPlayersLeft; i++) {
+								document.getElementById("ai" + i +"_cat" + (j + 1) + "_name").style.fontWeight = 'normal';
+							}
+							document.getElementById("p1_cat" + (j+1) + "_name").style.fontWeight = 'normal';
+						}
+					}
+			}
+
+
+
 			// -----------------------------------------------------------------------------------------------
 			// Call the computeResult() API method with the gameIndex number for this particular tab.
 			// Receives the Round Winner Name or that the round was a draw and updates screen accordingly.
