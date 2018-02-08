@@ -174,7 +174,7 @@
 			var activeCategory = "";		   // variable used to keep track of the current ActiveCategory
 			var roundWinner = "";
 			
-			var isHuman = "";
+			var isHuman = true;
 			
 			var wins = [0, 0, 0, 0, 0, 0];     // an array which keeps tracks of player wins, used by computeResult() API method
 			var draws = 0;                     // value which keeps track of the number of draws
@@ -233,6 +233,11 @@
 					document.getElementById(id).onclick = function(){funcName(parameter)};
 			}
 			
+			
+			function updateButtonAuto(gameIndex) {
+				alert("hello");
+				getNumCommunalCards(gameIndex);	
+			}
 			
 			// -----------------------------------------------------------------------------------------------
 			// Call the categorySelection() method to initiate choosing of categories.
@@ -415,7 +420,7 @@
 					gameIndex = JSON.parse(responseText);
 					document.getElementById("gameIndex").innerHTML = "Game Number: " + gameIndex;
 					getNumCommunalCards(gameIndex);
-					getNumOfCardsLeft(gameIndex);
+					//getNumOfCardsLeft(gameIndex);
 					getCategories(gameIndex);	
 				};
 				
@@ -448,6 +453,7 @@
 					var numOfCommunalCards = JSON.parse(responseText);
 					document.getElementById("numOfCommunalCards").innerHTML = "There are " + numOfCommunalCards 
 					+ " cards in the communal pile.";
+					getNumOfCardsLeft(gameIndex);
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -503,6 +509,10 @@
 						if (aiPlayerFound == false) {
 							document.getElementById("ai" + i + "_cards_left").innerHTML = "0";
 						}
+					}
+					
+					if (isHuman == false) {
+						newRound(gameIndex);
 					}
 					
 				};
@@ -574,6 +584,7 @@
 					document.getElementById("message").innerHTML = "Players have drawn their cards";
 					unHighlightCategory(activeCategory);
 					unHighlightWinningCategory(activeCategory);
+					
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -759,6 +770,9 @@
 					var responseText = xhr.response; // the text of the response
 					activePlayer = JSON.parse(responseText);
 					document.getElementById("currentActivePlayer").innerHTML = "Current Player: " + activePlayer;
+					if (isHuman == false) {
+						selectCategory(gameIndex);
+					}
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -890,8 +904,12 @@
 					}
 					//update categoryButton to "Show Winner", computeResult()
 					makeVisible();
-					updateButton("categoryButton", computeResult, gameIndex, "Show Winner");
-					
+					if (isHuman == true) {
+						updateButton("categoryButton", computeResult, gameIndex, "Show Winner");
+					}
+					else {
+					    computeResult(gameIndex);
+					}
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -1096,17 +1114,22 @@
 				xhr.onload = function(e) {
 					var responseText = xhr.response; // the text of the response
 					var playersLeft = JSON.parse(responseText);
+					
+					//if isHuman == true or false
+					// check if players less than 2
+					//if so, check if remaining player is player 1 or computer and print winner - this should be the only choice regardless first
 					if (playersLeft.length < 2) {
 						if (playersLeft == "Player 1"){
 							document.getElementById("p1_cards_left").innerHTML = "WINNER";
 							updateButton("categoryButton", updateButtonComplete, 'http://localhost:7777/toptrumps/', "Return to Selection");
+							
 							updateDB(gameIndex);
 						}
 						else {
 							for (i = 1; i < 5; i++) {
 								if (playersLeft == "AI " + i) {
 								
-								
+									winnerFound = true;
 									document.getElementById("ai" + i + "_cards_left").innerHTML = "WINNER";
 									updateButton("categoryButton", updateButtonComplete, 'http://localhost:7777/toptrumps/', "Return to Selection");
 									updateDB(gameIndex);
@@ -1114,12 +1137,38 @@
 							}
 						}
 					}
-					else {
+					//if a winner isn't found then proceed if isHuman has previously been set to false
+					//this will loop through the game without the human
+					else if (isHuman == false && playersLeft.length > 1) {
+			
+							getNumCommunalCards(gameIndex);
+						
+					}
+
+					//else check if human is still in game and set isHuman to false if no longer in game
+					//create button which will begin game loop Auto Complete
+					else if (isHuman == true) {
+						var player1Found = false;
+						for (i = 0; i < playersLeft.length; i++) {
+							if(playersLeft[i] == "Player 1") {
+								player1Found = true;
+							}
+						}
+						if (player1Found == false) {
+							isHuman = false;
+							updateButton("categoryButton", updateButtonAuto, gameIndex, "Auto Complete");
+							document.getElementById("message").innerHTML = "Player 1, you have been eliminated. Please press Auto Complete button to complete game";
+						}	
+					}	
+					
+				    //continue game as normal if human still in game
+					if (isHuman == true && playersLeft.length > 1) {
 						getNumCommunalCards(gameIndex);
 						getNumOfCardsLeft(gameIndex);
 						//update categoryButton to "Show Winner", computeResult()
 						updateButton("categoryButton", newRound, gameIndex, "Next Round");
 					}
+					
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
