@@ -31,9 +31,9 @@ public class PostgresPersistence {
       /** PRODUCTION VALUES */
 
       dbURL = "jdbc:postgresql://yacata.dcs.gla.ac.uk:5432/";
-      username = "m_17_2349654m";
-      password = "2349654m";
-      dbname = "m_17_2349654m";
+      username = "m_17_2320989b";
+      password = "2320989b";
+      dbname = "m_17_2320989b";
       logSuppressor = "?loggerLevel=OFF";
 
       // TODO: Remove, for testing only.
@@ -45,7 +45,7 @@ public class PostgresPersistence {
 
       // TODO: Remove, for testing only.
       // LOCAL VALUES - CB
-      dbURL = "jdbc:postgresql://192.168.1.4:5432/";
+      // dbURL = "jdbc:postgresql://192.168.1.4:5432/";
       // Get the total previous games
       // this.numOfGames = this.getGameCount();
    }
@@ -55,11 +55,11 @@ public class PostgresPersistence {
     * @param gameInfo The GameInfo object
     */
    public void update(model.GameInfo gameInfo) {
-     this.setGameDraws(gameInfo.getNumDraws());
-     this.setGameWinnerIsHuman(gameInfo.getGameWinnerHuman());
-     this.setGameWinnerName(gameInfo.getGameWinnerName());
-     this.setNumGameRounds(gameInfo.getRound());
-     this.setPlayerRounds(gameInfo.getHumanRoundsWon());
+      this.setGameDraws(gameInfo.getNumDraws());
+      this.setGameWinnerIsHuman(gameInfo.getGameWinnerHuman());
+      this.setGameWinnerName(gameInfo.getGameWinnerName());
+      this.setNumGameRounds(gameInfo.getRound());
+      this.setPlayerRounds(gameInfo.getHumanRoundsWon());
    }
 
    /**
