@@ -572,6 +572,8 @@
 					updateButton("categoryButton", categorySelection, gameIndex, "Category Selection");
 					document.getElementById("gameIndex").innerHTML = "Game Number: " + gameIndex;
 					document.getElementById("message").innerHTML = "Players have drawn their cards";
+					unHighlightCategory(activeCategory);
+					unHighlightWinningCategory(activeCategory);
 				};
 				
 				// We have done everything we need to prepare the CORS request, so send it
@@ -934,10 +936,10 @@
 			
 			
 			// -----------------------------------------------------------------------------------------------
-			// Highlight the selected category and unhighlight all other categories
+			// Highlight the selected category
 			// -----------------------------------------------------------------------------------------------
 			function highlightCategory(activeCategory) {
-					var categories = ['Size', 'Speed', 'Range', 'Firepower', 'Cargo'];
+					//var categories = ['Size', 'Speed', 'Range', 'Firepower', 'Cargo'];
 					for (j = 0; j < categories.length; j++) {
 						if (activeCategory == categories[j]) {
 							for (i = 1; i < numPlayersLeft; i++) {
@@ -945,15 +947,72 @@
 								document.getElementById("ai" + i +"_cat" + (j + 1) + "_name").style.fontWeight = 'bold';
 							}
 							document.getElementById("p1_cat" + (j+1) + "_name").style.fontWeight = 'bold';
-						} else {
-							for (i = 1; i < numPlayersLeft; i++) {
-								document.getElementById("ai" + i +"_cat" + (j + 1) + "_name").style.fontWeight = 'normal';
-							}
-							document.getElementById("p1_cat" + (j+1) + "_name").style.fontWeight = 'normal';
-						}
+						} 
 					}
 			}
-
+			
+			// -----------------------------------------------------------------------------------------------
+			// UnHighlight the selected category
+			// -----------------------------------------------------------------------------------------------
+			
+			function unHighlightCategory(activeCategory) {
+				for (j = 0; j < categories.length; j++) {
+					if (activeCategory == categories[j]) {
+						for (i = 1; i < numPlayersLeft; i++) {
+							document.getElementById("ai" + i +"_cat" + (j + 1) + "_name").style.fontWeight = 'normal';
+						}
+						document.getElementById("p1_cat" + (j+1) + "_name").style.fontWeight = 'normal';
+					}
+				}
+			}
+			
+			// -----------------------------------------------------------------------------------------------
+			// Highlight the selected category for the roundWinner
+			// -----------------------------------------------------------------------------------------------
+			function highlightWinningCategory(activeCategory) {
+				if (roundWinner != "Player 1") {
+						for (i = 1; i < 5; i++) {
+							if (roundWinner == ("AI " + i)) {
+								for (j = 0; j < categories.length; j++) {
+									if(activeCategory == categories[j]) {
+										document.getElementById("ai" + i + "_cat" + (j + 1) + "_name").style.border = "thick solid #7ccd7c";
+									}
+								}
+							}
+					    }
+				}
+				else {
+					for (j = 0; j < categories.length; j++) {
+						if(activeCategory == categories[j]) {
+							document.getElementById("p1_cat" + (j + 1) + "_name").style.border = "thick solid #7ccd7c";
+						}
+					}
+				}
+			}
+			
+			// -----------------------------------------------------------------------------------------------
+			// UnHighlight the selected category for the roundWinner
+			// -----------------------------------------------------------------------------------------------
+			function unHighlightWinningCategory(activeCategory) {
+				if (roundWinner != "Player 1") {
+						for (i = 1; i < 5; i++) {
+							if (roundWinner == ("AI " + i)) {
+								for (j = 0; j < categories.length; j++) {
+									if(activeCategory == categories[j]) {
+										document.getElementById("ai" + i + "_cat" + (j + 1) + "_name").style.border = "hidden";
+									}
+								}
+							}
+					    }
+				}
+				else {
+					for (j = 0; j < categories.length; j++) {
+						if(activeCategory == categories[j]) {
+							document.getElementById("p1_cat" + (j + 1) + "_name").style.border = "hidden";
+						}
+					}
+				}
+			}
 
 
 			// -----------------------------------------------------------------------------------------------
@@ -1000,6 +1059,7 @@
 								}
 							}
 						}
+						highlightWinningCategory(activeCategory);
 						document.getElementById("message").innerHTML = roundWinner + " won!";
 						activePlayer = roundWinner;
 					}
