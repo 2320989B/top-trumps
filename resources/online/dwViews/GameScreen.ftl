@@ -152,6 +152,7 @@
 			</ul>
 	</div>
 	
+	<!----------------Testing------------------------->
 		<nav style="visibility:hidden;">
 			<ul><li><p id="gameIndex"></p></li>
 				<li><p id="playerNames"></p></li>
@@ -165,24 +166,24 @@
 				<li><p id="db_message"></p></li>
 			</ul>
 		</nav>
+	<!--------------------------------------------------->
+	
+	
 		<script type="text/javascript">
+		
+			//-------------Variables to help store values to be used between methods----------------------------------------------
 			var gameIndex = 0;                 // value which holds the game reference for this tab
 			var categories = "";			   // variable used to store category names
 			var numPlayersLeft = 0;            // value used to keep track of how many players are left in the game
-			var playerNames = "";
+			var playerNames = "";			   // variable which holds player names
 			var activePlayer = "";             // variable used to keep track of the current Active Player
 			var activeCategory = "";		   // variable used to keep track of the current ActiveCategory
-			var roundWinner = "";
-			
-			var isHuman = true;
-			
+			var roundWinner = "";			   //variable to hold roundWinner
+			var isHuman = true;				   // variable to store whether human is in game or not
 			var wins = [0, 0, 0, 0, 0, 0];     // an array which keeps tracks of player wins, used by computeResult() API method
 			var draws = 0;                     // value which keeps track of the number of draws
-			//document.getElementById("AI 2").style.visibility = "hidden";
 			
-			
-			
-			
+			//----------------------------------------------------------------------------------------------------------------------
 			
 			// Method that is called on page load
 			function initalize() {
@@ -235,7 +236,6 @@
 			
 			
 			function updateButtonAuto(gameIndex) {
-				alert("hello");
 				getNumCommunalCards(gameIndex);	
 			}
 			
@@ -253,16 +253,6 @@
 				}
 				else {
 					document.getElementById("message").innerHTML = "Player 1, please select a category on your card";
-					
-					//----------------------------------------------------------------------------------------------------
-					//temporarily disabled the loop because of the way it adds event listeners to p tags
-					//have adjusted to use the userChoice() method to assign an onclick method to button tags 
-					//instead of p tags. The onclick can be easily changed, whereas it is trickier to reove eventlisteners
-					//and impossible to remove anonymous eventlisteners.
-					//----------------------------------------------------------------------------------------------------
-					//for (i = 0; i < 5; i++) {
-						//userCategoriesActivate("p1_cat" + (i + 1) + "_name", categories[i]);
-					//}
 					userChoice();
 				}
 			}
@@ -297,29 +287,11 @@
 				document.getElementById("p1_cat3_name").disabled = true;
 				document.getElementById("p1_cat4_name").disabled = true;
 				document.getElementById("p1_cat5_name").disabled = true;
-				//document.getElementById(id).addEventListener("click", function(){
+				
 				activeCategory = category;
 				var gameIndexCat = "" + gameIndex + "xxxxx" + category;
 				selectCategoryHuman(gameIndexCat);
 			}
-			
-			//---------------------------TEMPORARILY DISABLED----------------------------------------------------------------------------------------
-			// --------------------------------------------------------------------------------------------------------------------------------------
-			// Call the userCategoriesActivate() helper method with the id name of the tag to be updated and the category to be assigned.
-			// Adds an event listener to a category on the user's card and calls the selectCategoryHuman() API method when clicked, passing
-			// in a paramter contaning the reference to the specific Game for this tab and the category selected by Player 1.
-			// Called by the categorySelection() helper method.
-			// -------------------------------------------------------------------------------------------------------------------------------------
-			
-			//function userCategoriesActivate(id, category) {
-				
-				//document.getElementById(id).addEventListener("click", function(){
-					//activeCategory = category;
-					//var gameIndexCat = "" + gameIndex + "xxxxx" + category;
-					//selectCategoryHuman(gameIndexCat);
-				//});
-				
-			//}
 			
 			// -------------------------------------------------------------------------------------------------------------------
 			// Call the updateButtonComplete() helper method with the link you wish the button to link to when game complete.
@@ -337,7 +309,7 @@
 			//----------------------------------------------------------------------------------------------------------------------
 			
 			function makeVisible() {
-				//document.getElementById("AI 1").style.visibility = "visible";
+				
 				for (i = 0; i < numPlayersLeft; i++) {
 					for (j = 1; j < 5; j++) {
 						if (playerNames[i] == ("AI " + j)) {
@@ -358,6 +330,85 @@
 				}
 			}
 			
+			
+			// -----------------------------------------------------------------------------------------------
+			// Highlight the selected category
+			// -----------------------------------------------------------------------------------------------
+			function highlightCategory(activeCategory) {
+			
+					for (j = 0; j < categories.length; j++) {
+						if (activeCategory == categories[j]) {
+							for (i = 1; i < numPlayersLeft; i++) {
+								console.log("BOLDING " + "ai" + i +"_cat" + (j + 1) + "_name")
+								document.getElementById("ai" + i +"_cat" + (j + 1) + "_name").style.fontWeight = 'bold';
+							}
+							document.getElementById("p1_cat" + (j+1) + "_name").style.fontWeight = 'bold';
+						} 
+					}
+			}
+			
+			// -----------------------------------------------------------------------------------------------
+			// UnHighlight the selected category
+			// -----------------------------------------------------------------------------------------------
+			
+			function unHighlightCategory(activeCategory) {
+				for (j = 0; j < categories.length; j++) {
+					if (activeCategory == categories[j]) {
+						for (i = 1; i < numPlayersLeft; i++) {
+							document.getElementById("ai" + i +"_cat" + (j + 1) + "_name").style.fontWeight = 'normal';
+						}
+						document.getElementById("p1_cat" + (j+1) + "_name").style.fontWeight = 'normal';
+					}
+				}
+			}
+			
+			// -----------------------------------------------------------------------------------------------
+			// Highlight the selected category for the roundWinner
+			// -----------------------------------------------------------------------------------------------
+			function highlightWinningCategory(activeCategory) {
+				if (roundWinner != "Player 1") {
+						for (i = 1; i < 5; i++) {
+							if (roundWinner == ("AI " + i)) {
+								for (j = 0; j < categories.length; j++) {
+									if(activeCategory == categories[j]) {
+										document.getElementById("ai" + i + "_cat" + (j + 1) + "_name").style.border = "thick solid #7ccd7c";
+									}
+								}
+							}
+					    }
+				}
+				else {
+					for (j = 0; j < categories.length; j++) {
+						if(activeCategory == categories[j]) {
+							document.getElementById("p1_cat" + (j + 1) + "_name").style.border = "thick solid #7ccd7c";
+						}
+					}
+				}
+			}
+			
+			// -----------------------------------------------------------------------------------------------
+			// UnHighlight the selected category for the roundWinner
+			// -----------------------------------------------------------------------------------------------
+			function unHighlightWinningCategory(activeCategory) {
+				if (roundWinner != "Player 1") {
+						for (i = 1; i < 5; i++) {
+							if (roundWinner == ("AI " + i)) {
+								for (j = 0; j < categories.length; j++) {
+									if(activeCategory == categories[j]) {
+										document.getElementById("ai" + i + "_cat" + (j + 1) + "_name").style.border = "hidden";
+									}
+								}
+							}
+					    }
+				}
+				else {
+					for (j = 0; j < categories.length; j++) {
+						if(activeCategory == categories[j]) {
+							document.getElementById("p1_cat" + (j + 1) + "_name").style.border = "hidden";
+						}
+					}
+				}
+			}
 			
 			// -----------------------------------------
 			// Add your other Javascript methods Here
@@ -625,7 +676,6 @@
 						document.getElementById("num_draws").innerHTML = "Number of draws: 0";
 					}
 					
-					//isHuman(gameIndex); ----------Not sure but this seems to be causing issues on the 2nd round
 					if (document.getElementById("p1_cards_left").innerHTML != "0") {
 						getHumanTopCardTitle(gameIndex);
 					}
@@ -640,51 +690,13 @@
 				xhr.send();		
 			}
 			
-			// CURRENTLY NOT USED - NEEDS CHECKED
-			// -------------------------------------------------------------------------------------------------------------------------------------------------------
-			// Call the isHuman() API method with the gameIndex number for this particular tab.
-			// Returns whether Player 1 is still in the game.
-			// Called by the getPlayerNames() API method.
-			// -----------------------------------------------------------------------------------------------
 			
-			
-				
-			// This calls the isHuman REST method from TopTrumpsRESTAPI
-			//function isHuman(gameIndex) {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				//var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/isHuman?gameIndex="+gameIndex); // Request type and URL+parameters
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				//if (!xhr) {
-					//alert("CORS not supported");
-				//}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				//xhr.onload = function(e) {
-					//var responseText = xhr.response; // the text of the response
-					//alert("isHuman");
-					//isHuman = JSON.parse(responseText);
-					//document.getElementById("isHuman").innerHTML = "Human Player Still in Game?: " + isHuman;
-					//if (isHuman == "true"){
-						//getHumanTopCardTitle(gameIndex);
-				   // }
-				//};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				// xhr.send();		
-			//}
-			
-			// --------------SHOULD POSSIBLY BE CALLED FFROM THE isHuman METHOD------------------------------------------------------------------------------------------
 			// -----------------------------------------------------------------------------------------------------------
 			// Call the getHumanTopCardTitle() API method with the gameIndex number for this particular tab.
 			// Receives the title of Player 1's top card and calls the changeImage helper method to update picture on card.
 			// Called by the getPlayerNames() API method.
 			// -----------------------------------------------------------------------------------------------------------
 			
-			// This calls the getHumanTopCardTitle REST method from TopTrumpsRESTAPI
-			// This will return the getHumanTopCardTitle
 			function getHumanTopCardTitle(gameIndex) {
 			
 				//First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -716,8 +728,6 @@
 			// Called by the getHumanTopCardTitle() API method.
 			// -----------------------------------------------------------------------------------------------
 			
-			// This calls the getHumanTopCardCategories REST method from TopTrumpsRESTAPI
-			// This will return the getHumanTopCardCategories
 			function getHumanTopCardCategories(gameIndex) {
 			
 				//First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -790,8 +800,6 @@
 			// Called when user presses button which says Category Selection if activePlayer is AI Player.
 			// -----------------------------------------------------------------------------------------------
 			
-			// This asks Game to select a category for the active AI Player
-			// This calls the selectCategory REST method from TopTrumpsRESTAPI
 			function selectCategory(gameIndex) {
 			
 				//First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -825,7 +833,6 @@
 			// -----------------------------------------------------------------------------------------------
 			
 			
-			// This calls the getTopCardTitles REST method from TopTrumpsRESTAPI
 			function getTopCardTitles(gameIndex) {
 			
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -868,7 +875,6 @@
 			// Called by the getTopCardTitles() API method.
 			// -----------------------------------------------------------------------------------------------
 			
-			// This calls the getTopCards REST method from TopTrumpsRESTAPI
 			function getTopCards(gameIndex) {
 			
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -902,7 +908,7 @@
 							topCardsIndex += 1;
 						}
 					}
-					//update categoryButton to "Show Winner", computeResult()
+					
 					makeVisible();
 					if (isHuman == true) {
 						updateButton("categoryButton", computeResult, gameIndex, "Show Winner");
@@ -924,9 +930,6 @@
 			// Called when user clicks on a category within their card, assuming they are the active player.
 			// -----------------------------------------------------------------------------------------------
 			
-			// If a human is the activePlayer, this method passes their choice to the Game
-			// This is not perfect as I pass both gameIndex and the Category choice as one parameter
-			// This calls the selectCategoryHuman REST method from TopTrumpsRESTAPI
 			function selectCategoryHuman(gameIndexCat) {
 			
 				//First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -953,84 +956,6 @@
 			}
 			
 			
-			// -----------------------------------------------------------------------------------------------
-			// Highlight the selected category
-			// -----------------------------------------------------------------------------------------------
-			function highlightCategory(activeCategory) {
-					//var categories = ['Size', 'Speed', 'Range', 'Firepower', 'Cargo'];
-					for (j = 0; j < categories.length; j++) {
-						if (activeCategory == categories[j]) {
-							for (i = 1; i < numPlayersLeft; i++) {
-								console.log("BOLDING " + "ai" + i +"_cat" + (j + 1) + "_name")
-								document.getElementById("ai" + i +"_cat" + (j + 1) + "_name").style.fontWeight = 'bold';
-							}
-							document.getElementById("p1_cat" + (j+1) + "_name").style.fontWeight = 'bold';
-						} 
-					}
-			}
-			
-			// -----------------------------------------------------------------------------------------------
-			// UnHighlight the selected category
-			// -----------------------------------------------------------------------------------------------
-			
-			function unHighlightCategory(activeCategory) {
-				for (j = 0; j < categories.length; j++) {
-					if (activeCategory == categories[j]) {
-						for (i = 1; i < numPlayersLeft; i++) {
-							document.getElementById("ai" + i +"_cat" + (j + 1) + "_name").style.fontWeight = 'normal';
-						}
-						document.getElementById("p1_cat" + (j+1) + "_name").style.fontWeight = 'normal';
-					}
-				}
-			}
-			
-			// -----------------------------------------------------------------------------------------------
-			// Highlight the selected category for the roundWinner
-			// -----------------------------------------------------------------------------------------------
-			function highlightWinningCategory(activeCategory) {
-				if (roundWinner != "Player 1") {
-						for (i = 1; i < 5; i++) {
-							if (roundWinner == ("AI " + i)) {
-								for (j = 0; j < categories.length; j++) {
-									if(activeCategory == categories[j]) {
-										document.getElementById("ai" + i + "_cat" + (j + 1) + "_name").style.border = "thick solid #7ccd7c";
-									}
-								}
-							}
-					    }
-				}
-				else {
-					for (j = 0; j < categories.length; j++) {
-						if(activeCategory == categories[j]) {
-							document.getElementById("p1_cat" + (j + 1) + "_name").style.border = "thick solid #7ccd7c";
-						}
-					}
-				}
-			}
-			
-			// -----------------------------------------------------------------------------------------------
-			// UnHighlight the selected category for the roundWinner
-			// -----------------------------------------------------------------------------------------------
-			function unHighlightWinningCategory(activeCategory) {
-				if (roundWinner != "Player 1") {
-						for (i = 1; i < 5; i++) {
-							if (roundWinner == ("AI " + i)) {
-								for (j = 0; j < categories.length; j++) {
-									if(activeCategory == categories[j]) {
-										document.getElementById("ai" + i + "_cat" + (j + 1) + "_name").style.border = "hidden";
-									}
-								}
-							}
-					    }
-				}
-				else {
-					for (j = 0; j < categories.length; j++) {
-						if(activeCategory == categories[j]) {
-							document.getElementById("p1_cat" + (j + 1) + "_name").style.border = "hidden";
-						}
-					}
-				}
-			}
 
 
 			// -----------------------------------------------------------------------------------------------
@@ -1040,9 +965,6 @@
 			// Called when user presses button displaying "Show Winner".
 			// -----------------------------------------------------------------------------------------------
 			
-			// This calls the computeResult REST method from TopTrumpsRESTAPI
-			// This will compareCards and end the round, transferring cards
-			// This will return the roundWinner
 			function computeResult(gameIndex) {
 			
 				//First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -1098,7 +1020,6 @@
 			// Called from computeResult() API method.
 			// -----------------------------------------------------------------------------------------------
 			
-			// This calls the getPlayersLeft REST method from TopTrumpsRESTAPI
 			function getPlayersLeft(gameIndex) {
 			
 				// First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -1161,7 +1082,7 @@
 						}	
 					}	
 					
-				    //continue game as normal if human still in game
+				    //continue game as normal if human still in game and there is at least 1 AI player
 					if (isHuman == true && playersLeft.length > 1) {
 						getNumCommunalCards(gameIndex);
 						getNumOfCardsLeft(gameIndex);

@@ -45,13 +45,9 @@ public class TopTrumpsRESTAPI {
 	ObjectWriter oWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
 	
 	
-	//Joe - surely we need some way of extracting the deck file name from conf below
-		// and we also surely have to have a list of Game objects - we need a list because
-		// multiple tabs need their own instance of Game, and we also need to maintain
-		// references to Game objects or they will be garbage collected
+		//maintain a list of GameAPI objects to allow for multiple tabs
 		private List<GameAPI> games;
 		private int numOfCurrentGames;
-		// can extract these values from TopTrumpsConfiguration conf
 		private String deckInputFile;
 		private int numAIPlayers;
 		private PostgresPersistence dbConnection;
@@ -79,41 +75,33 @@ public class TopTrumpsRESTAPI {
 	
 	
 	
-	//We wish to create a Game object, but return the index of the Game object
-		// so that the tab can keep track of which Game object it 'owns', 
-		// number of players. We'll return this as a JSON string
-		@GET
-		@Path("/startNewGame")
-		public String startNewGame() throws IOException{
-			//create a GameAPI object to get access to Game methods
-			GameAPI game = new GameAPI(numAIPlayers, deckInputFile, false);
+	// We wish to create a Game object (accessed via a GameAPI object), 
+	// but return the index of the GameAPI object 
+	// so that the tab can keep track of which Game object it 'owns', 
+	// We'll return this as a JSON string.
+	@GET
+	@Path("/startNewGame")
+	public String startNewGame() throws IOException{
+		//create a GameAPI object to get access to Game methods
+		GameAPI game = new GameAPI(numAIPlayers, deckInputFile, false);
 			
-			//add the new GameAPI object to the list of Games
-			games.add(game);
+		//add the new GameAPI object to the list of GameAPIs
+		games.add(game);
 
-			//start a new game
-			game.newGame();
+		//start a new game
+		game.newGame();
 			
-			//create a String List with the information we would want to pass to web page
-			// numAIplayers should be a separate method I think - want to keep checking
-			// we do want to pass the index of this Game object for web page to store
-			// names of players - separate again I think, perhaps part of numAIplayers
-			// possibly want a separate method to return current top card
-			//possibly separate to return categories and values
-			//so
-			//List<String> gameIndex = new ArrayList<String>();
-			//gameIndex.add("plop");
-			String gameInd = "" + numOfCurrentGames;
-			//gameIndex.add(gameInd);
+		//create a String to hold the current game number
+		String gameInd = "" + numOfCurrentGames;
 			
-			// increment number of current Games in preparation for another Game
-			numOfCurrentGames++;
-			//send the Index to the web page
-			//there is a method startNewGame() in GameScreen.ftl which will grab this info
+		// increment number of current Games in preparation for another Game in another tab
+		numOfCurrentGames++;
 			
-			String stringAsJSONString = oWriter.writeValueAsString(gameInd);
+		//send the Index to the web page
+		//there is a method startNewGame() in GameScreen.ftl which will grab this info
+		String stringAsJSONString = oWriter.writeValueAsString(gameInd);
 			
-			return stringAsJSONString;
+		return stringAsJSONString;
 		}
 	
 	@GET
@@ -218,8 +206,8 @@ public class TopTrumpsRESTAPI {
 		
 		//use GameInfo object method to get the number of communal cards
 		int numOfCommunalCards = gameInfo.getNumOfCommunalCards();
-		System.out.println("Number of Communal Cards: " + numOfCommunalCards);
-		//send the map of categories to the tab as a JSON string
+		
+		//send the number of communal cards to the tab as a JSON string
 		String stringAsJSONString = oWriter.writeValueAsString(numOfCommunalCards);
 		return stringAsJSONString;
 	}
@@ -242,43 +230,11 @@ public class TopTrumpsRESTAPI {
 		//create a GameInfo object to get information about this specific game
 		GameInfo gameInfo = game.getGameInfo();
 		
-		//use GameInfo object method to return the new round number
+		//use GameInfo object method to return the active player
 		String activePlayer  = gameInfo.getActivePlayerName();
 		
-		//send the map of categories to the tab as a JSON string
+		//send the active player to the tab as a JSON string
 		String stringAsJSONString = oWriter.writeValueAsString(activePlayer);
-		return stringAsJSONString;
-	}
-	
-	@GET
-	@Path("/isHuman")
-	/**
-	 * Here is an example of how to read parameters provided in an HTML Get request.
-	 * @param gameIndex - The index of this particular game in the games list
-	 * @return - A String
-	 * @throws IOException
-	 */
-	public String isHuman(@QueryParam("gameIndex") String gameIndex) throws IOException {
-		//convert the string gameIndex to an int
-		int gameNumber = Integer.parseInt(gameIndex);
-		
-		//get the specific instance of GameAPI associated with the tab calling this API
-		GameAPI game = games.get(gameNumber);
-		
-		//create a GameInfo object to get information about this specific game
-		GameInfo gameInfo = game.getGameInfo();
-		
-		//use GameInfo object method to return the new round number
-		List<String> players = gameInfo.getPlayerNames();
-		boolean isHuman;
-		if (players.contains("Player 1")) {
-			isHuman = true;
-		}
-		else
-			isHuman = false;
-		
-		//send the map of categories to the tab as a JSON string
-		String stringAsJSONString = oWriter.writeValueAsString(isHuman);
 		return stringAsJSONString;
 	}
 	
@@ -300,10 +256,10 @@ public class TopTrumpsRESTAPI {
 		//create a GameInfo object to get information about this specific game
 		GameInfo gameInfo = game.getGameInfo();
 		
-		//use GameInfo object method to return the new round number
+		//use GameInfo object method to return the player names
 		List<String> players = gameInfo.getPlayerNames();
 		
-		//send the map of categories to the tab as a JSON string
+		//send the list of player names to the tab as a JSON string
 		String stringAsJSONString = oWriter.writeValueAsString(players);
 		return stringAsJSONString;
 	}
@@ -329,7 +285,7 @@ public class TopTrumpsRESTAPI {
 		//use GameInfo object method to return the human top card title
 		String humanTopCardTitle = gameInfo.getHumanTopCardTitle();
 		
-		//send the map of categories to the tab as a JSON string
+		//send the top card title to the tab as a JSON string
 		String stringAsJSONString = oWriter.writeValueAsString(humanTopCardTitle);
 		return stringAsJSONString;
 	}
@@ -378,10 +334,10 @@ public class TopTrumpsRESTAPI {
 		//create a GameInfo object to get information about this specific game
 		GameInfo gameInfo = game.getGameInfo();
 		
-		//use GameInfo object method to return the new round number
+		//use GameInfo object method to return the top card titles
 		List<String> topCardTitles = gameInfo.getTopCardTitles();
 		
-		//send the map of categories to the tab as a JSON string
+		//send the list of top card titles to the tab as a JSON string
 		String stringAsJSONString = oWriter.writeValueAsString(topCardTitles);
 		return stringAsJSONString;
 	}
@@ -404,10 +360,10 @@ public class TopTrumpsRESTAPI {
 		//create a GameInfo object to get information about this specific game
 		GameInfo gameInfo = game.getGameInfo();
 		
-		//use GameInfo object method to return the new round number
+		//use GameInfo object method to return the top card categories and values
 		List<Map<String, Integer>> topCards = gameInfo.getTopCards();
 		
-		//send the map of categories to the tab as a JSON string
+		//send the list of maps of categories/values to the tab as a JSON string
 		String stringAsJSONString = oWriter.writeValueAsString(topCards);
 		return stringAsJSONString;
 	}
@@ -436,7 +392,7 @@ public class TopTrumpsRESTAPI {
 		//use GameInfo object method to return the new round number
 		String activeCategory = gameInfo.getActiveCategory();
 		
-		//send the map of categories to the tab as a JSON string
+		//send the active category to the tab as a JSON string
 		String stringAsJSONString = oWriter.writeValueAsString(activeCategory);
 		return stringAsJSONString;
 	}
@@ -450,8 +406,7 @@ public class TopTrumpsRESTAPI {
 	 * @throws IOException
 	 */
 	public String selectCategoryHuman(@QueryParam("gameIndexCat") String gameIndexCat) throws IOException {
-		//convert the string gameIndex to an int
-		System.out.println("GameIndexCat: " + gameIndexCat);
+		
 		//split the string into a String array, splitting on "xxxxx"
 		String[] request = gameIndexCat.split("xxxxx");
 		String num = request[0];
@@ -460,19 +415,20 @@ public class TopTrumpsRESTAPI {
 		//get the specific instance of GameAPI associated with the tab calling this API
 		GameAPI game = games.get(gameNumber);
 		
-		//select category in game
+		//select category in game via GameAPI
 		game.selectCategory();
 		
 		//Human actually needs to set category
 		String selectedCategory = request[1];
 		game.setCategory(selectedCategory);
+		
 		//create a GameInfo object to get information about this specific game
 		GameInfo gameInfo = game.getGameInfo();
 		
-		//use GameInfo object method to return the new round number
+		//use GameInfo object method to return the active category
 		String activeCategoryCheck = gameInfo.getActiveCategory();
 		
-		//send the map of categories to the tab as a JSON string
+		//send the active category to the tab as a JSON string
 		String stringAsJSONString = oWriter.writeValueAsString(activeCategoryCheck);
 		return stringAsJSONString;
 	}
@@ -501,11 +457,10 @@ public class TopTrumpsRESTAPI {
 		//create a GameInfo object to get information about this specific game
 		GameInfo gameInfo = game.getGameInfo();
 		
-		//use GameInfo object method to return the new round number
+		//use GameInfo object method to return the round winner
 		String roundWinner = gameInfo.getRoundWinnerName();
-		System.out.println("String is: " + roundWinner);
 		
-		//send the map of categories to the tab as a JSON string
+		//send the round winner to the tab as a JSON string
 		String stringAsJSONString = oWriter.writeValueAsString(roundWinner);
 		return stringAsJSONString;
 	}
@@ -528,10 +483,10 @@ public class TopTrumpsRESTAPI {
 		//create a GameInfo object to get information about this specific game
 		GameInfo gameInfo = game.getGameInfo();
 		
-		//use GameInfo object method to return the new round number
+		//use GameInfo object method to return the players left
 		List<String> players = gameInfo.getPlayerNames();
 		
-		//send the map of categories to the tab as a JSON string
+		//send the list of players left to the tab as a JSON string
 		String stringAsJSONString = oWriter.writeValueAsString(players);
 		return stringAsJSONString;
 	}
@@ -551,8 +506,6 @@ public class TopTrumpsRESTAPI {
 		//get the specific instance of GameAPI associated with the tab calling this API
 		GameAPI game = games.get(gameNumber);
 		
-		
-		
 		//create a GameInfo object to get information about this specific game
 		GameInfo gameInfo = game.getGameInfo();
 		
@@ -563,11 +516,10 @@ public class TopTrumpsRESTAPI {
             dbConnection.commit();
             dbConnection.closeDBConnection();
         } catch (SQLException | ClassNotFoundException e) {
-            //new ViewDBError().show(e.getMessage());
         	message = "Database Error";
         }
 		
-		//send the map of categories to the tab as a JSON string
+		//send success or error message as JSON string
 		String stringAsJSONString = oWriter.writeValueAsString(message);
 		return stringAsJSONString;
 	}
@@ -581,16 +533,6 @@ public class TopTrumpsRESTAPI {
 	 * @throws IOException
 	 */
 	public String getDB() throws IOException {
-		//convert the string gameIndex to an int
-		//int gameNumber = Integer.parseInt(gameIndex);
-	
-		//get the specific instance of GameAPI associated with the tab calling this API
-		//GameAPI game = games.get(gameNumber);
-		
-		
-		
-		//create a GameInfo object to get information about this specific game
-		//GameInfo gameInfo = game.getGameInfo();
 		
 		Map<String, Integer> dbDetails = new LinkedHashMap<String, Integer>();
 		
@@ -603,23 +545,10 @@ public class TopTrumpsRESTAPI {
             		dbDetails.put("Longest Game", dbConnection.getMaxRoundCount());
             dbConnection.closeDBConnection();
          } catch (SQLException | ClassNotFoundException e) {
-            //new ViewDBError().show(e.getMessage());
         	 System.out.println("Database Error");
          }
 		
-		/* Can try commenting out the try/catch above and uncommenting below
-		 * if you have problems - just a dummy set of data to send to the page
-		 * 
-            		dbDetails.put("Games", 1);
-            		dbDetails.put("AI Wins", 0);
-            		dbDetails.put("Human Wins", 1);
-            		dbDetails.put("Average Draws per game", 3);
-            		dbDetails.put("Longest Game", 43);
-         */   
-         System.out.println(dbDetails.get("Games"));
-
-		
-		//send the map of categories to the tab as a JSON string
+		//send the database details to the tab as a JSON string
 		String stringAsJSONString = oWriter.writeValueAsString(dbDetails);
 		return stringAsJSONString;
 	}
