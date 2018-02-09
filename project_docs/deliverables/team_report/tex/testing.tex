@@ -1,2 +1,110 @@
+
 \newpage
+
 \section{Testing}
+
+The tests have been derived from the user stories of section 2.\\
+\vspace{0.1cm}\\
+The user persona Bob, wants to play a Top Trumps game in the command line.    
+\vspace{0.4cm}\\
+\begin{tabular}{l | p{10cm}}
+User Story & \textbf{S0010} \\
+\hline
+Type of Test & Initiate the game from command line\\
+\hline
+Used Variable & 
+ - "java -jar ITSD2018Project-1.0.jar -c" \\
+ & 
+ - "java -jar ITSD2018Project-1.0.jar -c -t"
+\\
+\hline
+Result & [Passed] The program returns the main menu to the player, (figure 1 Appendix). As shown above, both game options were used as variables to test the initialisation of the game.\\ 
+\hline
+Anti-Variables & - "java -jar ITSD2018Project-1.0.jar -command"\\
+& - "java -jar ITSD2018Project-1.0.jar -c -o"\\
+& - "java -jar ITSD2018Project-1.0.jar -n"...\\
+\hline
+Results & [Exception] The program never initiates the game, if the flag is anything else excepts "-c", "-c -t" or "-o". The program throws an exception in case where the user tries to operate both modes, command line mode and on-line mode. In all other cases the program shows the greeting message and terminates.\\
+\hline 
+\end{tabular}\\
+\vspace{0.8cm}\\ 
+The user persona Bob can now select one of the three options of the game.\\
+\vspace{0.2cm}\\
+\begin{tabular}{l | p{10cm}}
+User Story & \textbf{S0010}\\ \hline
+Type of Test & Select an integer number from the provided options of the main menu.\\ \hline
+Used Variables & - integer number, where n=[1,3].\\ \hline
+Result & [Passed] The player enter the integer n=1, which initiates a new game. The program returned with a new game.\\ \hline
+Anti-Variables & - String\\
+& - Character\\
+& - Double or Integer, where n!=[1,3]\\
+\hline
+Results & [Exception] The program throws an exception when the player does not enter the specified integer between n = [1,2,3]. In case the player enters a different integer, the program throws a message indicating the exact integer variable, where in all other situations the program prints out a message demanding an integer.\\ \hline 
+\end{tabular}\\
+\vspace{0.8cm}\\
+After the proper response of Bob to the game commands, he excepts from the game to load the cards, shuffle them, and divide to all players as equally as possible.\\
+\vspace{0.2cm}\\
+\begin{tabular}{l | p{10cm}}
+User Story & \textbf{S0020}\\ \hline
+Type of Test & Examination of the test log file for the correct loading of deck, correct shuffling and dividing\\ \hline
+Used Variables & No variables for this test.\\ \hline
+Result & [Passed] The program does the deck loading, shuffling, creating players' deck and choose randomly the active player correctly. \\ \hline
+Anti-Variables & \textit{No anti-variables for this test} \\ \hline
+Results & \textit{[No Exception] There is no results for this test.} \\ \hline
+\end{tabular}\\
+\vspace{0.8cm}\\
+Bob wants to have a detailed round and understand who is active player, which category is selected and who won the round.\\
+\vspace{0.2cm}\\
+\begin{tabular}{l | p{10cm}}
+User Story & \textbf{S0030} \& \textbf{S0040} \\ \hline
+Type of Test & Game round quality test.\\ \hline
+Used Variables & - Press Enter button to show winner\\ \hline
+Result & [Passed] The program shows the round number, who is active player, all the cards that participate in this specific round, the selected category inside square brackets and the round winner.\\ \hline
+Anti-Variables & \textit{No anti-variables for this quality test} \\ \hline
+Results & [\textit{No Exception]} there is no exception for this test, only through the test log file. \\ \hline
+\end{tabular}\\
+\vspace{0.8cm}\\
+Bob, who is an expert user of command line, wants to have a record of the entire game in details in a test log file. He is able to do so, with the -t flag when he initiate the game\\
+\vspace{0.2cm}\\
+\begin{tabular}{l | p{10cm}}
+User Story & \textbf{S0050}\\ \hline
+Type of Test & Run the game with the "-t" flag.\\ \hline
+Used Variables & - "java -jar ITSD2018Project-1.0.jar -c -t"\\ \hline
+Result & [Passed] The program recognise the -t flag and checks if there is no file as "toptrumps.txt" log file, it creates one, or it rewrites in the existing one.\\ \hline
+Anti-Variables & - "java -jar ITSD2018Project-1.0.jar -c -*", where * is anything else than "-t".\\ \hline
+Results & \textit{[No Exception]} The program recognise the -c flag but it does not produce or write in the "toptrumps.txt" file. \\ \hline
+\end{tabular}\\
+\vspace{0.8cm}\\
+Bob is very cautious about the validity of the game. As a result he wants to examine who won the round and if the AI player selected the highest attribute.\\
+\vspace{0.2cm}\\
+\begin{tabular}{l | p{10cm}}
+User Story & \textbf{S0130} \\ \hline
+Type of Test & Print players top cards. Quality test \\ \hline
+Used Variables & \textit{No variables used to this test}\\ \hline
+Result & [Passed] The program prints out the top cards from all available players. Moreover, the program shows the selected category.\\ \hline
+Anti-Variables & \textit{No anti-variables used for this test.}\\ \hline
+Results & \textit{[No Exception] There is no exception for this test.}\\ \hline
+\end{tabular}\\
+\vspace{0.8cm}\\
+Bob is the active player in the game and wants to select a category. The program provides him with the option to enter a integer number that matches a specific category.\\
+\vspace{0.2cm}\\
+\begin{tabular}{l | p{10cm}}
+User Story & \textbf{S0030}\\ \hline
+Type of Test & Human Player is active player and selects a category\\ \hline
+Used Variables & Integer number n=[1,5]\\ \hline
+Result & [Passed] The program receives the input integer variable and makes the desired category active. Then, it returns to the system out the results of the round.\\ \hline
+Anti-Variables & String, Characters, Double or Integer variables except n=[1,5].\\ \hline
+Results & [Exception] The program throws an exception when the human player did not enter one of the five options. The program catches NULL values, strings, characters, doubles and integer number except the n=[1,5]\\ \hline
+\end{tabular}\\
+\vspace{0.8cm}\\
+Bob continues his game and he managed to eliminate some of the players, but he wants to know who has been eliminated.\\
+\vspace{0.2cm}\\
+\begin{tabular}{l | p{10cm}}
+User Story & \textbf{S00--}\\ \hline
+Type of Test & Show who players have been eliminated while the human player is in the game. Quality test.\\ \hline
+Used Variables & \textit{No variables used for this test.}\\ \hline
+Result & [Passed] The program prints out a list with all the active players of the game in each round, right above the players hand.\\ \hline
+Anti-Variables & \textit{No anti-variables used for this test.}\\ \hline
+Results & \textit{[No exception] There is no exception for this test.}\\ \hline
+\end{tabular}
+
