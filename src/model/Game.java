@@ -22,6 +22,7 @@ public class Game extends Observable {
    private int round = 0;
    private int humanWonRounds = 0;
    private int numDraws = 0;
+   private String divider = "----------------------------------------";
 
 
    // =========================================================================
@@ -103,14 +104,19 @@ public class Game extends Observable {
    */
    void newGame() {
       logger.log("New game starting.");
+      logger.log(divider);
+
 
       // Create the deck.
       createDeck();
       logger.log("Deck loaded: " + deck.toString());
+	  logger.log(divider);
+
 
       // Shuffle the deck.
       shuffleDeck();
       logger.log("Deck shuffled: " + deck.toString());
+      logger.log(divider);
 
       // Create the players.
       createPlayers();
@@ -121,6 +127,7 @@ public class Game extends Observable {
       for (Player player : players) {
          logger.log("Hand: " + player);
       }
+      
 
       // Randomly select the active player for the first round.
       selectRandomPlayer();
@@ -135,6 +142,7 @@ public class Game extends Observable {
       // Increase the round number on every round.
       round++;
 
+	  logger.log(divider);
       logger.log("\nRound " + round + " starting.");
       logger.log("Active player: " + activePlayer.getName());
 
@@ -166,6 +174,7 @@ public class Game extends Observable {
       logger.log("Selected category: " + activeCategory + "=" +
               activePlayer.getTopMostCard().getCardProperties()
                       .get(activeCategory));
+      logger.log(divider);
 
       setGameState(GameState.CATEGORY_SELECTED);
    }
@@ -180,11 +189,13 @@ public class Game extends Observable {
 
       if (roundWinner == null) {
          logger.log("Round winner: Draw");
+         logger.log(divider);
          // Increment statistic.
          numDraws++;
 
       } else {
          logger.log("Round winner: " + roundWinner.getName());
+	     logger.log(divider);
          this.gameWinner = roundWinner;
          if (roundWinner.getIsHuman()) {
             // Increment statistic.
@@ -206,6 +217,7 @@ public class Game extends Observable {
       eliminatePlayers();
 
       logger.log("Communal Deck: " + deck);
+      logger.log(divider);
       for (Player player : players) {
          logger.log("Hand: " + player);
       }
