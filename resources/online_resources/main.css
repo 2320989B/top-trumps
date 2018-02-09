@@ -61,11 +61,15 @@ h1 {
   max-width: 260px;
   padding: 0px;
   background-color: #91AAB4;
-/*  min-height:340px;
-*/  border-radius: 10px;
+  border-radius: 10px;
   border-style: solid;
   border-width: 4px;
   border-color: #91AAB4;
+}
+
+.cardbtn {
+  width:70%;
+  margin: 3px;
 }
 
 .cardheader {
@@ -78,7 +82,7 @@ h1 {
 }
 
 .cardheader h2 {
-  font-size: 24;
+  font-size: 20;
   color: #495F67;
 }
 
@@ -95,14 +99,14 @@ h1 {
 .shipname {
   text-align:right;
   float: right;
-  max-width:60%;
+  max-width:55%;
 }
 .playername {
   margin: 0px;
   padding: 0px;
   float: left;
   text-align:left;
-  max-width:40%;
+  max-width:45%;
 }
 
 #active {
