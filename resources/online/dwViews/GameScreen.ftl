@@ -42,11 +42,11 @@
 			  <div class="shipimg">
 				<img id="p1_shipImg" src="" />
 			  </div>
-				<button id="p1_cat1_name" disabled></button><br />
-				<button id="p1_cat2_name" disabled></button><br />
-				<button id="p1_cat3_name" disabled></button><br />
-				<button id="p1_cat4_name" disabled></button><br />
-				<button id="p1_cat5_name" disabled></button><br />
+				<button class="btn btn-sm cardbtn" id="p1_cat1_name" disabled></button><br />
+				<button class="btn btn-sm cardbtn" id="p1_cat2_name" disabled></button><br />
+				<button class="btn btn-sm cardbtn" id="p1_cat3_name" disabled></button><br />
+				<button class="btn btn-sm cardbtn" id="p1_cat4_name" disabled></button><br />
+				<button class="btn btn-sm cardbtn" id="p1_cat5_name" disabled></button><br />
 				<p id="p1_cards_left">Cards Remaining: </p>
 			  </div>
 		  </div>
