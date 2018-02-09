@@ -29,9 +29,10 @@
 
 	<div class="container">
 		<div class="row justify-content-sm-center">
-			<p class="desctext">Top Trumps is a simple card game in which decks of cards are based on a theme. Within a deck each card represents an entity within that topic. Each card has a value for each characteristic of the deck. The objective of the game is to 'trump' your opponent by selecting a category and having a "better" value for your card than the opponent does in their current card.</p>
-			<br />
-			<p>Click the buttons below to begin...</p>
+			<div class="desctext">
+				<p>Top Trumps is a simple card game in which decks of cards are based on a theme. Within a deck each card represents an entity within that topic. Each card has a value for each characteristic of the deck. The objective of the game is to 'trump' your opponent by selecting a category and having a "better" value for your card than the opponent does in their current card.</p>
+				<br />
+			</div>
 		</div>
 		<div class="row justify-content-center">
 			<a href="http://localhost:7777/toptrumps/game"><button type="button" class="btn btn-success" id="menubtn" >New Game</button></a>
