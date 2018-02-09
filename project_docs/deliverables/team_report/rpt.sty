@@ -1,7 +1,7 @@
 \ProvidesPackage{rpt}
 
 \usepackage[titletoc]{appendix}
-\usepackage[left=1.25in, right=1.25in, top=1in, bottom=1in]{geometry}
+\usepackage[left=1in, right=1in, top=1in, bottom=1in]{geometry}
 \reversemarginpar
 \usepackage{graphicx}
 \graphicspath{{./img/}}
@@ -24,4 +24,48 @@
         \vspace*{\fill}
         \end{tcolorbox}
     \end{center}
+}
+
+
+% Package dependancies.
+\usepackage{array}
+\usepackage{longtable}
+
+% Document attributes.
+\date{}
+
+% Create a table containing rows for Date, Venue, MoM Author, Participants and Apologies.
+\newcommand{\momtoptable}[5]{
+    \begin{center}
+        \begin{tabular}{| m{3cm} | m{10.25cm} |} \hline
+            \textbf{Date} & #1 \\ \hline
+            \textbf{Venue} & #2 \\ \hline
+            \textbf{MoM Author} & #3 \\ \hline
+            \textbf{Participants} & #4 \\ \hline
+            \textbf{Apologies} & #5 \\ \hline
+        \end{tabular}
+    \end{center}
+}
+
+% Create a multipage table environment.
+\newenvironment{momitems}{
+    \begin{center}
+        \begin{longtable}{| m{1cm} | m{7.5cm} | m{1.5cm} | m{2.5cm} |} \hline
+            \textbf{Item} & \textbf{Detail} & \textbf{Resp.} & \textbf{Due} \\ \hline
+            \endfirsthead
+            \hline
+            \textbf{Item} & \textbf{Detail} & \textbf{Resp.} & \textbf{Due} \\ \hline
+            \endhead
+            \endfoot
+            \endlastfoot
+    }
+    {
+    \end{longtable}
+    \end{center}
+}
+
+% Create a new table item. For use within the momitems environment.
+\newcommand{\momitem}[4]{
+    #1 & #2 & #3 & #4 \\
+    \hline
 }
