@@ -1,15 +1,15 @@
 \newpage
-\subsection{Functionality}
+\section{Functionality}
 The functionality laid out by the program specification was largely the same across both modes -- command line and online -- with some additional individual functionality required by each.
 
-\subsubsection{Game Logic}
+\subsection{Game Logic}
 The logic of the Top Trumps game was implemented as specified. A shuffled deck of cards is distributed in turn to each player until all have been given out. One player will be human controlled with up to 4 AI players. Each card has 5 categories each with a positive integer value. The first active player is selected and chooses a category. All the card values are then revealed along with the winner (the holder of the card with the highest value). The winner takes all the cards in play and is the active player for the next turn. In the event of a draw, all the cards are added to a communal pile which will be won by the winner of the next round in addition to the cards in play.
 
-\subsubsection{Persistent Game Data}
+\subsection{Persistent Game Data}
 Both modes were required to communicate with a database in order to store persistent data about gameplay. The user is provided with the total number of games played, the number of human and AI wins, the average number of draws per game and the longest game played (in number of rounds). This was achieved using PostgreSQL. The database schema (appendix X) allowed the required information to be saved and provided to the user. 
 
-\subsubsection{Command Line Mode}
-The command line opens with a menu asking if the user wants to see past statistics from the database or play a new game (appendix X. Each round of a new game the user is provided with the round number, the active player and the human player's top card. The game logic is then followed and the user is informed who the round winner is before the next round commences. The number of communal cards is given in the event of a draw. If the user is elminated the game runs to completion automatically. Once the game is completed the user is sent back to the menu and the database is updated with the game statistics. \\
+\subsection{Command Line Mode}
+The command line opens with a menu asking if the user wants to see past statistics from the database or play a new game (appendix X. Each round of a new game the user is provided with the round number, the active player and the human player's top card. The game logic is then followed and the user is informed who the round winner is before the next round commences. The number of communal cards is given in the event of a draw. If the user is eliminated the game runs to completion automatically. Once the game is completed the user is sent back to the menu and the database is updated with the game statistics. \\
 
 The command line displays the game information in plaintext and allows the user to enter simple text commands via a numbered interface to play the game as shown in appendix X. \\
 
@@ -29,7 +29,12 @@ The command line also offers a test log function, whereby the following is logge
 
 This output is saved to a text file. \\
 
-\subsubsection{Online Mode}
+The command line functionality requirements were met fully as shown below:
+Appendix X
+Appendix X
+Appendix X
+
+\subsection{Online Mode}
 The online mode hooks into the same game logic as the command line mode through API calls, however calls for different and more complex user interface functionality. The requirements for this interface were:
 \begin{itemize}
 \item A 'menu' page, similar to the command line, where the user selects either 'New Game' or 'View Statistics'
@@ -45,3 +50,4 @@ These requirements were fully satisfied by the implementation as shown below:
 Appendix X
 Appendix X
 Appendix X
+
