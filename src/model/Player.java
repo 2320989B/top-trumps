@@ -50,7 +50,6 @@ class Player {
       return hand;
    }
 
-   // TODO: This looks like a duplicate of getHand().
    ArrayList<Card> getList() {
       return hand;
    }
@@ -100,7 +99,7 @@ class Player {
       }
    }
 
-   //possible method to add a card to the player's deck - Joe
+   //A method to add a card to the player's deck 
    //useful for dealing at the start
    void receiveCard(Card card) {
       hand.add(card);
@@ -137,11 +136,9 @@ class Player {
 
 
    /**
-    * Format: (Player=Player 1, (Description=Sabre, Size=2, Speed=7, Range=2,
-    * Firepower=5, Cargo=0), (Description=Orion, Size=10, Speed=1, Range=6,
-    * Firepower=2, Cargo=9), ...etc
     *
     * @return a string containing the player name and hand.
+    *
     */
    @Override
    public String toString() {
@@ -152,66 +149,6 @@ class Player {
       }
       return joiner.toString();
    }
-
-//	/**
-//	 * ONLY FOR TESTING.
-//	 *
-//	 * FOR A HYPOTHETICAL  CARD, THE HAND WAS CREATED AS EMPTY
-//	 * AND THE CARD WAS PUT IN THE DRAW DECK. CHECKED THE METHODS TO SEE THE OUTPUTS
-//	 * CAN BE DELETED IN THE END
-//	 * @param args
-//	 */
-//	public static void main(String[] args) {
-//
-//		//make a hand for the player
-//		ArrayList<Card> hand = new ArrayList<>();
-//
-//		//make a player
-//		Player yannis = new Player("Yannis", hand);
-//
-//		//make a card
-//
-//
-//		//add the card to players hand to check if visible
-//		hand.add(c);
-//		hand.add(d);
-//
-//		//make a new deck/ draw pile
-//		ArrayList<Card> aDeck = new ArrayList<>();
-//
-//
-//		//Check runs to determine if the going around of cards works ok
-//		System.out.println("The pile contains: " + aDeck.size() + " cards");
-//		System.out.println("The cards I have in hand are: " + hand.get(0).getName() + " and " +  hand.get(1).getName());
-//		System.out.println("-------------------");
-//
-//		System.out.println("The best category for the first card is: " + hand.get(0).getBestCategory());
-//		System.out.println("Player will submit the top card after a round");
-//		yannis.submitActiveCard(aDeck);
-//		System.out.println("Will check if the top card is out of his hand");
-//		System.out.println("-------------------");
-//
-//		System.out.println("My hand contains : " + hand.size() + " cards");
-//		System.out.println("Now the hand has: " + hand.get(0).getName());
-//
-//
-//		System.out.println("-------------------");
-//		System.out.println("The pile of cards now contains: " + aDeck.size() + " cards");
-//		System.out.println("The name of the card in pile is : " + aDeck.get(0).getName());
-//
-//		System.out.println("-------------------");
-//		System.out.println("Suppose the player won, he will collect the pile");
-//		yannis.takeAllCards(aDeck);
-//		System.out.println("Now will check the contents of the pile and hand");
-//		System.out.println("-------------------");
-//
-//		System.out.println("The pile contains: " + aDeck.size() + " cards");
-//		System.out.println("Player's hand contains : " + hand.size() + " cards");
-//		System.out.println("Namely : " + hand.get(0).getName() + " and " + hand.get(1).getName());
-//
-//		System.out.println("The player Yannis has " + yannis.roundsWon  + " wins");
-//
-//	}
 
 
 }

@@ -60,7 +60,6 @@ public class GameInfo {
          roundWinnerName = null;
       }
 
-      // TODO: Is a new variable needed for gameWinner, we can just use the value of roundWinner at the end of the game instead.
       if (game.getGameWinner() != null) {
          gameWinnerName = game.getGameWinner().getName();
       } else {
@@ -72,6 +71,8 @@ public class GameInfo {
       } else {
          winnerHuman = null;
       }
+
+
 
       topCards = getTopCards(game);
       playerNames = getPlayerNames(game);
@@ -101,6 +102,10 @@ public class GameInfo {
       }
    }
 
+
+
+
+   // Getter methods for the game info instance variables
    public List<Map<String, Integer>> getTopCards() {
       return topCards;
    }

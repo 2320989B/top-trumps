@@ -49,12 +49,6 @@ public class Logger {
                       new PrintWriter(new FileWriter(logFilePath, true))) {
             // Write the log message.
             out.println(logMessage);
-            // Write the dividing line (required by spec, but looks messy).
-//            for (int i = 0; i < (logMessage.length()); i++) {
-//               char lineDivider = '-';
-//               out.print(lineDivider);
-//            }
-//            out.print("\n");
 
          } catch (IOException e) {
             System.err.println("Logger error: " + e.getMessage());

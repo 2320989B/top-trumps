@@ -14,7 +14,6 @@ public class Game extends Observable {
    private ArrayList<Player> players = new ArrayList<>();
    private Player activePlayer;
    private Player roundWinner;
-   // TODO: Is a new variable needed for gameWinner, we can just use the value of roundWinner at the end of the game instead.
    private Player gameWinner;
    private String deckInputFile;
    private String activeCategory;
@@ -135,6 +134,8 @@ public class Game extends Observable {
       setGameState(GameState.NEW_GAME_INITIALISED);
    }
 
+
+
    /*
    /  Initialises a new round by incrementing the round number.
    */
@@ -142,7 +143,8 @@ public class Game extends Observable {
       // Increase the round number on every round.
       round++;
 
-	  logger.log(divider);
+      // Write to the log file
+	   logger.log(divider);
       logger.log("\nRound " + round + " starting.");
       logger.log("Active player: " + activePlayer.getName());
 
@@ -154,6 +156,9 @@ public class Game extends Observable {
 
       setGameState(GameState.NEW_ROUND_INITIALISED);
    }
+
+
+
 
    /*
    /  Set the active category, either by asking the player or by
@@ -179,6 +184,9 @@ public class Game extends Observable {
       setGameState(GameState.CATEGORY_SELECTED);
    }
 
+
+
+
    /*
    /  Establish the result of the round by comparing the top card of all
    /  players.
@@ -186,6 +194,7 @@ public class Game extends Observable {
    void computeResult() {
       // Get the winner (null if draw).
       roundWinner = compareTopCards();
+
 
       if (roundWinner == null) {
          logger.log("Round winner: Draw");
@@ -195,7 +204,7 @@ public class Game extends Observable {
 
       } else {
          logger.log("Round winner: " + roundWinner.getName());
-	     logger.log(divider);
+	      logger.log(divider);
          this.gameWinner = roundWinner;
          if (roundWinner.getIsHuman()) {
             // Increment statistic.
@@ -205,6 +214,9 @@ public class Game extends Observable {
 
       setGameState(GameState.ROUND_RESULT_COMPUTED);
    }
+
+
+
 
    /*
    /  Conclude the round by reallocating cards and eliminating players with no
@@ -236,12 +248,15 @@ public class Game extends Observable {
       // create human player first
       Player human = new Player("Player 1", true);
       players.add(human);
+     
       // create remaining AI Players
       for (int i = 0; i < numAIPlayers; i++) {
          Player AI = new Player("AI " + (i + 1), false);
          players.add(AI);
       }
    }
+
+   
 
    // read in file to create the deck and shuffle
    private void createDeck() {
@@ -250,6 +265,7 @@ public class Game extends Observable {
          try {
             reader = new FileReader(deckInputFile);
             Scanner in = new Scanner(reader);
+            
             // read the top line column names of the file
             // e.g. description, size, speed etc.
             String categories = in.nextLine();
@@ -269,16 +285,16 @@ public class Game extends Observable {
          System.out.print("error");
       }
    }
-
    private void shuffleDeck() {
       Collections.shuffle(deck);
    }
 
+
+
+   // only deal while there are cards in the deck
+   // means cards can be dealt in a round robin fashion without 
+   // worrying about how many players and cards there are
    private void deal() {
-      // only deal while there are cards in the deck
-      // means cards can be dealt in a round robin fashion without worrying about how
-      // many
-      // players and cards there are
       int index = 0;
       while (!deck.isEmpty()) {
          Card card = deck.get(0);
@@ -292,6 +308,9 @@ public class Game extends Observable {
       }
    }
 
+
+   // A method to determine who the active player id
+   // when the game is initiated the first time.
    private void selectRandomPlayer() {
       Random rand = new Random();
       // Restrict random number range to available indexes in the players list.
@@ -300,6 +319,11 @@ public class Game extends Observable {
       activePlayer = players.get(random);
    }
 
+
+
+   // A method to look at the selected category
+   // and compare the values for this category among
+   // the players and their top most cards
    private Player compareTopCards() {
       // COMPARE CARDS
       int bestValue = activePlayer.getTopMostCard().getCardPropertyValue(activeCategory);
@@ -325,16 +349,27 @@ public class Game extends Observable {
       return currentWinner;
    }
 
+
+
+
+   // This method will collect the current cards
+   // from all players and place them into a new array
+   // for the current round.
    private ArrayList<Card> getCurrentTopCards() {
       // logic to get round cards from all players
       ArrayList<Card> currentTopCards = new ArrayList<>();
       for (Player player : players) {
-         // TODO - add in to take all current round cards and communal cards
          player.submitActiveCard(currentTopCards);
       }
       return currentTopCards;
    }
 
+
+
+
+
+   // Method to transfer the cards to the winner player if any
+   // or to the communal deck if there is a draw
    private void transferCards(Player roundWinner, ArrayList<Card> currentTopCards) {
       // if there is a winner, the winner becomes the active player and takes round
       // cards
@@ -350,7 +385,6 @@ public class Game extends Observable {
       }
       // if there is a draw, add round cards to the communal pile
       else {
-         // need a cleaner way to add one deck to another maybe
          while (!currentTopCards.isEmpty()) {
             Card card = currentTopCards.get(0);
             deck.add(card);
@@ -359,18 +393,12 @@ public class Game extends Observable {
       }
    }
 
-   private void eliminatePlayers() {
-      // check if any players have no cards and eliminate them if so/////////may need
-      // to make tidier
-      // failing here because you are trying to modify something you are looping over
-      // an iterator solution is below but we should maybe use a lambda alternative
-      /*
-       * for (Player player : players) { if(player.getList().isEmpty()) {
-       * players.remove(player); }
-       *
-       * }
-       */
 
+
+
+   // check if any players have no cards and eliminate them
+   private void eliminatePlayers() {
+      
       Iterator<Player> iter = players.iterator();
 
       while (iter.hasNext()) {
@@ -383,7 +411,7 @@ public class Game extends Observable {
             }
             // need to remember that due to successive draws, the active player could run
             // out of cards
-            // select a new random player if playe
+            // select a new random player if player gets eliminated
             if (!players.contains(activePlayer)) {
                selectRandomPlayer();
             }

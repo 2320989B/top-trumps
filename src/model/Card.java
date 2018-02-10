@@ -22,11 +22,13 @@ class Card {
     */
    //a potential other constructor so that the Card can extract values from the String
    Card(String categories, String values) {
+      
       //initialise the Linked HashMap
       String[] cardCategories = categories.split(" ");
       String[] cardValues = values.split(" ");
       description = cardValues[0];
       cardProperties = new LinkedHashMap<String, Integer>();
+      
       //loop to allow game to use any deck with any number of categories/values
       for (int i = 1; i < cardCategories.length; i++) {
          cardProperties.put(cardCategories[i], Integer.parseInt(cardValues[i]));
@@ -56,7 +58,8 @@ class Card {
       this.description = description;
    }
 
-   //reworked to get best category for AI player from hashmap
+
+   //Getting the best category for AI player from hashmap
    String getBestCategory() {
 
       //iterate through the hashmap to see which category is best based on value
@@ -73,9 +76,8 @@ class Card {
 
 
    /**
-    * Format: (Description=350r, Size=1, Speed=9, Range=2, Firepower=3, Cargo=0)
-    *
-    * @return a string containing the card description and properties.
+    * @return a string containing the card description and properties
+    * in format (Description = ..., Size = ..., Speed = ..., Range = ..., Firepower = ..., Cargo = ...)
     */
    @Override
    public String toString() {

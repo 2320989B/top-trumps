@@ -56,7 +56,7 @@ class Controller implements Observer {
          gameAPI.addObserver(this);
          gameAPI.newGame();
 
-         // View statistics.
+      // View statistics.
       } else if (selection == 2) {
          try {
             dbConnection.establishDBConnection();
@@ -70,7 +70,7 @@ class Controller implements Observer {
             new ViewDBError().show(e.getMessage());
          }
 
-         // Quit.
+      // Quit.
       } else {
          return true;
       }
