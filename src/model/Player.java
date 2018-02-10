@@ -1,12 +1,13 @@
+package model;
+
+import java.util.*;
+
+
 /**
  * Defines an object representing a single player
  * The class is responsible for storing the player's data
  * and current band
  */
-
-package model;
-
-import java.util.*;
 
 class Player {
 
