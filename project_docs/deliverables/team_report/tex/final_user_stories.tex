@@ -16,7 +16,7 @@
 {S0010}
 {Must Have}
 {Est: 1}
-{Act: ?}
+{Act: 1}
 As a Human Player, I want to start the program in command line mode, so that I can either play a new game or see statistics of previous games.
 \end{card}
 
@@ -35,7 +35,7 @@ Try with a random number other than ``1'', ``2'' or ``3'' Try with correct numbe
 {S0020}
 {Must Have}
 {Est: 2}
-{Act: ?}
+{Act: 2}
 As a Human Player, I want to start a new game, so that the first active player can select a category.
 \end{card}
 
@@ -62,7 +62,7 @@ Test that correct output is provided by standard out.
 {S0030}
 {Must Have}
 {Est: 1}
-{Act: ?}
+{Act: 2}
 As a Human Player who is selected as the active player, I want to select a category, so that the game can check the outcome of the round.
 \end{card}
 
@@ -85,7 +85,7 @@ Check whether there is a message at the end specifying the winner.
 {S0040}
 {Must Have}
 {Est: 1}
-{Act: ?}
+{Act: 2}
 As a Human Player I want to know the outcome of the round, so that the game can progress to the next round.
 \end{card}
 
@@ -104,7 +104,7 @@ Check that user can continue to progress to new rounds even if eliminated.
 {S0050}
 {Must Have}
 {Est: 1}
-{Act: ?}
+{Act: 1}
 As a human player I want to choose to record game log information in a file when I start a game in command line mode.
 \end{card}
 
@@ -127,7 +127,7 @@ Check the content of the file as per C6030- C6100 requirements.
 {S0130}
 {Must Have}
 {Est: 1}
-{Act: ?}
+{Act: 2}
 As a Human Player, when not the active player for a round, I want the active AI player to select a single category which has the highest or joint highest value for their topmost card.
 \end{card}
 
@@ -146,7 +146,7 @@ Compare with the contents of the whole card to make sure that the highest value 
 {S0180}
 {Must Have}
 {Est: 2}
-{Act: ?}
+{Act: 2}
 Bob and Lilly are really into statistics and they want to keep track of the game stats after a game ends. 
 As experienced players they want to know how many draws were in the game, how many rounds were played, how many rounds were won by each player (with clear indication) and who won the game. 
 They don't want to press anything for this procedure, it must be automated.
@@ -168,7 +168,7 @@ Query the Database to make sure everything has been recorded.
 {S0190}
 {Must Have}
 {Est: 1}
-{Act: ?}
+{Act: 1}
 Lilly, is known for her attitude of succeeding on everything, so she always watch her performance before starting a game (access the DB before a game starts). 
 She wants to see the number of games played overall, how many times a human won and how many the ``AI'', the average draws per game, the largest number of rounds played in a game.
 \end{card}
@@ -185,8 +185,8 @@ She wants to see the number of games played overall, how many times a human won 
 \begin{card}{green}
 {S0200}
 {Must Have}
-{Est: 1}
-{Act: ?}
+{Est: \st{1} 2}
+{Act: 2}
 As a Human Player, I want to start the game in the online mode by using an -o flag either in terminal.  
 I want to be able to start a new game in different tabs and play different games concurrently with 1-4 opponents. 
 After I run the command in terminal, I can open a browser and initialise a game by typing in http://localhost:7777/toptrumps.
@@ -210,7 +210,7 @@ If number of AI players is not selected randomly, check that my input correspond
 {S0210}
 {Must Have}
 {Est: 1}
-{Act: ?}
+{Act: 1}
 As a Human Player, I want to be able to access the DB to view statistics upon clicking the Statistics button on the selection screen.
 This has the same functionality as in the Command Line mode as described in [S0180].
 The difference is the way I will access this functionality.
@@ -230,8 +230,8 @@ Check that all games are stores to the DB, I.e all instances as represented by d
 \begin{card}{green}
 {S0220}
 {Must Have}
-{Est: 1}
-{Act: ?}
+{Est: \st{1} 2}
+{Act: 4 (incomplete)}
 As a Human Player, I want to be able to see that the game has actually started, and be guided through the steps of what I need to do next. 
 I want to be able to have access on the game information that allow me to navigate through it, and be presented with my options if I am the active player, or have a visual on the storyline if an AI is the active player.
 \end{card}
@@ -254,9 +254,9 @@ Check that if I am not the active player I do not have the option to select my c
 \begin{card}{green}
 {S0230}
 {Must Have}
-{Est: 1}
-{Act: ?}
-As a Human Player, and after I have selected to proceed with the game after selecting the button as described by S0220, I want  to trigger the current round.
+{Est: \st{1} 2}
+{Act: 4 (incomplete)}
+As a Human Player, and after I have selected to proceed with the game after selecting the button as described by S0220, I want to trigger the current round.
 I want to be able to select my category as an active player, or ``notify'' the AI player that he needs to do the same, and in the end I would like to know the outcome of the round.
 \end{card}
 
@@ -277,9 +277,9 @@ Check that the same winner has the privilege of selecting the new category Check
 {S0240}
 {Must Have}
 {Est: 1}
-{Act: ?}
+{Act: 2 (incomplete)}
 As a Human Player, I want to have access to the game information if a draw has occurred. 
-That includes to be aware that the outcome was a draw and the volume of the communal. 
+That includes to be aware that the outcome was a draw and the size of the communal deck. 
 I want to be able to re-select if I was the winner of the previous round. 
 \end{card}
 
@@ -300,7 +300,7 @@ In the first winning case, display the number of cards in communal pile to make 
 {S0250}
 {Must Have}
 {Est: 1}
-{Act: ?}
+{Act: 1 (incomplete)}
 As a Human Player, I want to know who the overall winner was.
 \end{card}
 
@@ -313,7 +313,12 @@ Make sure there is a button to return me to the selection screen, from where I c
 
 % ---------------------------------
 
-% \newpage
+\newpage
+\subsection{Sprint \#3: Online Mode (Additional)}
+\label{appendix:user_stories_online_additional}
+\bigskip
+
+\todo[inline]{Consider copying incomplete Sprint \#2 user stories here, with duration increases to account for refactoring.}
 
 % \begin{card}{green}
 % {S?}
