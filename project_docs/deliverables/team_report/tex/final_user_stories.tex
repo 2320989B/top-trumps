@@ -1,5 +1,6 @@
 \newpage
 \section{Final User Stories}
+\label{appendix:user_stories}
 
 \todo[inline]{Check validity of each story.}
 \todo[inline]{Check validity of each test.}
@@ -231,7 +232,7 @@ Check that all games are stores to the DB, I.e all instances as represented by d
 {S0220}
 {Must Have}
 {Est: \st{1} 2}
-{Act: 4 (incomplete)}
+{Act: (incomplete)}
 As a Human Player, I want to be able to see that the game has actually started, and be guided through the steps of what I need to do next. 
 I want to be able to have access on the game information that allow me to navigate through it, and be presented with my options if I am the active player, or have a visual on the storyline if an AI is the active player.
 \end{card}
@@ -255,7 +256,7 @@ Check that if I am not the active player I do not have the option to select my c
 {S0230}
 {Must Have}
 {Est: \st{1} 2}
-{Act: 4 (incomplete)}
+{Act: (incomplete)}
 As a Human Player, and after I have selected to proceed with the game after selecting the button as described by S0220, I want to trigger the current round.
 I want to be able to select my category as an active player, or ``notify'' the AI player that he needs to do the same, and in the end I would like to know the outcome of the round.
 \end{card}
@@ -277,7 +278,7 @@ Check that the same winner has the privilege of selecting the new category Check
 {S0240}
 {Must Have}
 {Est: 1}
-{Act: 2 (incomplete)}
+{Act: (incomplete)}
 As a Human Player, I want to have access to the game information if a draw has occurred. 
 That includes to be aware that the outcome was a draw and the size of the communal deck. 
 I want to be able to re-select if I was the winner of the previous round. 
@@ -300,7 +301,7 @@ In the first winning case, display the number of cards in communal pile to make 
 {S0250}
 {Must Have}
 {Est: 1}
-{Act: 1 (incomplete)}
+{Act: (incomplete)}
 As a Human Player, I want to know who the overall winner was.
 \end{card}
 
@@ -318,7 +319,91 @@ Make sure there is a button to return me to the selection screen, from where I c
 \label{appendix:user_stories_online_additional}
 \bigskip
 
-\todo[inline]{Consider copying incomplete Sprint \#2 user stories here, with duration increases to account for refactoring.}
+% ---------------------------------
+
+\begin{card}{green}
+{S0220}
+{Must Have}
+{Est: 4}
+{Act: 4}
+As a Human Player, I want to be able to see that the game has actually started, and be guided through the steps of what I need to do next. 
+I want to be able to have access on the game information that allow me to navigate through it, and be presented with my options if I am the active player, or have a visual on the storyline if an AI is the active player.
+\end{card}
+
+\begin{card}{blue}
+{S0220}{}{}{}
+After clicking on the new game button check that the screen shows: Confirmation that the game has started, by showing for example ``Deck has been shuffled and dealt''.
+The round number I am currently playing Who the active player is.
+Check that I have the number of cards I have in hand, either on the card, or somewhere else on screen.
+My topmost card with the characteristics' values.
+A button that allows me to proceed to the next step. 
+That is, to select my category if I am the active player or make the AI plaeyer select his. 
+Check that if I am not the active player I do not have the option to select my category.
+\end{card}
+
+% ---------------------------------
+
+\newpage
+
+\begin{card}{green}
+{S0230}
+{Must Have}
+{Est: 4}
+{Act: 4}
+As a Human Player, and after I have selected to proceed with the game after selecting the button as described by S0220, I want to trigger the current round.
+I want to be able to select my category as an active player, or ``notify'' the AI player that he needs to do the same, and in the end I would like to know the outcome of the round.
+\end{card}
+
+\begin{card}{blue}
+{S0230}{}{}{}
+If I am the active player: Check that the button makes me select a category by poping a drop down menu or similar. 
+Check that selecting my category the game proceeds to next step If I am not the active player. 
+Check that the game continies by having the AI player selecting category.
+In both cases: After selection, check that I have the option to go to the next step, I.e. show the winner After the category selection, check that all cards with their values are visible on screen and that the winner is mentioned. 
+Check that the same winner has the privilege of selecting the new category Check that the number of available cards in hand have been recalculated.
+\end{card}
+
+% ---------------------------------
+
+\newpage
+
+\begin{card}{green}
+{S0240}
+{Must Have}
+{Est: 2}
+{Act: 2}
+As a Human Player, I want to have access to the game information if a draw has occurred. 
+That includes to be aware that the outcome was a draw and the size of the communal deck. 
+I want to be able to re-select if I was the winner of the previous round. 
+\end{card}
+
+\begin{card}{blue}
+{S0240}{}{}{}
+Check that in the case of a draw, the screen shows that clearly. 
+Next check that there is an indication of the number of cards in the communal pile Check that a button is present, allowing me to order the game to proceed to the next round. 
+Check that the round number has increased by 1 after the draw and after I have selected to go on. 
+Check that the category selector from previous round is the current selector. 
+In the first winning case, display the number of cards in communal pile to make sure it is reset.
+\end{card}
+
+% ---------------------------------
+
+\newpage
+
+\begin{card}{green}
+{S0250}
+{Must Have}
+{Est: 1}
+{Act: 1}
+As a Human Player, I want to know who the overall winner was.
+\end{card}
+
+\begin{card}{blue}
+{S0250}{}{}{}
+Check that when the last round is finished, the name of the winner is shown. 
+Have a summary of winning rounds as per video example???? TO DISCUSS.
+Make sure there is a button to return me to the selection screen, from where I can access the DB or play new game.
+\end{card}
 
 % \begin{card}{green}
 % {S?}
