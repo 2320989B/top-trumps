@@ -42,6 +42,7 @@ final class ViewUtils {
       indent();
       System.out.print("Selection: ");
 
+
       Scanner in = new Scanner(System.in);
       int selection = 0;
       for (;;) {
@@ -146,6 +147,7 @@ final class ViewUtils {
               .entrySet()) {
          keys.add(entry.getKey());
       }
+
 
       // For each key, print the corresponding key:value, for each card.
       for (int i = 0; i < keys.size(); i++) {
