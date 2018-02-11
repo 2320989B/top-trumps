@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
 /**
  * The ViewCategorySelector class is responsible for displaying a list of
  * categories.

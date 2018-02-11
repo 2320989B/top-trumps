@@ -4,6 +4,8 @@ import java.util.*;
 import java.io.FileReader;
 import java.io.IOException;
 
+
+
 /**
  * The Game class is responsible for defining game logic and flow.
  */
@@ -93,6 +95,8 @@ public class Game extends Observable {
       activeCategory = category;
    }
 
+
+
    // =========================================================================
    // GAME LOGIC METHODS
    // =========================================================================
@@ -136,6 +140,8 @@ public class Game extends Observable {
 
 
 
+
+
    /*
    /  Initialises a new round by incrementing the round number.
    */
@@ -156,6 +162,7 @@ public class Game extends Observable {
 
       setGameState(GameState.NEW_ROUND_INITIALISED);
    }
+
 
 
 
@@ -183,6 +190,7 @@ public class Game extends Observable {
 
       setGameState(GameState.CATEGORY_SELECTED);
    }
+
 
 
 

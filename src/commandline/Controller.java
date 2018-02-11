@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+
+
+
+
 /**
  * The Controller class is responsible for triggering appropriate Views,
  * handling any returned user input, and reacting to Game events (gameAPI states).
@@ -21,7 +25,9 @@ class Controller implements Observer {
    private List<String> initialPlayerNames;
    private PostgresPersistence dbConnection;
 
-   /**
+ 
+
+  /**
     * Instantiates a new Controller.
     *
     * @param writeGameLogsToFile flag to indicate if gameAPI logs should be
@@ -32,7 +38,9 @@ class Controller implements Observer {
       dbConnection = new PostgresPersistence();
    }
 
-   /**
+ 
+
+  /**
     * Handle main menu selection.
     *
     * @return a quit flag.
@@ -47,7 +55,8 @@ class Controller implements Observer {
       // First, we present the main menu to the user and await their response.
       final int selection = new ViewMainMenu().show();
 
-      // Now handle the response appropriately.
+     
+	  // Now handle the response appropriately.
       // Start a new game.
       if (selection == 1) {
          gameAPI = new GameAPI(NUM_AI_PLAYERS, DECK_INPUT_FILE,
@@ -55,6 +64,8 @@ class Controller implements Observer {
          // Observe the gameAPI.
          gameAPI.addObserver(this);
          gameAPI.newGame();
+
+
 
       // View statistics.
       } else if (selection == 2) {
@@ -70,6 +81,8 @@ class Controller implements Observer {
             new ViewDBError().show(e.getMessage());
          }
 
+
+
       // Quit.
       } else {
          return true;
@@ -79,6 +92,9 @@ class Controller implements Observer {
 
    }
 
+
+
+
    /*
    /  Observe the game and react as appropriate to key events.
    */
@@ -86,6 +102,8 @@ class Controller implements Observer {
       // Take a snapshot of game info and establish the game state.
       GameInfo gameInfo = gameAPI.getGameInfo();
       GameState gameState = gameInfo.getGameState();
+
+
 
       /*
       /  The following conditional block reacts to game events by serving

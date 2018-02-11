@@ -17,6 +17,7 @@ class Card {
    //implement the hashmap as an alternative
    private Map<String, Integer> cardProperties;
 
+
    /**
     * The constructor of the Card class
     */
@@ -34,6 +35,7 @@ class Card {
          cardProperties.put(cardCategories[i], Integer.parseInt(cardValues[i]));
       }
    }
+
 
 
    /**
@@ -73,6 +75,7 @@ class Card {
       }
       return bestCategory;
    }
+
 
 
    /**
