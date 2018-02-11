@@ -60,6 +60,11 @@ class ViewRoundSummary {
       System.out.println();
       System.out.println();
 
+
+
+      //Determine what to put out to view,
+      // depending on the outcome. Notify user
+      // with appropriate message
       ViewUtils.indent(INDENT_WIDTH);
       if (roundWinner == null) {
          System.out.println(activePlayer + " picks category " +

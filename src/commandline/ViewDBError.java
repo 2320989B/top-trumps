@@ -7,7 +7,7 @@ package commandline;
  */
 class ViewDBError {
 
-	// Simple method to reurn the error as a string message
+   // Method to  return the error as a string message
    void show(String message) {
       ViewUtils.indent();
       System.out.println("Database error: " + message);

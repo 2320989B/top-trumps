@@ -33,6 +33,8 @@ public class GameInfo {
    private GameState gameState;
 
 
+
+
    /**
     * Upon instantiation, GameInfo will fetch data from the model.
     * Unavailable data is represented as a null value.
@@ -81,6 +83,10 @@ public class GameInfo {
       Player humanPlayer = getHumanPlayer(game);
       numOfCardsLeft = getNumOfCards(game);
 
+
+      // Determine number of cards in human's deck
+      //, the size of the communal pile and the top 
+      // most card
       if (humanPlayer != null && humanPlayer.getHand() != null) {
          numHumanCards = humanPlayer.getHand().size();
       } else {
@@ -101,6 +107,8 @@ public class GameInfo {
          cardCategories = null;
       }
    }
+
+
 
 
 
