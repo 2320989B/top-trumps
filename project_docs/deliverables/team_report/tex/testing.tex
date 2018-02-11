@@ -23,7 +23,8 @@ Anti-Variables & - "java -jar ITSD2018Project-1.0.jar -command"\\
 & - "java -jar ITSD2018Project-1.0.jar -n"...\\
 \hline
 Results & [Exception] The program never initiates the game, if the flag is anything else excepts "-c", "-c -t" or "-o". The program throws an exception in case where the user tries to operate both modes, command line mode and on-line mode. In all other cases the program shows the greeting message and terminates.\\
-\hline 
+\hline
+Reference & Figure \ref{figure:gameInit_true} and \ref{figure:gameInit_false}\\ \hline 
 \end{tabular}\\
 \vspace{0.2cm}\\ 
 The user persona Bob can now select one of the three options of the game.\\
@@ -38,6 +39,7 @@ Anti-Variables & - String\\
 & - Double or Integer, where n!=[1,3]\\
 \hline
 Results & [Exception] The program throws an exception when the player does not enter the specified integer between n = [1,2,3]. In case the player enters a different integer, the program throws a message indicating the exact integer variable, where in all other situations the program prints out a message demanding an integer.\\ \hline 
+Reference & Figure \ref{figure:mainMenu_true} and \ref{figure:mainMenu_false}\\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 After the proper response of Bob to the game commands, he excepts from the game to load the cards, shuffle them, and divide to all players as equally as possible.\\
@@ -49,6 +51,7 @@ Used Variables & No variables for this test.\\ \hline
 Result & [Passed] The program does the deck loading, shuffling, creating players' deck and choose randomly the active player correctly. \\ \hline
 Anti-Variables & \textit{No anti-variables for this test} \\ \hline
 Results & \textit{[No Exception] There is no results for this test.} \\ \hline
+Reference & Figure \ref{figure:gameInit_true} and \ref{figure:testlog}\\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 Bob wants to have a detailed round and understand who is active player, which category is selected and who won the round.\\
@@ -60,6 +63,8 @@ Used Variables & - Press Enter button to show winner\\ \hline
 Result & [Passed] The program shows the round number, who is active player, all the cards that participate in this specific round, the selected category inside square brackets and the round winner.\\ \hline
 Anti-Variables & \textit{No anti-variables for this quality test} \\ \hline
 Results & [\textit{No Exception]} there is no exception for this test, only through the test log file. \\ \hline
+reference & Figure \ref{figure:cmd_winner}, \ref{figure:cmd_play} and \ref{figure:falseInput}
+\\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 Bob, who is an expert user of command line, wants to have a record of the entire game in details in a test log file. He is able to do so, with the -t flag when he initiate the game\\
@@ -71,6 +76,7 @@ Used Variables & - "java -jar ITSD2018Project-1.0.jar -c -t"\\ \hline
 Result & [Passed] The program recognise the -t flag and checks if there is no file as "toptrumps.txt" log file, it creates one, or it rewrites in the existing one.\\ \hline
 Anti-Variables & - "java -jar ITSD2018Project-1.0.jar -c -*", where * is anything else than "-t".\\ \hline
 Results & \textit{[No Exception]} The program recognise the -c flag but it does not produce or write in the "toptrumps.txt" file. \\ \hline
+Reference & Figure \ref{figure:gameInit_true} and \ref{figure:testlog}\\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 Bob is very cautious about the validity of the game. As a result he wants to examine who won the round and if the AI player selected the highest attribute.\\
@@ -82,6 +88,7 @@ Used Variables & \textit{No variables used to this test}\\ \hline
 Result & [Passed] The program prints out the top cards from all available players. Moreover, the program shows the selected category.\\ \hline
 Anti-Variables & \textit{No anti-variables used for this test.}\\ \hline
 Results & \textit{[No Exception] There is no exception for this test.}\\ \hline
+Reference & Figure \ref{figure:cmd_winner} \\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 Bob is the active player in the game and wants to select a category. The program provides him with the option to enter a integer number that matches a specific category.\\
@@ -93,6 +100,7 @@ Used Variables & Integer number n=[1,5]\\ \hline
 Result & [Passed] The program receives the input integer variable and makes the desired category active. Then, it returns to the system out the results of the round.\\ \hline
 Anti-Variables & String, Characters, Double or Integer variables except n=[1,5].\\ \hline
 Results & [Exception] The program throws an exception when the human player did not enter one of the five options. The program catches NULL values, strings, characters, doubles and integer number except the n=[1,5]\\ \hline
+Reference & Figure \ref{figure:cmd_play} and \ref{figure:falseInput} \\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 Bob continues his game and he managed to eliminate some of the players, but he wants to know who has been eliminated.\\
@@ -104,6 +112,7 @@ Used Variables & \textit{No variables used for this test.}\\ \hline
 Result & [Passed] The program prints out a list with all the active players of the game in each round, right above the players hand.\\ \hline
 Anti-Variables & \textit{No anti-variables used for this test.}\\ \hline
 Results & \textit{[No exception] There is no exception for this test.}\\ \hline
+Reference & Figure \ref{figure:eliminated} \\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 Bob has finished his game and wants to see the game statistics.\\
@@ -115,6 +124,7 @@ Used Variables & \textit{No variables used for this test.}\\ \hline
 Result & [Passed] The program prints out a list with all the active players of the game in each round, right above the players hand.\\ \hline
 Anti-Variables & \textit{No anti-variables used for this test.}\\ \hline
 Results & \textit{[No exception] There is no exception for this test.}\\ \hline
+Reference & Figure \ref{figure:cmd_stats} \\ \hline
 \end{tabular}\\
 \subsection{Online Mode}
 \vspace{0.2cm} 
@@ -127,6 +137,7 @@ Used Variables & String - "java -jar ITSD2018Project-1.0.jar -o" \& "http://loca
 Result & [Passed] The first indication of the successful connection to the local server is from the command window. The second indication is by entering the url to the browser.\\ \hline
 Anti-Variables & String - "java -jar ITSD2018Project-1.0.jar -*"\\ \hline
 Results & [Exception] There is no message of connection with the server in the command window. Also, the browser cannot find the url.\\ \hline
+Reference & Figure \ref{figure:onlineMode} and \ref{figure:online_menu} \\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 Lilly wants to press the statistics button and check the game stats, instead of start a new game.\\
@@ -138,6 +149,7 @@ Used Variables & "View Stats" button press.\\ \hline
 Result & [Passed] The program opens the statistics view correctly and shows the game stats after a successful CORS call.\\ \hline
 Anti-Variables & \textit{No anti-variables used for this test}\\ \hline
 Results & \textit{[No Exception] there is no exception for this test.}\\ \hline
+Reference & Figure \ref{figure:online_stats}\\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 Lilly has decided to play a new game. The program changes the selection view with the game screen view.\\
@@ -149,6 +161,7 @@ Used Variables & "New Game" button press.\\ \hline
 Result & [Passed] The program successfully opens the game screen view with a new game initialised. The program shows the player's card, who is active player, the current round and the number of cards in the communal pile.\\ \hline
 Anti-Variables & \textit{No anti-variables used for this test.}\\ \hline
 Results & \textit{[No exception] there is no exception for this test.}\\ \hline
+Reference & Figure \ref{figure:readyStart} \\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\  
 Lilly is ready to play and he wants to know what category is selected by the other players.\\
@@ -160,6 +173,7 @@ Used Variables & "Category Selection" button press.\\ \hline
 Result & [Passed] The program process the data and returns the the cards of all players that are still in the game, which category had been selected and who won the round.\\ \hline
 Anti-Variables & Check "Categories" are locked.\\ \hline
 Results & [Exception] While the human player is not the active player, she cannot select a category.\\ \hline
+Reference & Figure \ref{figure:online_play} \\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\  
 Lilly has won a round and wants to select a category from her card.\\
@@ -171,6 +185,7 @@ Used Variables & "Select Category" button press\\ \hline
 Result & [Passed] The program store the selected category and waits until the player press the "Select Category" button. After that the round proceed as is, with the calculation of the winner.\\ \hline
 Anti-Variables & \emph{No anti-variables used for this test.}\\ \hline
 Results & \emph{[No exception] There is no exception for this test.}\\ \hline
+Reference & Figure \ref{figure:online_selectCategory} and \ref{figure:online_humanRound} \\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 After several rounds, Lilly has encounter a draw. However, she wants to know how many cards are in the communal pile and that the outcome of the round was a draw.\\
@@ -182,6 +197,7 @@ Used Variables & "Show Winner" press button.\\ \hline
 Result & [Passed] the program prints successfully the draw and updates the communal pile with the player cards.\\ \hline
 Anti-Variables & \emph{No anti-variables used for this test.}\\ \hline
 Results & \emph{[No exception] There is no exception used for this test.}\\ \hline
+Reference & Figure \ref{figure:drawOnline} \\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 Lilly has eliminated from the game and wants to complete this game.\\
@@ -193,6 +209,7 @@ Used Variables & "Auto Complete" button press.\\ \hline
 Result & [Passed] The program simulates the rest of the game without the human interaction until the winner is decided.\\ \hline
 Anti-Variables & \emph{No anti-variables used for this game.}\\ \hline
 Results & \emph{[No exception] There is no exception used for this test}\\ \hline
+Reference & Figure \ref{figure:autoComplete} \\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 Lilly has won her game and wants to return to the main menu.\\
@@ -204,6 +221,7 @@ Used Variables & There is no button for this test.\\ \hline
 Result & [Passed] The program identifies the end of the game and redirect the screen view to the Selection screen.\\ \hline
 Anti-Variables & \emph{No anti-variables used for this test.}\\ \hline
 Results & \emph{[No exception] There is no exception for this test.}\\ \hline
+Reference & Figure \ref{figure:online_menu} \\ \hline
 \end{tabular}\\
 \vspace{0.2cm}\\
 Lilly is really up to the game and wants to play simultaneously different games.\\
@@ -215,4 +233,5 @@ Used Variables & "http://localhost:7777/toptrumps/" in different tabs.\\ \hline
 Result & [Passed] The program can have multiple games at the same time.\\ \hline
 Anti-Variables & \emph{No anti-variables used for this test.}\\ \hline
 Results & \emph{[No exception] There is no exception for this test.}\\ \hline
+Reference & Figure \ref{figure:multipleGames} \\ \hline
 \end{tabular}\\
