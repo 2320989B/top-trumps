@@ -201,7 +201,8 @@ Torquil MacLeod [TM]}
 
 	\momitem
 	{4}
-	{CB provided detailed UML covering full system (Figure \ref{figure:initial_uml}). 
+	{CB provided detailed UML covering model and command line mode (Figures \ref{figure:initial_uml_system}, \ref{figure:initial_uml_commandline_package}, \ref{figure:initial_uml_model_package}, \ref{figure:initial_uml_persistence_package}).
+	JD provided detailed UML covering online mode (Figure \ref{figure:initial_uml_online_package})
 	It is understood that online mode can hook into key Game functionality via game's available public methods, and online components can be notified of game state changes via the Observer mechanism. 
 	The approach as depicted was agreed to be a reasonable solution, and was selected as a basis for overall design.}
 	{INFO}
@@ -222,15 +223,39 @@ Torquil MacLeod [TM]}
 \end{momitems}
 
 \begin{center}
-	\includegraphics[scale=0.7]{initial_architecture}
+	\includegraphics[width=\textwidth]{initial_architecture}
 	\captionof{figure}{Proposed Architecture}
 	\label{figure:initial_architecture}
 \end{center}
 
 \begin{center}
-	\missingfigure{Include UML with Joe's updates.}
-	\captionof{figure}{Proposed UML}
-	\label{figure:initial_uml}
+	\includegraphics[width=\textwidth]{initial_uml_system}
+	\captionof{figure}{Proposed System UML}
+	\label{figure:initial_uml_system}
+\end{center}
+
+\begin{center}
+	\includegraphics[width=\textwidth]{initial_uml_commandline_package}
+	\captionof{figure}{Proposed Command Line Package}
+	\label{figure:initial_uml_commandline_package}
+\end{center}
+
+\begin{center}
+	\includegraphics[width=\textwidth]{initial_uml_model_package}
+	\captionof{figure}{Proposed Model Package}
+	\label{figure:initial_uml_model_package}
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=0.7]{initial_uml_persistence_package}
+	\captionof{figure}{Proposed Persistence Package}
+	\label{figure:initial_uml_persistence_package}
+\end{center}
+
+\begin{center}
+	\includegraphics[width=\textwidth]{initial_uml_online_package}
+	\captionof{figure}{Proposed Online Package}
+	\label{figure:initial_uml_online_package}
 \end{center}
 
 \begin{center}
@@ -416,7 +441,7 @@ Torquil MacLeod [TM]}
 
 	\momitem
 	{2}
-	{All stories were completed in-line with their expected durations.}
+	{All stories were completed in-line with their expected durations. For latest project plan see \ref{figure:final_project_plan}.}
 	{INFO}
 	{INFO}
 	
