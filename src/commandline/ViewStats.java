@@ -2,6 +2,8 @@ package commandline;
 
 import static commandline.CharCodes.HORIZONTAL;
 
+
+
 /**
 * This class is responsible for displaying
 * the statistics view when the player has selected
@@ -27,6 +29,8 @@ class ViewStats {
       String formatString = "%-" + COL_WIDTH + "s";
       //String formatString = "%-30s";
       ViewUtils.indent();
+
+
 
       // Print out the information about the number of games, the
       // wins for AI and human players, the average drawsd and  the maximum 

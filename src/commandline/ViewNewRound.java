@@ -7,6 +7,8 @@ import java.util.Map;
 
 import static commandline.CharCodes.*;
 
+
+
 /**
  * The ViewNewRound class is responsible for displaying information relevant
  * to the start of a new round:
@@ -15,6 +17,7 @@ import static commandline.CharCodes.*;
  * The active player name.
  */
 class ViewNewRound {
+
 
    /**
     * Show the category menu.

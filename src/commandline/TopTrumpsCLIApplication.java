@@ -12,19 +12,19 @@ public class TopTrumpsCLIApplication {
 	 */
 	public static void main(String[] args) {
 
-      // Should we write game logs to file?
 		boolean writeGameLogsToFile = false;
-      // Command line selection.
+        // Command line selection.
 		if (args[0].equalsIgnoreCase("true")) writeGameLogsToFile=true;
 
-      // Flag to check whether the user wants to quit the application
+        // Flag to check whether the user wants to quit the application
 		boolean userWantsToQuit = false;
 
 		// Loop until the user wants to exit the game.
 		while (!userWantsToQuit) {
-         // Commence the controller logic. Returns true when user wants to
-         // quit.
-         userWantsToQuit = new Controller(writeGameLogsToFile).start();
+         
+		// Commence the controller logic. Returns true when user wants to
+        // quit.
+        userWantsToQuit = new Controller(writeGameLogsToFile).start();
 		}
 
 
