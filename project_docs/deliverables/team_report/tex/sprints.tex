@@ -20,9 +20,9 @@ As noted in Appendix \ref{appendix:sprint2_planning_meeting}, some stories took 
 \end{center}
 
 Sprint \#2 proved to be a challenge, due to the team's overall lack of experience with the online technologies, and the impact of some early decision decisions.
-During Sprint \#1, the model (specifically the \texttt{Game} class, was implemented in a way that relied on a synchronous flow of events, with most game logic being contained in a single method. When the Observable \texttt{notify()} method was called at key stages to change \texttt{gameState}, execution was blocked, passing execution over to the controller where the event was handled. Upon completion of the controller flow, execution was handed back to the model where the logic continued.
+During Sprint \#1, the model (specifically the \texttt{Game} class), was implemented in a way that relied on a single flow of events, with most game logic being contained in a single method. When the Observable \texttt{notify()} method was called at key stages to change \texttt{gameState}, execution was blocked, passing execution over to the controller where the event was handled. Upon completion of the controller flow, execution was handed back to the model where the logic continued.
 
-However, due to the asyncronous, stateless nature of the online technologies, this blocking mechanism was no longer available.
+However, due to the asynchronous, stateless nature of the online technologies, this blocking mechanism was no longer available.
 The solution was to refactor the model to create individual methods for each segment of game logic, which would be triggered by the controller as needed.
 The impact of this was that most stories could not be completed within the iteration, and a third sprint had to be scheduled.
 
