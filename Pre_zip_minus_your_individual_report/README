@@ -1,0 +1,2 @@
+Some dependencies were added to the pom.xml file - postgreSQL and the DropWizard AssetsBundle package
+Some changes were also made to include the resources folder in the jar, bringing more clarity to the folder tree during development
