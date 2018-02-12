@@ -1,2 +1,4 @@
 Some dependencies were added to the pom.xml file - postgreSQL and the DropWizard AssetsBundle package
 Some changes were also made to include the resources folder in the jar, bringing more clarity to the folder tree during development
+Command line mode uses Unicode characters, it is advised to use a terminal with UTF-8 support, otherwise the display may not appear as intended.
+The command line display requires a minimal width to ensure correct rending of the player cards, it is advised to maximize your terminal.
